@@ -1,12 +1,14 @@
-export const colourConstraints = {
-    White: {
+import {ColourConstraints} from "@/types/colours";
+
+export const colourConstraints: ColourConstraints = {
+    white: {
         l: 85,
         c: 20, // max Ch
         hueRanges: [
             { min: 0, max: 360 }  // Full hue circle, but Ch is constrained
         ]
     },
-    Red: {
+    red: {
         l: 40,
         c: 45,
         hueRanges: [
@@ -14,21 +16,21 @@ export const colourConstraints = {
             { min: 276, max: 360 }
         ]
     },
-    Green: {
+    green: {
         l: 45,
         c: 25,
         hueRanges: [
             { min: 0, max: 360 }  // Full hue circle
         ]
     },
-    Blue: {
+    blue: {
         l: 40,
         c: 25,
         hueRanges: [
             { min: 0, max: 360 }  // Full hue circle
         ]
     },
-    Yellow: {
+    yellow: {
         l: 50,
         c: 50,
         hueRanges: [
