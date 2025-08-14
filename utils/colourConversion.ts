@@ -144,7 +144,7 @@ function rgb2lch(rgb: {r: number, g: number, b: number}) {
     return lab2lch(lab)
 }
 
-export const ColourUtils = {
+export const ColourConverter = {
     // Your existing functions here
     rgb2xyz,
     xyz2lab,
