@@ -1,0 +1,117 @@
+import {useState} from "react";
+import {TargetColour, RGB, Range, Constraint} from "@/types/colours";
+import {colourConstraints} from "@/constants/colourConstraints";
+import {ColourConverter} from "@/utils/colourConversion";
+import {router} from "expo-router";
+
+interface Trial {
+    targetColour: TargetColour;
+    startingColour: RGB|null; // Store LCH or? also allow null or no?
+    response: RGB|null;
+    rt: number;
+}
+
+const NUMBER_OF_TRIAL_BLOCKS = 1
+
+export const useTrials = () => {
+
+    // CREATE TRIALS ARRAY ****************************
+
+    // Function to shuffle the array (Fisher-Yates Shuffle)
+    const shuffle = (array: TargetColour[]): void => {
+        for(let i= array.length-1; i>0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];  // Swap
+        }
+    }
+
+    // Creating trials array
+    const createTrialsArray= (): TargetColour[] => {
+        const trials: TargetColour[] = []
+        const hues: TargetColour[] = ['red', 'green', 'blue', 'yellow'] // TargetColours minus white
+        // always white trial followed by a random hue trial, cycle through all before repeat
+        for (let b=0; b<NUMBER_OF_TRIAL_BLOCKS; b++) {
+            shuffle(hues) // Random shuffle on hues
+            for(let h=0; h<hues.length; h++){
+                trials.push('white')
+                trials.push(hues[h]) // maybe could not shuffle hues in place and pop here?
+            }
+        }
+        return trials
+    }
+
+    const [trials] = useState<TargetColour[]>(() => {
+        // Initialize trials immediately when state is created
+        return createTrialsArray();
+    });
+
+    // RANDOM STARTING COLOUR ****************************
+
+    const getRandomHue: (hueRanges: Range[]) => number = (hueRanges: Range[]): number => {
+        // Select a random range from hue ranges
+        const randomRange = hueRanges[Math.floor(Math.random() * hueRanges.length)];
+        // Generate a random hue within the selected range
+        return Math.floor(Math.random() * (randomRange.max - randomRange.min+1) + randomRange.min);
+    }
+
+    const getRandomStartingColour: (targetColour: TargetColour) => RGB  = (targetColour: TargetColour): RGB => {
+        const constraints: Constraint = colourConstraints[targetColour]
+        const randomHue: number = getRandomHue(constraints.hueRanges) // random hue within the allowed ranges
+        if(targetColour === 'white') constraints.c = Math.random() * colourConstraints.white.c
+        return ColourConverter.lch2rgb({ ...constraints, h: randomHue })
+    }
+
+    const [currentTrialIndex, setCurrentTrialIndex] = useState<number>(0);
+    //Index derived state: https://lasalshettiarachchi458.medium.com/understanding-derived-state-in-react-when-and-why-to-use-it-0184bf8b9ea8
+    const targetColour = trials[currentTrialIndex] || null;
+
+    const [startingColour, setStartingColour] = useState<RGB>(() => getRandomStartingColour(targetColour)); // Could this also be an index derived state?
+    const [data, setData] = useState<Trial[]>([]);
+    const [timer, setTimer] = useState<number>(performance.now()); // instead of null?
+
+    // This will depend of if trials have been initialised? but should = NUMBER_OF_TRIAL_BLOCKS * possible TargetColours ['white', 'red', 'green', 'blue', 'yellow']
+    const isComplete = currentTrialIndex >= trials.length-1;
+
+    const nextTrial = (): void => {
+        if(isComplete) {
+            submitData()
+            router.replace("/survey")
+            return
+        }
+        const nextTrialIndex = currentTrialIndex + 1;
+        // TODO: or useEffect to start new trial and cascade this stuff when the index changes?
+        setCurrentTrialIndex(nextTrialIndex);
+        const nextTrial = trials[nextTrialIndex]
+        const randomStartingColour = getRandomStartingColour(nextTrial);
+        setStartingColour(randomStartingColour); // TODO: could maybe just return starting colour from here directly? need it to save the trial here but also use in adjust screen
+        setTimer(performance.now());
+        //currentTrial // this will be out of date at this point?
+    };
+
+    const saveTrial = async (responseColour: RGB|null) => {
+        const trialData: Trial = {
+            targetColour,
+            startingColour,
+            response: responseColour,
+            rt: performance.now()-timer
+        }
+        data.push(trialData)
+        setData(data)
+        // call next trial or?
+    }
+
+    const submitData = () => {
+        // Save to local storage
+        // Send to OSF
+        console.log(data)
+    }
+
+    return {
+        trials,
+        currentTrialIndex,
+        nextTrial,
+        targetColour,
+        startingColour,
+        saveTrial
+    };
+};
