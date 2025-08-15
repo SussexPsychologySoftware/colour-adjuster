@@ -1,17 +1,13 @@
-import {Text, View, StyleSheet, Pressable} from "react-native";
-import {useEffect, useState} from "react";
+import { Text, View, StyleSheet, Pressable } from "react-native";
+import { useState } from "react";
 import AdjustColourButton from '@/components/AdjustColourButton'
 import { ColourConverter } from '@/utils/colourConversion';
 import { colourConstraints } from '@/constants/colourConstraints';
-// import * as types from '@/types/colours';
-import {ABAxis, LAB, RGB, LCH} from "@/types/colours";
-
-
-// In future this will call 'Hue trial' or 'Normal trial' components
+import { ABAxis, LAB, RGB } from "@/types/colours";
 
 // Return selected colour,
-export default function WhiteTrial({ startColour, targetColour, onSubmit }: {startColour: RGB, targetColour: string, onSubmit: ()=>void}) {
-    const [backgroundColour, setBackgroundColour] = useState<RGB>({r: 50, g: 50, b: 50});
+export default function WhiteTrial({ startColour, targetColour, onSubmit }: {startColour: RGB, targetColour: string, onSubmit: (colour: RGB)=>void}) {
+    const [backgroundColour, setBackgroundColour] = useState<RGB>(startColour);
     const [aUpperBoundReached, setAUpperBoundReached] = useState(false);
     const [aLowerBoundReached, setALowerBoundReached] = useState(false);
     const [bUpperBoundReached, setBUpperBoundReached] = useState(false);
@@ -36,7 +32,7 @@ export default function WhiteTrial({ startColour, targetColour, onSubmit }: {sta
         const predictedLCH = ColourConverter.lab2lch(predictedLAB) // Convert to lch //TODO: consider rerenders this might cause?
         // Compare to constraints
         // to check abBounds = predictedLAB[axisKey] < -128 || predictedLAB[axisKey] > 127
-        return predictedLCH.c < 0 || predictedLCH.c > colourConstraints.White.c
+        return predictedLCH.c < 0 || predictedLCH.c > colourConstraints.white.c
     }
 
     function checkToggleButtons(lab: LAB){
@@ -63,7 +59,7 @@ export default function WhiteTrial({ startColour, targetColour, onSubmit }: {sta
         if(submitting) return
         setSubmitting(true)
         try{
-            onSubmit()
+            onSubmit(backgroundColour)
         } catch (e) {
             console.log(e)
         } finally {
@@ -96,7 +92,8 @@ const styles = StyleSheet.create({
         maxHeight: "100%",
         maxWidth: "100%",
         backgroundColor: "black",
-        justifyContent: "space-between"
+        justifyContent: "space-between",
+        alignItems: "stretch"
     },
     top: {
         alignSelf: "center",
