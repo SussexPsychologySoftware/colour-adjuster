@@ -3,6 +3,7 @@ import {TargetColour, RGB, Range, Constraint} from "@/types/colours";
 import {colourConstraints} from "@/constants/colourConstraints";
 import {ColourConverter} from "@/utils/colourConversion";
 import {router} from "expo-router";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 interface Trial {
     targetColour: TargetColour;
@@ -97,6 +98,7 @@ export const useTrials = () => {
 
     const submitData = async () => {
         // Save to local storage
+        await AsyncStorage.setItem('trialData', JSON.stringify(data))
         // Send to OSF
         console.log(data)
     }
