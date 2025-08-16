@@ -1,23 +1,69 @@
 import { useState } from "react";
 import {Text, View, StyleSheet, TextInput, ScrollView, Pressable} from 'react-native';
 import RadioList from "@/components/RadioList";
+import Checkbox from 'expo-checkbox';
+import {router} from "expo-router";
+
+interface Consent {
+    futureStudies: boolean
+    consent: string
+    placeOfBirth: string
+    secondLetterSecondName: string
+    firstLetterStreetName: string
+    finalDigitMobileNumber: string
+    email: string
+}
 
 export default function ConsentScreen() {
     const [warning, setWarning] = useState('');
     const [isSubmitting, setIsSubmitting] = useState(false);
-    const [responses, setResponses] = useState({});
+    const [futureStudies, setFutureStudies] = useState(false);
+    const [consent, setConsent] = useState('');
+    const [codeBirth, setCodeBirth] = useState('');
+    const [codeName, setCodeName] = useState('');
+    const [codeStreet, setCodeStreet] = useState('');
+    const [codePhone, setCodePhone] = useState('');
+    const [email, setEmail] = useState('');
+    // const participantId = [codeBirth, codeName, codeStreet, codePhone].join('');
+
+    const testNoMissingResponses = () => {
+        //'I consent to take part in this study and agree to my data being recorded.'
+        //'I would like to continue without my data being recorded.'
+        if(consent === '') return 'Please choose one of the consent options above'
+        const codeRequired = consent === 'I consent to take part in this study and agree to my data being recorded.'
+        if(codeRequired && [codeBirth,codeName,codeStreet,codePhone].includes('')) {
+            return 'Please fill out participant code'
+        }
+        if(email !== '' && !email.split('').includes('@')){
+            return 'Please enter a valid email address'
+        }
+        else return true
+    }
+
+    const constructParticipantId = () => {
+        return [codeBirth, codeName, codeStreet, codePhone].join('')
+    }
 
     const handleSubmit = () => {
         if(isSubmitting) return
         setIsSubmitting(true)
         try {
             const validResponses = testNoMissingResponses()
-            if(!validResponses){
-                setWarning('Please answer all questions')
+            if(validResponses !== true) {
+                setWarning(validResponses)
                 return
             }
             setWarning('')
+
             // TODO: Submit responses
+            const participantId = constructParticipantId()
+            const consentData = {
+                futureStudies,
+                consent,
+                email,
+                participantId
+            }
+            router.replace('/confirmSettings')
         } catch (e) {
             console.log(e)
         } finally {
@@ -26,7 +72,8 @@ export default function ConsentScreen() {
     }
 
     return (
-        <ScrollView contentContainerStyle={styles.page}>
+        <ScrollView style={styles.page}
+                    contentContainerStyle={{ backgroundColor: 'black' }}>
             <Text style={styles.pageTitle}>Information & Consent Form</Text>
             <Text style={styles.paragraph}>
                 Thank you for carefully reading this information sheet, a copy of which you can keep for your records.
@@ -38,20 +85,23 @@ export default function ConsentScreen() {
                 You are being invited to take part in a research study to further our understanding of colour vision.
                 The research is being funded by the School of Psychology, University of Sussex.
             </Text>
-            <Text style={styles.sectionTitle}>WHY HAVE I BEEN INVITED FOR TESTING AND WHAT WILL I DO?</Text>
+            <Text style={styles.sectionTitle}>Why have I been invited for testing and what will I do?</Text>
             <Text style={styles.paragraph}>
                 We are testing adults colour perception on their phones. The experiment will take no more than 30 minutes. It involves making remote colour adjustments on your mobile device, followed by a short questionnaire.
             </Text>
+            {/* TODO: CHANGE THIS SECTION/LINK */}
             <Text style={styles.paragraph}>
                 For the study, you will be required to download an app on your mobile device by following this link – https://sussex-psychology-software-team.github.io/Colour-Adjust. Although it is preferred to complete the study on the phone, you can still follow the link on a computer device and complete the study, if so, please state in the questionnaire that you are not doing the study on your phone.
             </Text>
             <Text style={styles.paragraph}>
-                After completing the task, you will be invited to do a small calibration procedure which measures the display range of your mobile device. The procedure would be quick and would have no effect on the device's performance. This is optional and would only be conducted with your consent.
+                After completing the task, you will be invited to do a small calibration procedure which measures the display range of your mobile device.
+                The procedure would be quick and would have no effect on the device&#39;s performance.
+                This is optional and would only be conducted with your consent.
             </Text>
             <Text style={styles.paragraph}>
                 Additionally, you have the option to choose to participate without your data being recorded. Participation in this study is part of your practical learning of psychology experiments but is not binding to your data being collected. All data collection is optional and consensual and choosing not to submit your data will not affect your grades or progress.
             </Text>
-            <Text style={styles.sectionTitle}>WHAT WILL HAPPEN TO THE RESULTS AND MY PERSONAL INFORMATION?</Text>
+            <Text style={styles.sectionTitle}>What will happen to the results of my personal information?</Text>
             <Text style={styles.paragraph}>
                 The results of this research may be written into a scientific report for a psychology dissertation and/or publication.
                 We anticipate being able to provide a summary of our findings on request from January 2025.
@@ -78,8 +128,9 @@ export default function ConsentScreen() {
                 If you have concerns about the collection, storage, or use of your personal data, you can contact University of Sussex Data Protection Officer: dpo@sussex.ac.uk.
             </Text>
             <Text style={styles.sectionTitle}>Who has approved this study?</Text>
+            {/* TODO: REPLACE CODE */}
             <Text style={styles.paragraph}>
-                The research has been approved by the Science & Technology Cross-Schools Research Ethics Committee (C-REC) ethical review process. (ER/YK357/4)
+                The research has been approved by the Science & Technology Cross-Schools Research Ethics Committee (C-REC) ethical review process (ER/YK357/4)
             </Text>
             <Text style={styles.sectionTitle}>Contact for Further Information</Text>
             <Text style={styles.paragraph}>
@@ -92,99 +143,170 @@ export default function ConsentScreen() {
 
             <Text style={styles.sectionTitle}>CONSENT</Text>
             <View style={styles.indentedList}>
-                <Text style={styles.bulletPoint}>{'\u2B24'} I understand that by signing below I am agreeing to take part in the University of Sussex research described here, and that I have read and understood this information sheet.</Text>
-                <Text style={styles.bulletPoint}>{'\u2B24'} I understand that my participation is entirely voluntary, that I can choose not to participate in part or all of the study,
+                <Text style={styles.bulletPoint}>• I understand that by signing below I am agreeing to take part in the University of Sussex research described here, and that I have read and understood this information sheet.</Text>
+                <Text style={styles.bulletPoint}>• I understand that my participation is entirely voluntary, that I can choose not to participate in part or all of the study,
                     and that I can withdraw at any stage of testing without having to give a reason and without being penalised in any way (e.g., if I am a student, my decision whether or not to take part will not affect my grades or personal record).
                 </Text>
-                <Text style={styles.bulletPoint}>{'\u2B24'} I understand I can request without penalty that my contact details can be withdrawn and deleted after testing is complete. Your experimental data (the responses we record during the study) can be withdrawn prior to data analysis (4 weeks after date of testing).</Text>
-                <Text style={styles.bulletPoint}>{'\u2B24'} I understand that my personal data will be used for the purposes of this research study and will be handled in accordance with Data Protection legislation. I understand that the University's Privacy Notice provides further information on how the University uses personal data in its research.</Text>
-                <Text style={styles.bulletPoint}>{'\u2B24'} I understand that my collected data will be stored using only my research participant code I understand my data, identified by participant code only, may be made publicly available through online data repositories or at the request of other researchers.</Text>
-                <Text style={styles.bulletPoint}>{'\u2B24'} I understand that my participation will remain confidential in any written reports of this research, and that no information I disclose will lead to the identification in those reports of any individual either by the researchers or by any other party, without first obtaining my written permission.</Text>
+                <Text style={styles.bulletPoint}>• I understand I can request without penalty that my contact details can be withdrawn and deleted after testing is complete. Your experimental data (the responses we record during the study) can be withdrawn prior to data analysis (4 weeks after date of testing).</Text>
+                <Text style={styles.bulletPoint}>• I understand that my personal data will be used for the purposes of this research study and will be handled in accordance with Data Protection legislation. I understand that the University's Privacy Notice provides further information on how the University uses personal data in its research.</Text>
+                <Text style={styles.bulletPoint}>• I understand that my collected data will be stored using only my research participant code I understand my data, identified by participant code only, may be made publicly available through online data repositories or at the request of other researchers.</Text>
+                <Text style={styles.bulletPoint}>• I understand that my participation will remain confidential in any written reports of this research, and that no information I disclose will lead to the identification in those reports of any individual either by the researchers or by any other party, without first obtaining my written permission.</Text>
             </View>
+            <View style={styles.consentOptionsContainer}>
+                <View style={styles.checkboxContainer}>
+                    <Checkbox
+                        style={styles.checkbox}
+                        value={futureStudies}
+                        onValueChange={(checked)=>setFutureStudies(checked)}
+                        color={futureStudies ? 'grey' : undefined}
+                    />
+                    <Text style={styles.text}>Our research group at the University of Sussex carries out studies on colour vision and colour perception.
+                        Please check this box if you are happy for us to include your data again in future studies if these have gained independent ethical approval,
+                        based on the strict confidentiality terms described above.
+                    </Text>
+                </View>
+                <RadioList options={['I consent to take part in this study and agree to my data being recorded.','I would like to continue without my data being recorded.']} onSelect={setConsent} />
 
-            <Text style={styles.sectionTitle}>Form Elements:</Text>
-            <Text style={styles.checkbox}>☐ Our research group at the University of Sussex carries out studies on colour vision and colour perception. Please check this box if you are happy for us to include your data again in future studies if these have gained independent ethical approval, based on the strict confidentiality terms described above.</Text>
-            <RadioList options={['I consent to take part in this study and agree to my data being recorded.','I would like to continue without my data being recorded.']} onSelect={(option)=>console.log(option)} />
+            </View>
 
             <Text style={styles.sectionTitle}>Participant code:</Text>
-            <View style={styles.indentedList}>
-                { ['Please enter the last letter of your place of birth', 'Please enter the second letter of your second name','Please enter the first letter of the street where you live','Please enter the final digit of your mobile phone number'].map(q => (
-                        <View key={q} style={styles.idContainer}>
-                            <Text>{q}:</Text>
-                            <TextInput maxLength={1} style={[styles.textInput, styles.idInput]}/>
-                        </View>
-                    ))
-                }
+            <View style={styles.codeSection}>
+                <View style={styles.codeItem}>
+                    <Text style={styles.codeLabel}>1. Please enter the last letter of your place of birth:</Text>
+                    <TextInput
+                        style={[styles.codeInput, styles.textInput]}
+                        value={codeBirth}
+                        onChangeText={(text) => setCodeBirth(text.replace(/[^a-zA-Z]/g, '').slice(0, 1))}
+                        maxLength={1}
+                        autoCapitalize="characters"
+                        placeholder="Letter"
+                        placeholderTextColor='#aaaaaa'
+                    />
+                </View>
+
+                <View style={styles.codeItem}>
+                    <Text style={styles.codeLabel}>2. Please enter the second letter of your second name:</Text>
+                    <TextInput
+                        style={[styles.codeInput, styles.textInput]}
+                        value={codeName}
+                        onChangeText={(text) => setCodeName(text.replace(/[^a-zA-Z]/g, '').slice(0, 1))}
+                        maxLength={1}
+                        autoCapitalize="characters"
+                        placeholder="Letter"
+                        placeholderTextColor='#aaaaaa'
+                    />
+                </View>
+
+                <View style={styles.codeItem}>
+                    <Text style={styles.codeLabel}>3. Please enter the first letter of the street where you live:</Text>
+                    <TextInput
+                        style={[styles.codeInput, styles.textInput]}
+                        value={codeStreet}
+                        onChangeText={(text) => setCodeStreet(text.replace(/[^a-zA-Z]/g, '').slice(0, 1))}
+                        maxLength={1}
+                        autoCapitalize="characters"
+                        placeholder="Letter"
+                        placeholderTextColor='#aaaaaa'
+                    />
+                </View>
+
+                <View style={styles.codeItem}>
+                    <Text style={styles.codeLabel}>4. Please enter the final digit of your mobile phone number:</Text>
+                    <TextInput
+                        style={[styles.codeInput, styles.textInput]}
+                        value={codePhone}
+                        onChangeText={(text) => setCodePhone(text.replace(/[^0-9]/g, '').slice(0, 1))}
+                        maxLength={1}
+                        keyboardType="numeric"
+                        placeholder="Digit"
+                        placeholderTextColor='#aaaaaa'
+                    />
+                </View>
             </View>
-            <Text>This study may have additional runs, and you may be invited back for further testing sessions. If you&#39;re interested in continuing your participation, please include your email address so you can be contacted for further tests</Text>
-            <TextInput style={styles.textInput}></TextInput>
+            {/*<Text style={styles.sectionTitle}>Final ID: {participantId}</Text>*/}
+            <Text style={styles.paragraph}>This study may have additional runs, and you may be invited back for further testing sessions.
+                If you&#39;re interested in continuing your participation, please include your email address so you can be contacted for further tests:</Text>
+            <TextInput
+                style={[styles.emailInput, styles.textInput]}
+                value={email}
+                onChangeText={setEmail}
+                placeholder="Email (optional)"
+                placeholderTextColor='#aaaaaa'
+                keyboardType="email-address"
+                autoCapitalize="none"
+            />
             { warning && <Text style={styles.warning}>{warning}</Text>}
             <Pressable onPress={handleSubmit}
                        style={styles.submitButton}>
-                <Text>Submit</Text>
+                <Text style={styles.text}>Submit</Text>
             </Pressable>
-            </ScrollView>
+        </ScrollView>
     );
 }
 
 const styles = StyleSheet.create({
-    idContainer: {
-        flexDirection: 'row',
-        gap: 10
+    paragraph: {
+        fontSize: 15,
+        marginVertical: 5,
+        color: 'lightgrey',
     },
-    idInput: {
-        width: 20
-    },
-
-    page: {
-        minHeight: '100%',
-        padding: 10,
-    },
-    pageTitle: {
-        fontSize: 20,
-        fontWeight: 'bold',
-        marginBottom: 20
-    },
-    surveyContainer: {
-
-    },
-    sectionContainer: {
-        gap: 10,
-        marginVertical: 10
+    text: {
+        fontSize: 15,
+        color: 'lightgrey',
     },
     sectionTitle: {
         fontSize: 20,
         fontWeight: 'bold',
+        marginVertical: 10,
+        color: 'lightgray',
     },
-    questionContainer: {
-
+    indentedList: {
+        marginLeft: 20,
+        gap: 10,
+        marginBottom: 10
     },
-    questionText: {
-        fontSize: 15,
-        fontWeight: 'bold',
+    bulletPoint: {
+        color: 'lightgrey',
     },
-    input: {
-
+    consentOptionsContainer: {
+        gap: 10
+    },
+    checkboxContainer: {
+        flexDirection: 'row',
+    },
+    checkbox: {
+        marginRight: 10,
+    },
+    codeSection: {
+        gap: 10,
+        marginBottom: 10,
+        justifyContent: 'center',
+    },
+    codeItem: {
+        flexDirection: 'row',
+        maxWidth: '70%',
+        alignItems: 'center',
+        color: 'lightgrey',
+    },
+    codeInput: {
+        // width: 20,
+        height: '100%',
+        color: 'lightgrey',
+    },
+    codeLabel: {
+        color: 'lightgrey',
+    },
+    emailInput: {
     },
     textInput: {
         borderColor: 'gray',
         borderWidth: 1,
         borderStyle: 'solid',
+        padding: 5,
+        color: 'lightgrey',
+        // margin: 5,
     },
-    numericInput: {
-        borderColor: 'gray',
-        borderWidth: 1,
-        borderStyle: 'solid',
-    },
-    radioInput: {
 
-    },
-    choiceOptionsContainer: {
-
-    },
-    radioOption: {
-
-    },
 
     warning: {
         fontSize: 15,
@@ -193,13 +315,40 @@ const styles = StyleSheet.create({
         marginVertical: 5,
     },
     submitButton: {
-        backgroundColor: 'lightblue',
+        backgroundColor: 'black',
         alignSelf: 'center',
         paddingVertical: 5,
         paddingHorizontal: 10,
         borderWidth: 1,
-        borderColor: 'gray',
+        borderColor: 'grey',
         borderRadius: 5,
-    }
+        marginVertical: 10
+    },
 
+
+
+    page: {
+        minHeight: '100%',
+        padding: 10,
+        backgroundColor: 'black',
+    },
+    pageTitle: {
+        fontSize: 30,
+        fontWeight: 'bold',
+        marginBottom: 20,
+        color: 'lightgray',
+    },
+    sectionContainer: {
+        gap: 10,
+        marginVertical: 10
+    },
+    questionText: {
+        fontSize: 15,
+        fontWeight: 'bold',
+    },
+    numericInput: {
+        borderColor: 'gray',
+        borderWidth: 1,
+        borderStyle: 'solid',
+    },
 })
