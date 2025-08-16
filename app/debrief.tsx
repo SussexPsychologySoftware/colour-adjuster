@@ -1,5 +1,6 @@
 import React from 'react';
-import { ScrollView, View, Text, Image, StyleSheet } from 'react-native';
+import {ScrollView, View, Text, Image, StyleSheet, Pressable} from 'react-native';
+import {router} from "expo-router";
 
 export default function DebriefScreen() {
     return (
@@ -124,6 +125,10 @@ export default function DebriefScreen() {
                 <Text style={styles.reference}>
                     Kemp, S. (2023, January 26). Digital 2023: Global Overview Report. DataReportal. https://datareportal.com/reports/digital-2023-global-overview-report
                 </Text>
+                <Pressable onPress={()=>router.replace('/testing')}
+                           style={styles.submitButton}>
+                    <Text>Continue to testing</Text>
+                </Pressable>
             </View>
         </ScrollView>
     );
@@ -203,4 +208,13 @@ const styles = StyleSheet.create({
         marginBottom: 12,
         textAlign: 'left',
     },
+    submitButton: {
+        backgroundColor: 'lightblue',
+        alignSelf: 'center',
+        paddingVertical: 5,
+        paddingHorizontal: 10,
+        borderWidth: 1,
+        borderColor: 'gray',
+        borderRadius: 5,
+    }
 });
