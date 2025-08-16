@@ -73,11 +73,6 @@ export const useTrials = () => {
     const isComplete = currentTrialIndex >= trials.length-1;
 
     const nextTrial = (): void => {
-        if(isComplete) {
-            submitData()
-            router.replace("/survey")
-            return
-        }
         const nextTrialIndex = currentTrialIndex + 1;
         // TODO: or useEffect to start new trial and cascade this stuff when the index changes?
         setCurrentTrialIndex(nextTrialIndex);
@@ -100,7 +95,7 @@ export const useTrials = () => {
         // call next trial or?
     }
 
-    const submitData = () => {
+    const submitData = async () => {
         // Save to local storage
         // Send to OSF
         console.log(data)
@@ -109,6 +104,8 @@ export const useTrials = () => {
     return {
         trials,
         currentTrialIndex,
+        isComplete,
+        submitData,
         nextTrial,
         targetColour,
         startingColour,
