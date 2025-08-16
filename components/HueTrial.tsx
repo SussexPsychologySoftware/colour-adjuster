@@ -12,17 +12,17 @@ export default function HueTrial({ startColour, targetColour, onSubmit }: {start
     const [anticlockwiseBoundReached, setAnticlockwiseBoundReached] = useState(false);
     const [submitting, setSubmitting] = useState(false);
 
-    function changeHue(button: string): LCH{
+    function changeHue(direction: string): LCH{
         const backgroundLCH = ColourConverter.rgb2lch(backgroundColour)
         // Extract hue and change
-        if(button === 'clockwise') backgroundLCH.h++
-        else if(button === 'anticlockwise') backgroundLCH.h--
+        if(direction === 'increase') backgroundLCH.h++
+        else if(direction === 'decrease') backgroundLCH.h--
         // constrain 0-360
         backgroundLCH.h = mod(backgroundLCH.h, 360) // custom mod handles negatives and >360
         return backgroundLCH
     }
 
-// mod fuction to handle negative numbers
+    // mod fuction to handle negative numbers
     function mod(n: number, m: number) { //https://stackoverflow.com/questions/4467539/javascript-modulo-gives-a-negative-result-for-negative-numbers
         return ((n % m) + m) % m;
     }
@@ -57,14 +57,14 @@ export default function HueTrial({ startColour, targetColour, onSubmit }: {start
     return (
         <View style={[styles.container, {backgroundColor: `rgb(${backgroundColour.r}, ${backgroundColour.g}, ${backgroundColour.b})` }]}>
             <View style={styles.middle}>
-                <AdjustColourButton disabled={anticlockwiseBoundReached} onPress={()=>handlePress('clockwise')} style={styles.left}/>
+                <AdjustColourButton disabled={anticlockwiseBoundReached} onPress={()=>handlePress('increase')} style={styles.left}/>
                 <View style={styles.infoAndSubmit}>
                     <Text style={[styles.text, styles.targetColour]}>{targetColour}</Text>
                     <Pressable disabled={submitting} onPress={handleSubmit} style={[styles.submitButton, {borderColor: submitting ? 'grey' : 'black'}]}>
                         <Text style={[styles.text, styles.submitText, {color: submitting ? 'grey' : 'black'}]}>Submit</Text>
                     </Pressable>
                 </View>
-                <AdjustColourButton disabled={clockwiseBoundReached} onPress={()=>handlePress('anticlockwise')} style={styles.right}/>
+                <AdjustColourButton disabled={clockwiseBoundReached} onPress={()=>handlePress('decrease')} style={styles.right}/>
             </View>
         </View>
     );
