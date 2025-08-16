@@ -15,8 +15,8 @@ export default function RadioList({ options, onSelect} : { options: string[], on
                 <TouchableOpacity key={option} style={styles.container} onPress={()=>onOptionPress(option)}>
                     <MaterialIcons
                         name={selectedOption===option ? 'radio-button-on' : 'radio-button-off'}
-                        size={15}
-                        color="black"
+                        size={20}
+                        color="lightgrey"
                     />
                     <Text style={styles.text}>{option}</Text>
                 </TouchableOpacity>
@@ -33,6 +33,7 @@ const styles = StyleSheet.create({
     },
     text: {
         fontSize: 15,
+        color: 'lightgrey',
     }
 })
 
