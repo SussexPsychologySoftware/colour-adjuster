@@ -7,6 +7,7 @@ import WhiteTrial from '@/components/WhiteTrial'
 import { ABAxis, LAB, RGB, LCH, Constraint, TargetColour, Range } from "@/types/colours";
 import {useTrials} from "@/hooks/useTrials";
 import HueTrial from "@/components/HueTrial";
+import {router} from "expo-router";
 
 type trialType = 'white'|'hue'
 
@@ -19,9 +20,11 @@ export default function AdjustColourScreen() {
     const {
         nextTrial,
         currentTrialIndex,
+        isComplete,
         targetColour,
         startingColour,
-        saveTrial
+        saveTrial,
+        submitData,
     } = useTrials();
 
     const handleSubmit = async (colour: RGB) => {
@@ -30,13 +33,17 @@ export default function AdjustColourScreen() {
         try {
             // Save data
             await saveTrial(colour)
+            if(isComplete) {
+                await submitData()
+                router.replace("/survey")
+                return
+            }
             nextTrial()
         } catch (e) {
             console.log(e)
         } finally {
             setSubmitting(false)
         }
-        // Save data, reset buttons and colour and restart
     }
 
     return(
