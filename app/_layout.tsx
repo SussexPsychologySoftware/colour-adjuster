@@ -18,6 +18,8 @@ export default function RootLayout() {
               <Stack.Screen name="confirmSettings"/>
               <Stack.Screen name="adjust"/>
               <Stack.Screen name="survey"/>
+              <Stack.Screen name="debrief"/>
+              <Stack.Screen name="testing"/>
           </Stack>
     </View>
   )
