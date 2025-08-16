@@ -22,8 +22,9 @@ export default function TestingScreen() {
             try {
                 const data = await AsyncStorage.getItem('trialData');
                 if (data !== null) {
-                    // Parse if it's JSON, or use directly if it's a string
-                    setTrialData(JSON.parse(data));
+                    const parsedData: Trial[] = JSON.parse(data)
+                    setTrialData(parsedData);
+                    setBackgroundColour(parsedData[selectedIndex].response)
                 }
             } catch (error) {
                 console.error('Error loading trial data:', error);
