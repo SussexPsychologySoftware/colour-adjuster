@@ -15,6 +15,7 @@ export class DataService {
 
         const dataString = JSON.stringify(data);
         await AsyncStorage.setItem(name, dataString);
+        // const sendDataConsent = await this.getSendDataConsent()
         // data: CdE5fn8ckU5w, participants: eXM0k3gPdL9y
         if (datapipeId) {
             const filename = `${participantId}_${name}`
@@ -50,11 +51,14 @@ export class DataService {
     }
 
     static async getSendDataConsent() {
-        const consent = await this.getData('consent');
-        if (!consent) return null
-        return consent.consent === "I consent to take part in this study and agree to my data being recorded."
+        const sendDataConsent = await AsyncStorage.getItem('sendDataConsent')
+        if(!sendDataConsent) return null;
+        return JSON.parse(sendDataConsent)
     }
 
+    static async setSendDataConsent(sendDataConsent: boolean) {
+        await AsyncStorage.setItem('sendDataConsent', JSON.stringify(sendDataConsent))
+    }
 
     // ============ Participant ID ============
     // Bit easier to just set this as a single string directly, used quite often
