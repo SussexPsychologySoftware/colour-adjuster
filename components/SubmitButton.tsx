@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: 'grey',
         borderRadius: 10,
-        marginVertical: 10
+        marginVertical: 15
     },
     disabled: {
         // backgroundColor: 'gray',
