@@ -45,9 +45,19 @@ export default function SurveyScreen() {
                 },
                 {
                     id: "phone_os",
-                    question: "Does your phone run on Android or iOS (iPhone)?",
+                    question: "Does your phone run on Android or iOS (Apple iPhone)?",
                     type: 'choice',
                     options: ['Android', 'iOS'] //iPhone users only - Does your phone have TrueTone switched on?
+                },
+                {
+                    id: "true_tone",
+                    question: 'Does your phone have TrueTone switched on?',
+                    type: 'choice',
+                    options: ['Yes', 'No', "Don't know"],
+                    condition: {
+                        parentQuestionId: "phone_os",
+                        choice: 'iOS',
+                    }
                 },
                 {
                     id: "browser",
