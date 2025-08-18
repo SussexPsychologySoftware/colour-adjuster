@@ -33,19 +33,21 @@ export default function AdjustColourButton({ style, disabled, onPress }: {style:
 
     return (
         <Pressable
+            // key={disabled ? 'disabled' : 'enabled'}
             disabled={disabled}
             onPress={onPress}
             onPressIn={()=>setPressed(true)}
             onLongPress={startLongPress}
             onPressOut={endPress}
             delayLongPress={200}
+            // unstable_pressDelay={0}
         >
             <View style={[
                     styles.adjustColourButton,
                     style,
                     {
                         borderColor: disabled ? disabledColour : 'black',
-                        backgroundColor: pressed ? 'black' : ''
+                        backgroundColor: pressed ? 'black' : 'transparent',
                     }
                 ]}>
                 <Text style={[styles.text, {color: disabled ? disabledColour : 'black'}]}>+</Text>
