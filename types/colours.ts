@@ -18,6 +18,12 @@ export interface LCH {
     h: number;
 }
 
+export interface XYZ {
+    x: number;
+    y: number;
+    z: number;
+}
+
 export interface Range { min: number, max: number }
 
 export interface Constraint {
