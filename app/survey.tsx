@@ -340,14 +340,4 @@ const styles = StyleSheet.create({
         color: 'red',
         marginVertical: 5,
     },
-    submitButton: {
-        backgroundColor: 'lightblue',
-        alignSelf: 'center',
-        paddingVertical: 5,
-        paddingHorizontal: 10,
-        borderWidth: 1,
-        borderColor: 'gray',
-        borderRadius: 5,
-    }
-
 })
