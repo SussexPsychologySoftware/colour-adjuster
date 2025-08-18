@@ -15,14 +15,13 @@ export class DataService {
 
         const dataString = JSON.stringify(data);
         await AsyncStorage.setItem(name, dataString);
-        // const sendDataConsent = await this.getSendDataConsent()
         // data: CdE5fn8ckU5w, participants: eXM0k3gPdL9y
         if (datapipeId) {
             const filename = `${participantId}_${name}`
             try {
                 const response = await this.sendToServer(dataString, filename, datapipeId);
                 // Only should have 1 for each day so could totally just tag by day?
-                if(!response.ok) await dataQueue.addToQueue(dataString, filename, datapipeId);
+                if(!response || !response.ok) await dataQueue.addToQueue(dataString, filename, datapipeId);
             } catch (error) {
                 // Network error, server unreachable, etc.
                 console.error('Error sending to datapipe: ', error);
@@ -32,6 +31,9 @@ export class DataService {
     }
 
     static async sendToServer(data: string, filename: string, experimentID: string) {
+        const sendDataConsent = await this.getSendDataConsent()
+        if(!sendDataConsent) return null
+
         return await fetch("https://pipe.jspsych.org/api/data/", {
             method: "POST",
             headers: {
