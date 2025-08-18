@@ -1,6 +1,8 @@
 import { useState } from "react";
 import {Text, View, StyleSheet, TextInput, ScrollView, Pressable, GestureResponderEvent} from 'react-native';
 import RadioList from '@/components/RadioList'
+import {DataService} from "@/services/dataService";
+import {router} from "expo-router";
 
 type questionType = 'text' | 'number' | 'choice';
 
@@ -205,7 +207,7 @@ export default function SurveyScreen() {
 
     }
     
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         if(isSubmitting) return
         setIsSubmitting(true)
         try {
@@ -215,7 +217,8 @@ export default function SurveyScreen() {
                 return
             }
             setWarning('')
-            // TODO: Submit responses
+            await DataService.saveData(responses, 'survey', 'CdE5fn8ckU5w')
+            router.replace('/debrief')
         } catch (e) {
             console.log(e)
         } finally {
@@ -296,6 +299,7 @@ const styles = StyleSheet.create({
     sectionTitle: {
         fontSize: 20,
         fontWeight: 'bold',
+        color: 'lightgrey',
     },
     questionContainer: {
 
@@ -303,9 +307,10 @@ const styles = StyleSheet.create({
     questionText: {
         fontSize: 15,
         fontWeight: 'bold',
+        color: 'lightgrey',
     },
     input: {
-
+        color: 'lightgrey',
     },
     textInput: {
         borderColor: 'gray',
