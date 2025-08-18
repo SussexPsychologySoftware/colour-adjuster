@@ -46,7 +46,7 @@ export default function WhiteTrial({ startColour, targetColour, onSubmit }: {sta
     const handlePress = (axisKey:'a'|'b', change:1|-1) => {
         setBackgroundColour(currentRGB => {
             const lab: LAB = increaseLAB(axisKey, change, currentRGB)
-            checkToggleButtons(lab, axisKey, change)
+            checkToggleButtons(lab)
             return ColourConverter.lab2rgb(lab)
         })
     }
