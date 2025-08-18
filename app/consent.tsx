@@ -3,6 +3,7 @@ import {Text, View, StyleSheet, TextInput, ScrollView, Pressable} from 'react-na
 import RadioList from "@/components/RadioList";
 import Checkbox from 'expo-checkbox';
 import {router} from "expo-router";
+import { DataService } from '@/services/dataService';
 
 interface Consent {
     futureStudies: boolean
@@ -44,7 +45,6 @@ export default function ConsentScreen() {
         return [codeBirth, codeName, codeStreet, codePhone].join('')
     }
 
-    const handleSubmit = () => {
     function generateRandomID(length: number)  {
         let characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVXZ';
         let id = '';
@@ -53,6 +53,8 @@ export default function ConsentScreen() {
         }
         return id
     }
+
+    const handleSubmit = async () => {
         if(isSubmitting) return
         setIsSubmitting(true)
         try {
@@ -70,8 +72,12 @@ export default function ConsentScreen() {
                 futureStudies,
                 consent,
                 email,
-                participantId
+                participantId,
+                randomId
             }
+
+            await DataService.setParticipantID(randomId)
+            await DataService.saveData(consentData,'consent','eXM0k3gPdL9y')
             router.replace('/confirmSettings')
         } catch (e) {
             console.log(e)
