@@ -49,6 +49,13 @@ export class DataService {
         await AsyncStorage.removeItem(id);
     }
 
+    static async getSendDataConsent() {
+        const consent = await this.getData('consent');
+        if (!consent) return null
+        return consent.consent === "I consent to take part in this study and agree to my data being recorded."
+    }
+
+
     // ============ Participant ID ============
     // Bit easier to just set this as a single string directly, used quite often
     static async setParticipantID(id: string) {
