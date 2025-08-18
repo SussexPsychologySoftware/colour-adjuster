@@ -17,7 +17,7 @@ export default function AdjustColourButton({ style, disabled, onPress }: {style:
     const startLongPress = () => {
         if(disabled || intervalRef.current) return; // If disabled or already interval running
         setPressed(true)
-        intervalRef.current = setInterval(onPress, 50);
+        intervalRef.current = setInterval(onPress, 10);
     };
 
     useEffect(endPress, [disabled]);
