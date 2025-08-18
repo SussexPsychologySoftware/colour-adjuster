@@ -237,7 +237,8 @@ export default function ConsentScreen() {
             />
             { warning && <Text style={styles.warning}>{warning}</Text>}
             <Pressable onPress={handleSubmit}
-                       style={styles.submitButton}>
+                       disabled={isSubmitting}
+                       style={[styles.submitButton, isSubmitting && styles.disabled]}>
                 <Text style={styles.text}>Submit</Text>
             </Pressable>
         </ScrollView>
@@ -323,6 +324,10 @@ const styles = StyleSheet.create({
         borderColor: 'grey',
         borderRadius: 5,
         marginVertical: 10
+    },
+    disabled: {
+        backgroundColor: 'gray',
+        color: 'lightgrey',
     },
 
 
