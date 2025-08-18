@@ -43,7 +43,7 @@ export default function TestingScreen() {
                 const consent = await DataService.getData('consent')
                 console.log(consent);
                 if(consent !== null){
-                    const code = consent.participantId;
+                    const code = consent.participantCode;
                     setParticipantCode(code)
                 }
             } catch (error) {
