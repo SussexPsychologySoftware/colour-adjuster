@@ -6,8 +6,8 @@ import { colourConstraints } from '@/constants/colourConstraints';
 import { LAB, RGB, LCH } from "@/types/colours";
 
 // Return selected colour,
-export default function WhiteTrial({ startColour, targetColour, onSubmit }: {startColour: LCH, targetColour: string, onSubmit: (colour: LCH)=>void}) {
-    const [responseColour, setResponseColour] = useState<LCH>(startColour);
+export default function WhiteTrial({ startColour, targetColour, onSubmit }: {startColour: LCH, targetColour: string, onSubmit: (colour: LAB, renderedRGB: RGB)=>void}) {
+    const [responseColour, setResponseColour] = useState<LAB>(()=> ColourConverter.lch2lab(startColour));
     const [aUpperBoundReached, setAUpperBoundReached] = useState(false);
     const [aLowerBoundReached, setALowerBoundReached] = useState(false);
     const [bUpperBoundReached, setBUpperBoundReached] = useState(false);
@@ -16,15 +16,15 @@ export default function WhiteTrial({ startColour, targetColour, onSubmit }: {sta
 
     // Derive RGB when needed for display
     const backgroundColour = useMemo(() =>
-            ColourConverter.lch2rgb(responseColour),
+            ColourConverter.lab2rgb(responseColour),
         [responseColour]
     );
 
-    function increaseLAB(axisKey: 'a'|'b', change: 1|-1, currentResponse: LCH){
+    function increaseLAB(axisKey: 'a'|'b', change: 1|-1, currentResponse: LAB){
         // convert to lab
-        const lab = ColourConverter.lch2lab(currentResponse)
-        lab[axisKey] += change;
-        return lab
+        // const lab = ColourConverter.lch2lab(currentResponse)
+        currentResponse[axisKey] += change;
+        return currentResponse
     }
 
     function testABChange(lab: LAB, axisKey: 'a'|'b', change: 1|-1){
@@ -55,7 +55,7 @@ export default function WhiteTrial({ startColour, targetColour, onSubmit }: {sta
             // console.log('background change', currentRGB, performance.now())
             const lab: LAB = increaseLAB(axisKey, change, prev)
             checkToggleButtons(lab)
-            return ColourConverter.lab2lch(lab)
+            return {...lab}
         })
     }
 
@@ -64,7 +64,7 @@ export default function WhiteTrial({ startColour, targetColour, onSubmit }: {sta
         if(submitting) return
         setSubmitting(true)
         try{
-            onSubmit(responseColour)
+            onSubmit(responseColour,backgroundColour)
         } catch (e) {
             console.log(e)
         } finally {

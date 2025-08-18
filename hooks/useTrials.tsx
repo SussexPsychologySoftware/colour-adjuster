@@ -1,12 +1,13 @@
 import {useState} from "react";
-import {Constraint, Range, RGB, LCH, TargetColour} from "@/types/colours";
+import {Constraint, Range, RGB, LCH, LAB, TargetColour} from "@/types/colours";
 import {colourConstraints} from "@/constants/colourConstraints";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-interface Trial {
+export interface Trial {
     targetColour: TargetColour;
-    startingColour: LCH|null; // Store LCH or? also allow null or no?
-    response: LCH|null;
+    startingColour: LCH; // Store LCH or? also allow null or no?
+    renderedRGB: RGB;
+    response: LCH|LAB;
     rt: number;
 }
 
@@ -93,11 +94,12 @@ export const useTrials = () => {
         //currentTrial // this will be out of date at this point?
     };
 
-    const saveTrial = async (responseColour: LCH|null) => {
+    const saveTrial = async (responseColour: LCH|LAB, renderedRGB: RGB) => {
         const trialData: Trial = {
             targetColour,
             startingColour,
             response: responseColour,
+            renderedRGB,
             rt: performance.now()-timer
         }
         data.push(trialData)

@@ -3,10 +3,10 @@ import {useCallback, useMemo, useState} from "react";
 import AdjustColourButton from '@/components/AdjustColourButton'
 import { ColourConverter } from '@/utils/colourConversion';
 import { colourConstraints } from '@/constants/colourConstraints';
-import { LCH, TargetColour, Constraint } from "@/types/colours";
+import { LCH, RGB, TargetColour, Constraint } from "@/types/colours";
 
 // Return selected colour,
-export default function HueTrial({ startColour, targetColour, onSubmit }: {startColour: LCH, targetColour: TargetColour, onSubmit: (colour: LCH)=>void}) {
+export default function HueTrial({ startColour, targetColour, onSubmit }: {startColour: LCH, targetColour: TargetColour, onSubmit: (colour: LCH, renderedRGB: RGB)=>void}) {
     const [responseColour, setResponseColour] = useState<LCH>(startColour);
     const [lowerBoundReached, setLowerBoundReached] = useState(false);
     const [upperBoundReached, setUpperBoundReached] = useState(false);
@@ -54,7 +54,7 @@ export default function HueTrial({ startColour, targetColour, onSubmit }: {start
         if(submitting) return
         setSubmitting(true)
         try{
-            onSubmit(responseColour)
+            onSubmit(responseColour, backgroundColour)
         } catch (e) {
             console.log(e)
         } finally {

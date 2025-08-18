@@ -1,6 +1,6 @@
 import { useState } from "react";
 import WhiteTrial from '@/components/WhiteTrial'
-import { RGB } from "@/types/colours";
+import { RGB, LCH, LAB } from "@/types/colours";
 import { useTrials } from "@/hooks/useTrials";
 import HueTrial from "@/components/HueTrial";
 import { router } from "expo-router";
@@ -9,6 +9,7 @@ export default function AdjustColourScreen() {
 
     // Maybe background should be set here, and then the trial components change it as a prop?
         // but probably don't want them to rerender when it changes?
+    // NOTE user should control not RGB but units they are incrementing, to stop any drift in L and C etc by constant conversion.
     const [submitting, setSubmitting] = useState(false);
 
     const {
@@ -21,12 +22,12 @@ export default function AdjustColourScreen() {
         submitData,
     } = useTrials();
 
-    const handleSubmit = async (colour: RGB) => {
+    const handleSubmit = async (colour: LCH|LAB, renderedRGB: RGB) => {
         if(submitting) return
         setSubmitting(true)
         try {
             // Save data
-            await saveTrial(colour)
+            await saveTrial(colour, renderedRGB)
             if(isComplete) {
                 await submitData()
                 router.replace("/survey")

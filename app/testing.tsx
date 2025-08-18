@@ -1,16 +1,11 @@
 import {Text, View, StyleSheet, Pressable, ScrollView} from "react-native";
 import {useEffect, useState} from "react";
-import {ABAxis, LAB, RGB, TargetColour} from "@/types/colours";
+import {RGB, LCH, TargetColour} from "@/types/colours";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-
+import {ColourConverter} from "@/utils/colourConversion";
+import {Trial} from "@/hooks/useTrials";
 // Return selected colour,
 // overthinking, maybe just pass in the update and toggle functions? horizontal?
-interface Trial {
-    targetColour: TargetColour;
-    startingColour: RGB; // Store LCH or? also allow null or no?
-    response: RGB;
-    rt: number;
-}
 
 export default function TestingScreen() {
     const [backgroundColour, setBackgroundColour] = useState<RGB>({r: 50, g: 50, b: 50});
@@ -24,7 +19,8 @@ export default function TestingScreen() {
                 if (data !== null) {
                     const parsedData: Trial[] = JSON.parse(data)
                     setTrialData(parsedData);
-                    setBackgroundColour(parsedData[selectedIndex].response)
+                    const response = parsedData[selectedIndex].renderedRGB
+                    if(response) setBackgroundColour(response)
                 }
             } catch (error) {
                 console.error('Error loading trial data:', error);
@@ -50,8 +46,8 @@ export default function TestingScreen() {
                         console.log(item.response)
                         return(<Pressable key={`trial-${index}`}
                                           style={[styles.trialSelector, selectedIndex===index && styles.selectedTrial]}
-                                          onPress={()=>handlePress(item.response, index)}>
-                            <Text style={styles.text}>{index}) R: {item.response.r}, G: {item.response.g}, B: {item.response.b}</Text>
+                                          onPress={()=>handlePress(item.renderedRGB, index)}>
+                            <Text style={styles.text}>{index}) {item.renderedRGB.r}, {item.renderedRGB.g}, {item.renderedRGB.b}</Text>
                         </Pressable>)
                     }
 
@@ -64,12 +60,11 @@ export default function TestingScreen() {
 
 const styles = StyleSheet.create({
     container: {
-        marginVertical: 10,
-
+        margin: 10,
     },
     scrollview: {
-        paddingVertical: 30,
-        alignItems: "center"
+        padding: 30,
+        alignItems: "flex-start"
     },
     trialList: {
         justifyContent: "center",
@@ -87,7 +82,7 @@ const styles = StyleSheet.create({
         backgroundColor: "darkgrey",
     },
     text: {
-        fontSize: 20,
+        fontSize: 15,
         fontWeight: "bold",
         color: "black",
     },
