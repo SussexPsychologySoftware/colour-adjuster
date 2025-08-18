@@ -262,16 +262,16 @@ export default function ConsentScreen() {
 
 const styles = StyleSheet.create({
     paragraph: {
-        fontSize: 15,
+        fontSize: 20,
         marginVertical: 5,
         color: 'lightgrey',
     },
     text: {
-        fontSize: 15,
+        fontSize: 20,
         color: 'lightgrey',
     },
     sectionTitle: {
-        fontSize: 20,
+        fontSize: 30,
         fontWeight: 'bold',
         marginVertical: 10,
         color: 'lightgray',
@@ -283,6 +283,7 @@ const styles = StyleSheet.create({
     },
     bulletPoint: {
         color: 'lightgrey',
+        fontSize: 20,
     },
     consentOptionsContainer: {
         gap: 10
@@ -349,11 +350,11 @@ const styles = StyleSheet.create({
 
     page: {
         minHeight: '100%',
-        padding: 10,
+        padding: 20,
         backgroundColor: 'black',
     },
     pageTitle: {
-        fontSize: 30,
+        fontSize: 45,
         fontWeight: 'bold',
         marginBottom: 20,
         color: 'lightgray',
