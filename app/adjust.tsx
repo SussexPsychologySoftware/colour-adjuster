@@ -43,9 +43,9 @@ export default function AdjustColourScreen() {
 
     return(
         targetColour==='white' ?
-            <WhiteTrial key={currentTrialIndex} targetColour={targetColour} startColour={startingColour} onSubmit={handleSubmit}/>
+            <WhiteTrial key={currentTrialIndex} targetColour={targetColour} startColour={startingColour} onSubmit={handleSubmit} submitting={submitting}/>
         :
-            <HueTrial key={currentTrialIndex} targetColour={targetColour} startColour={startingColour} onSubmit={handleSubmit}/>
+            <HueTrial key={currentTrialIndex} targetColour={targetColour} startColour={startingColour} onSubmit={handleSubmit} submitting={submitting}/>
     );
 }
 

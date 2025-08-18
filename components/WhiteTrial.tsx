@@ -6,13 +6,12 @@ import { colourConstraints } from '@/constants/colourConstraints';
 import { LAB, RGB, LCH } from "@/types/colours";
 
 // Return selected colour,
-export default function WhiteTrial({ startColour, targetColour, onSubmit }: {startColour: LCH, targetColour: string, onSubmit: (colour: LAB, renderedRGB: RGB)=>void}) {
+export default function WhiteTrial({ startColour, targetColour, onSubmit, submitting }: {startColour: LCH, targetColour: string, onSubmit: (colour: LAB, renderedRGB: RGB)=>void, submitting: boolean}) {
     const [responseColour, setResponseColour] = useState<LAB>(()=> ColourConverter.lch2lab(startColour));
     const [aUpperBoundReached, setAUpperBoundReached] = useState(false);
     const [aLowerBoundReached, setALowerBoundReached] = useState(false);
     const [bUpperBoundReached, setBUpperBoundReached] = useState(false);
     const [bLowerBoundReached, setBLowerBoundReached] = useState(false);
-    const [submitting, setSubmitting] = useState(false);
 
     // Derive RGB when needed for display
     const backgroundColour = useMemo(() =>
@@ -62,13 +61,11 @@ export default function WhiteTrial({ startColour, targetColour, onSubmit }: {sta
     const handleSubmit = () => {
         // Save data, reset buttons and colour and restart
         if(submitting) return
-        setSubmitting(true)
         try{
             onSubmit(responseColour,backgroundColour)
         } catch (e) {
             console.log(e)
         } finally {
-            setSubmitting(false)
         }
     }
 

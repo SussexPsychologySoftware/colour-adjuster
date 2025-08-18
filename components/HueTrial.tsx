@@ -6,11 +6,10 @@ import { colourConstraints } from '@/constants/colourConstraints';
 import { LCH, RGB, TargetColour, Constraint } from "@/types/colours";
 
 // Return selected colour,
-export default function HueTrial({ startColour, targetColour, onSubmit }: {startColour: LCH, targetColour: TargetColour, onSubmit: (colour: LCH, renderedRGB: RGB)=>void}) {
+export default function HueTrial({ startColour, targetColour, onSubmit, submitting }: {startColour: LCH, targetColour: TargetColour, onSubmit: (colour: LCH, renderedRGB: RGB)=>void, submitting: boolean}) {
     const [responseColour, setResponseColour] = useState<LCH>(startColour);
     const [lowerBoundReached, setLowerBoundReached] = useState(false);
     const [upperBoundReached, setUpperBoundReached] = useState(false);
-    const [submitting, setSubmitting] = useState(false);
 
     // Derive RGB when needed for display
     const backgroundColour = useMemo(() =>
@@ -52,13 +51,10 @@ export default function HueTrial({ startColour, targetColour, onSubmit }: {start
     const handleSubmit = () => {
         // Save data, reset buttons and colour and restart
         if(submitting) return
-        setSubmitting(true)
         try{
             onSubmit(responseColour, backgroundColour)
         } catch (e) {
             console.log(e)
-        } finally {
-            setSubmitting(false)
         }
     }
 
