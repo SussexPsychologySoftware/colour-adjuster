@@ -1,11 +1,12 @@
 import {Text, View, StyleSheet, Pressable, ScrollView, Alert} from "react-native";
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {RGB, LCH, TargetColour} from "@/types/colours";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {ColourConverter} from "@/utils/colourConversion";
 import {Trial} from "@/hooks/useTrials";
 import {DataService} from "@/services/dataService";
 import {router} from "expo-router";
+import SubmitButton from "@/components/SubmitButton";
 // Return selected colour,
 // overthinking, maybe just pass in the update and toggle functions? horizontal?
 
@@ -89,9 +90,7 @@ export default function TestingScreen() {
                     })
                 }
             </View>
-            <Pressable disabled={submitting} onPress={handleDelete} style={[styles.submitButton, {backgroundColor: submitting ? 'grey' : 'black'}]}>
-                <Text style={[styles.submitText, {color: submitting ? 'grey' : 'white'}]}>Delete Participant Data</Text>
-            </Pressable>
+            <SubmitButton text='Delete participant data' disabledText='Deleting data...' disabled={submitting} onPress={handleDelete} style={{backgroundColor: submitting ? 'grey' : 'black'}} />
         </ScrollView>
     );
 }

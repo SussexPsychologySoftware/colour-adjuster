@@ -3,6 +3,7 @@ import {Text, View, StyleSheet, TextInput, ScrollView, Pressable, GestureRespond
 import RadioList from '@/components/RadioList'
 import {DataService} from "@/services/dataService";
 import {router} from "expo-router";
+import SubmitButton from "@/components/SubmitButton";
 
 type questionType = 'text' | 'number' | 'choice';
 
@@ -276,10 +277,7 @@ export default function SurveyScreen() {
                 );
             })}
             { warning && <Text style={styles.warning}>{warning}</Text>}
-            <Pressable onPress={handleSubmit}
-                style={styles.submitButton}>
-                <Text>Submit</Text>
-            </Pressable>
+            <SubmitButton text='Submit' disabledText='Submitting...' disabled={isSubmitting} onPress={handleSubmit}/>
         </ScrollView>
     );
 }

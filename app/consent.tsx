@@ -4,6 +4,7 @@ import RadioList from "@/components/RadioList";
 import Checkbox from 'expo-checkbox';
 import {router} from "expo-router";
 import { DataService } from '@/services/dataService';
+import SubmitButton from "@/components/SubmitButton";
 
 interface Consent {
     futureStudies: boolean
@@ -251,11 +252,7 @@ export default function ConsentScreen() {
                 autoCapitalize="none"
             />
             { warning && <Text style={styles.warning}>{warning}</Text>}
-            <Pressable onPress={handleSubmit}
-                       disabled={isSubmitting}
-                       style={[styles.submitButton, isSubmitting && styles.disabled]}>
-                <Text style={styles.text}>Submit</Text>
-            </Pressable>
+            <SubmitButton text='Submit' disabledText='Submitting...' disabled={isSubmitting} onPress={handleSubmit}/>
         </ScrollView>
     );
 }

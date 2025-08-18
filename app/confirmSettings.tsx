@@ -2,6 +2,7 @@ import Checkbox from 'expo-checkbox';
 import {View, Text, StyleSheet, Pressable} from "react-native";
 import {useState} from 'react'
 import {router} from "expo-router";
+import SubmitButton from "@/components/SubmitButton";
 
 export default function ConfirmSettingsScreen() {
     const [warning, setWarning] = useState('');
@@ -60,10 +61,7 @@ export default function ConfirmSettingsScreen() {
                 </View>
             </View>
             { warning && <Text style={styles.warning}>{warning}</Text>}
-            <Pressable onPress={handleSubmit}
-                       style={styles.submitButton}>
-                <Text style={styles.text}>Submit</Text>
-            </Pressable>
+            <SubmitButton text='Submit' disabledText='Submitting...' disabled={isSubmitting} onPress={handleSubmit}/>
         </View>
     )
 }

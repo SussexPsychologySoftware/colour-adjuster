@@ -1,6 +1,7 @@
 import React from 'react';
 import {ScrollView, View, Text, Image, StyleSheet, Pressable} from 'react-native';
 import {router} from "expo-router";
+import SubmitButton from "@/components/SubmitButton";
 
 export default function DebriefScreen() {
     return (
@@ -125,10 +126,7 @@ export default function DebriefScreen() {
                 <Text style={styles.reference}>
                     Kemp, S. (2023, January 26). Digital 2023: Global Overview Report. DataReportal. https://datareportal.com/reports/digital-2023-global-overview-report
                 </Text>
-                <Pressable onPress={()=>router.replace('/testing')}
-                           style={styles.submitButton}>
-                    <Text>Continue to testing</Text>
-                </Pressable>
+                <SubmitButton text='Continue to testing' disabled={false} onPress={()=>router.replace('/testing')} />
             </View>
         </ScrollView>
     );

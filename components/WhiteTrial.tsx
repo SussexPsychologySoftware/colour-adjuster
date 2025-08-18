@@ -4,6 +4,7 @@ import AdjustColourButton from '@/components/AdjustColourButton'
 import { ColourConverter } from '@/utils/colourConversion';
 import { colourConstraints } from '@/constants/colourConstraints';
 import { LAB, RGB, LCH } from "@/types/colours";
+import SubmitButton from "@/components/SubmitButton";
 
 // Return selected colour,
 export default function WhiteTrial({ startColour, targetColour, onSubmit, submitting }: {startColour: LCH, targetColour: string, onSubmit: (colour: LAB, renderedRGB: RGB)=>void, submitting: boolean}) {
@@ -76,9 +77,7 @@ export default function WhiteTrial({ startColour, targetColour, onSubmit, submit
                 <AdjustColourButton disabled={bLowerBoundReached} onPress={()=>handlePress('b',-1)} style={styles.left}/>
                 <View style={styles.infoAndSubmit}>
                     <Text style={[styles.text, styles.targetColour]}>{targetColour}</Text>
-                    <Pressable disabled={submitting} onPress={handleSubmit} style={[styles.submitButton, {borderColor: submitting ? 'grey' : 'black'}]}>
-                        <Text style={[styles.text, styles.submitText, {color: submitting ? 'grey' : 'black'}]}>Submit</Text>
-                    </Pressable>
+                    <SubmitButton text='Submit' disabledText='Submitting...' disabled={submitting} onPress={handleSubmit} style={{borderColor: 'black'}} textStyle={{color: 'black'}}/>
                 </View>
                 <AdjustColourButton disabled={bUpperBoundReached} onPress={()=>handlePress('b',1)} style={styles.right}/>
             </View>
