@@ -7,6 +7,7 @@ import {DataService} from "@/services/dataService";
 import {router} from "expo-router";
 import SubmitButton from "@/components/SubmitButton";
 import {globalStyles} from "@/styles/appStyles";
+import {dataQueue} from "@/services/dataQueue";
 // Return selected colour,
 // overthinking, maybe just pass in the update and toggle functions? horizontal?
 
@@ -104,12 +105,38 @@ export default function TestingScreen() {
                     })
                 }
             </View>
-            <SubmitButton text='Delete participant data' disabledText='Deleting data...' disabled={submitting} onPress={handleDelete} />
+            <View style={styles.buttons}>
+                <SubmitButton text='Sync data' disabledText='Syncing data...' disabled={submitting} onPress={async()=>{
+                        setSubmitting(true)
+                        try {
+                            const successMessage = await dataQueue.processQueue()
+                            Alert.alert(successMessage)
+                        } catch(error) {
+                            console.log(error)
+                        }
+                        setSubmitting(false)
+                    }
+                }
+                style={styles.button}
+                />
+                <SubmitButton text='Delete participant data' disabledText='Deleting data...' disabled={submitting} onPress={handleDelete} style={styles.button}/>
+
+            </View>
         </ScrollView>
     );
 }
 
 const styles = StyleSheet.create({
+    buttons:{
+        alignItems: "flex-start",
+        flexDirection: "column",
+        gap: 10
+    },
+    button: {
+        backgroundColor: 'black',
+        alignSelf: 'flex-start'
+    },
+
     container: {
         margin: 10,
 
@@ -140,17 +167,6 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
         color: "black",
     },
-    submitButton: {
-        paddingVertical: 12,
-        paddingHorizontal: 20,
-        marginVertical: 40,
-        borderWidth: 1,
-        borderRadius: 10,
-        backgroundColor: "black",
-    },
-    submitText: {
-        color: "white",
-    }
 
 });
 
