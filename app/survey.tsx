@@ -63,11 +63,6 @@ export default function SurveyScreen() {
                     }
                 },
                 {
-                    id: "browser",
-                    question: "What browser do you use?",
-                    type: 'text'
-                },
-                {
                     id: "blue_light_filter",
                     question: "Do you use a 'blue light filter' app or setting?",
                     type: 'choice',
