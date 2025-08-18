@@ -15,6 +15,7 @@ export default function TestingScreen() {
     const [trialData, setTrialData] = useState<Trial[]>([]);
     const [selectedIndex, setSelectedIndex] = useState(0);
     const [submitting, setSubmitting] = useState(false);
+    const [participantId, setParticipantId] = useState('');
 
     useEffect(() => {
         const loadTrialData = async () => {
@@ -31,7 +32,19 @@ export default function TestingScreen() {
             }
         };
 
+        const loadParticipantID = async () => {
+            try {
+                const id = await DataService.getParticipantID()
+                if (id !== null) {
+                    setParticipantId(id);
+                }
+            } catch (error) {
+                console.error('Error loading trial data:', error);
+            }
+        };
+
         loadTrialData();
+        loadParticipantID();
     }, []); // Empty dependency array means this runs once on mount
 
 
@@ -78,6 +91,7 @@ export default function TestingScreen() {
 
     return (
         <ScrollView style={globalStyles.scrollViewContainer} contentContainerStyle={[styles.scrollview,{backgroundColor: `rgb(${backgroundColour.r}, ${backgroundColour.g}, ${backgroundColour.b})`}]}>
+            <Text style={{color: 'black', fontSize: 20, marginBottom: 20, fontWeight: 'bold'}}>Participant ID: {participantId}</Text>
             <View style={styles.trialList}>
                 {
                     trialData.map((item, index) =>{
