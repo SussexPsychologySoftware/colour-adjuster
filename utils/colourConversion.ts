@@ -86,12 +86,21 @@ function xyz2rgb({x, y, z}: XYZ): RGB {
 
     //convert to srgb
     function adj(c: number) {
+        // CLAMPING: Apply −f(−x) when x is negative as per sRGB spec
+            // const sign = c < 0 ? -1 : 1;
+            // c = Math.abs(c);
+
         //for more accurate values see: https://en.wikipedia.org/wiki/SRGB#Computing_the_transfer_function
         if (c <= 0.0031308) {
             c = 12.92 * c //12.9232102 often round to 12.92
         } else {
             c = 1.055 * (c**(1/2.4)) - 0.055 // can try applying −f(−x) when x is negative https://en.wikipedia.org/wiki/SRGB#sYCC:~:text=applying%20%E2%88%92f(%E2%88%92x)%20when%20x%20is%20negative
         }
+
+        //CLAMPING: Restore the sign
+            // c = sign * c;
+            // Clamp to valid sRGB range [0, 1]
+            // c = Math.max(0, Math.min(1, c));
         return Math.round(c*255) //'multiplied by 2^bit_depth-1 and quantized.'
     }
 

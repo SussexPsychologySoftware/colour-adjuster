@@ -6,6 +6,8 @@ import { colourConstraints } from '@/constants/colourConstraints';
 import { ABAxis, LAB, RGB } from "@/types/colours";
 
 // Return selected colour,
+// overthinking, maybe just pass in the update and toggle functions? horizontal?
+
 export default function Trial({ startColour, targetColour, onSubmit }: {startColour: RGB, targetColour: string, onSubmit: (colour: RGB)=>void}) {
     const [backgroundColour, setBackgroundColour] = useState<RGB>(startColour);
     const [topBoundReached, setTopBoundReached] = useState(false);
