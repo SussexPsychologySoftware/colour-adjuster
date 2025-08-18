@@ -98,10 +98,12 @@ export default function TestingScreen() {
 const styles = StyleSheet.create({
     container: {
         margin: 10,
+
     },
     scrollview: {
         padding: 30,
-        alignItems: "flex-start"
+        alignItems: "flex-start",
+        minHeight: '100%'
     },
     trialList: {
         justifyContent: "center",
