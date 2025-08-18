@@ -3,19 +3,19 @@ import {View, Text, StyleSheet, Pressable} from "react-native";
 import {useState} from 'react'
 import {router} from "expo-router";
 import SubmitButton from "@/components/SubmitButton";
+import {globalStyles} from "@/styles/appStyles";
 
 export default function ConfirmSettingsScreen() {
     const [warning, setWarning] = useState('');
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [screenOff, setScreenOff] = useState(false);
     const [doNotDisturb, setDoNotDisturb] = useState(false);
-    const [fillScreen, setFillScreen] = useState(false);
 
     const handleSubmit = () => {
         if(isSubmitting) return
         setIsSubmitting(true)
         try {
-            if(!screenOff || !fillScreen || !doNotDisturb) {
+            if(!screenOff || !doNotDisturb) {
                 setWarning('You must tick all boxes to proceed')
                 return
             }
@@ -38,7 +38,7 @@ export default function ConfirmSettingsScreen() {
                         onValueChange={(checked)=>setScreenOff(checked)}
                         color={screenOff ? 'grey' : undefined}
                     />
-                    <Text style={styles.text}>Have you switched off any other screen which is nearby?</Text>
+                    <Text style={globalStyles.text}>Have you switched off any other screen which is nearby?</Text>
                 </View>
                 <View style={styles.checkboxContainer}>
                     <Checkbox
@@ -47,17 +47,7 @@ export default function ConfirmSettingsScreen() {
                         onValueChange={(checked)=>setDoNotDisturb(checked)}
                         color={doNotDisturb ? 'grey' : undefined}
                     />
-                    <Text style={styles.text}>Have you set Do Not Disturb?</Text>
-                </View>
-                {/* TODO: remove this? */}
-                <View style={styles.checkboxContainer}>
-                    <Checkbox
-                        style={styles.checkbox}
-                        value={fillScreen}
-                        onValueChange={(checked)=>setFillScreen(checked)}
-                        color={fillScreen ? 'grey' : undefined}
-                    />
-                    <Text style={styles.text}>Is the App currently filling your screen?</Text>
+                    <Text style={globalStyles.text}>Have you set your phone to &#39;Do Not Disturb&#39;?</Text>
                 </View>
             </View>
             { warning && <Text style={styles.warning}>{warning}</Text>}
@@ -72,10 +62,12 @@ const styles = StyleSheet.create({
         minHeight: '100%',
         padding: 40,
         justifyContent: 'center',
-        alignItems: 'center',
+        // alignItems: 'center',
     },
     checkboxContainer: {
         flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
     },
     checkbox: {
         marginRight: 10,
@@ -84,23 +76,11 @@ const styles = StyleSheet.create({
     checkboxList: {
         rowGap: 10
     },
-    text: {
-        color: 'lightgrey',
-    },
+
     warning: {
         fontSize: 15,
         fontWeight: 'bold',
         color: 'red',
         marginVertical: 5,
-    },
-    submitButton: {
-        backgroundColor: 'black',
-        alignSelf: 'center',
-        paddingVertical: 5,
-        paddingHorizontal: 10,
-        borderWidth: 1,
-        borderColor: 'grey',
-        borderRadius: 5,
-        marginVertical: 10
     },
 })

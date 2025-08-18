@@ -12,8 +12,8 @@ export const colours = {
 
 export const sizes = {
     small: 14,
-    medium: 19,
-    large: 25,
+    medium: 20,
+    large: 26,
     title: 40,
     padding: 16,
 };
@@ -36,6 +36,10 @@ export const globalStyles = StyleSheet.create({
         minHeight: '100%',
     },
 
+    paragraph: {
+        marginVertical: 5,
+    },
+
 
     // TEXT STYLES ---------------
     text: {
@@ -50,6 +54,12 @@ export const globalStyles = StyleSheet.create({
         marginBottom: 20,
         color: colours.text,
     },
+    question: {
+        color: colours.text,
+        fontSize: sizes.medium+1,
+        // fontStyle: 'italic',
+        fontWeight: "bold",
+    },
 
     sectionTitle: {
         fontSize: sizes.large,
@@ -57,6 +67,7 @@ export const globalStyles = StyleSheet.create({
         marginVertical: 10,
         color: colours.text,
     },
+
     whiteText: {
         color: colours.text,
     },
@@ -69,12 +80,6 @@ export const globalStyles = StyleSheet.create({
         fontSize: sizes.small,
         fontWeight: '300',
         // fontStyle: 'italic',
-    },
-    question: {
-        color: colours.text,
-        fontSize: sizes.medium,
-        // fontStyle: 'italic',
-        fontWeight: '400',
     },
     surveyPrompt: {
         color: colours.text,

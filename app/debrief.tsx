@@ -2,22 +2,22 @@ import React from 'react';
 import {ScrollView, View, Text, Image, StyleSheet, Pressable} from 'react-native';
 import {router} from "expo-router";
 import SubmitButton from "@/components/SubmitButton";
+import {globalStyles} from "@/styles/appStyles";
 
 export default function DebriefScreen() {
     return (
-        <ScrollView style={styles.container}>
-            <View style={styles.content}>
-                <Text style={styles.title}>Do we remember the colours of familiar devices?</Text>
-                <Text style={styles.authors}>Yesesvi Konakanchi & Dr. John Maule</Text>
-                <Text style={styles.institution}>Statistical Perception Lab, University of Sussex</Text>
+        <ScrollView style={globalStyles.scrollViewContainer}>
+                <Text style={globalStyles.pageTitle}>Do we remember the colours of familiar devices?</Text>
+                <Text style={[globalStyles.text, styles.authors]}>Yesesvi Konakanchi & Dr. John Maule</Text>
+                <Text style={[globalStyles.text, styles.institution]}>Statistical Perception Lab, University of Sussex</Text>
 
-                <Text style={styles.paragraph}>
+                <Text style={[globalStyles.paragraph, globalStyles.text]}>
                     It has been shown that we build up specific memory for the colours of familiar objects.
                     Hansen et al. (2006) showed that people perceive a grey banana as slightly yellow, illustrating that perceptual experience
                     (e.g. seeing many bananas over your lifetime) influences our expectations about the world.
                 </Text>
 
-                <Text style={styles.paragraph}>
+                <Text style={[globalStyles.paragraph, globalStyles.text]}>
                     Adults spend on average over 6 hours every day using screens (Kemp, 2023).
                     This means that for over 1/3rd of our waking hours we are seeing an interacting with a virtual world -
                     one in which the visual properties are quite different from those of the real world.
@@ -27,7 +27,7 @@ export default function DebriefScreen() {
                     This project is investigating how familiar people become with a screen that they use frequently, and ultimately whether this affects their perception of colour on that screen.
                 </Text>
 
-                <Text style={styles.paragraph}>
+                <Text style={[globalStyles.paragraph, globalStyles.text]}>
                     Digital screens are rows of pixels, each containing subpixels with red, green and blue, primaries (figure 1).
                     Different combinations of these primaries means your screen can display a continuous range of colours.
                     This is called the gamut. The range of colours which your screen can display is smaller than the range of colours in the real-world,
@@ -37,7 +37,7 @@ export default function DebriefScreen() {
                     Red for one screen can be very different from the red of another.
                 </Text>
 
-                <Text style={styles.paragraph}>
+                <Text style={[globalStyles.paragraph, globalStyles.text]}>
                     The experiment you have just taken part in uses a psychophysical paradigm called the method of adjustment.
                     Observers complete trials where they can adjust a stimulus to meet a certain criterion according to their own perception.
                     We are gathering settings of unique hues (red, green, yellow and blue) (Hurvich & Jameson, 1957) and of unique white (Bosten et al., 2015).
@@ -47,31 +47,31 @@ export default function DebriefScreen() {
                     From the data we will analyse whether colour settings are determined more strongly by the immediate environment or by your prior knowledge of your device display.
                 </Text>
 
-                <Text style={styles.paragraph}>
+                <Text style={[globalStyles.paragraph, globalStyles.text]}>
                     If participants have priors for their own devices, their colour adjustments would be closer to their device's RGB colours than to each other's settings
                     (which come from shared environments and culture).
                 </Text>
 
-                <Text style={styles.paragraph}>
+                <Text style={[globalStyles.paragraph, globalStyles.text]}>
                     Since we expect to obtain a large sample of data (approx. N=300-400) we will have high statistical power to detect effects.
                     The size of the sample also means we will be able to explore further the individual differences.
                     We will use clustering techniques such as k-means clustering to identify groups of participants with similar colour settings,
                     and see whether they have things in common like phone manufacturer or operating system.
                 </Text>
 
-                <Text style={styles.paragraph}>
+                <Text style={[globalStyles.paragraph, globalStyles.text]}>
                     The results may illustrate the power of implicit learning and suggest that we understand virtual worlds via our experiences of the real world.
                     It would suggest implicit understanding of how screens work, even in the absence of explicit knowledge or training.
                 </Text>
 
-                <Text style={styles.paragraph}>
+                <Text style={[globalStyles.paragraph, globalStyles.text]}>
                     Colour and vision scientists would need to think hard about what it means to present stimuli on a screen –
                     are participants making judgements of the colour/stimulus alone, or through a lens of expectation about how displays warp the visual experience?
                     It would emphasise the importance of not doing colour-critical work "by eye" and the need for robust calibration in the design industry,
                     and display manufacturers will be interested in the time-scale over which people adapt to a new display technology.
                 </Text>
 
-                <Text style={styles.paragraph}>
+                <Text style={[globalStyles.paragraph, globalStyles.text]}>
                     In line with open science practices, we have pre-registered the design and analyses for this study, prior to gathering the data.
                 </Text>
 
@@ -104,30 +104,29 @@ export default function DebriefScreen() {
                     </Text>
                 </View>
 
-                <Text style={styles.sectionTitle}>References</Text>
+                <Text style={globalStyles.sectionTitle}>References</Text>
 
-                <Text style={styles.reference}>
+                <Text style={[globalStyles.text, styles.reference]}>
                     Hansen, T., Olkkonen, M., Walter, S., & Gegenfurtner, K. R. (2006). Memory modulates color appearance. Nature Neuroscience, 9(11), 1367-1368. https://doi.org/10.1038/nn1794
                 </Text>
 
-                <Text style={styles.reference}>
+                <Text style={[globalStyles.text, styles.reference]}>
                     Wei, M., Chen, S., & Luo, M. R. (2018, November). Effect of stimulus luminance and adapting luminance on viewing mode and display white appearance.
                     In Color and Imaging Conference (Vol. 26, pp. 308-312). Society for Imaging Science and Technology.
                 </Text>
 
-                <Text style={styles.reference}>
+                <Text style={[globalStyles.text, styles.reference]}>
                     Hurvich, L. M., & Jameson, D. (1957). An opponent-process theory of color vision. Psychological review, 64(6p1), 384.
                 </Text>
 
-                <Text style={styles.reference}>
+                <Text style={[globalStyles.text, styles.reference]}>
                     Bosten, J. M., Beer, R. D., & MacLeod, D. I. A. (2015). What is white?. Journal of vision, 15(16), 5-5.
                 </Text>
 
-                <Text style={styles.reference}>
+                <Text style={[globalStyles.text, styles.reference]}>
                     Kemp, S. (2023, January 26). Digital 2023: Global Overview Report. DataReportal. https://datareportal.com/reports/digital-2023-global-overview-report
                 </Text>
-                <SubmitButton text='Continue to testing' disabled={false} onPress={()=>router.replace('/testing')} />
-            </View>
+                <SubmitButton text='Continue to testing' disabled={false} onPress={()=>router.replace('/testing')}/>
         </ScrollView>
     );
 };
@@ -201,18 +200,10 @@ const styles = StyleSheet.create({
         paddingHorizontal: 20,
     },
     reference: {
+        color: 'lightgray',
         fontSize: 14,
         lineHeight: 20,
-        marginBottom: 12,
+        marginBottom: 5,
         textAlign: 'left',
     },
-    submitButton: {
-        backgroundColor: 'lightblue',
-        alignSelf: 'center',
-        paddingVertical: 5,
-        paddingHorizontal: 10,
-        borderWidth: 1,
-        borderColor: 'gray',
-        borderRadius: 5,
-    }
 });

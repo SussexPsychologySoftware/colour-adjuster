@@ -1,9 +1,10 @@
 import { useState } from "react";
-import {Text, View, StyleSheet, TextInput, ScrollView, Pressable, GestureResponderEvent} from 'react-native';
+import {Text, View, StyleSheet, TextInput, ScrollView, Pressable, GestureResponderEvent, Platform, KeyboardAvoidingView} from 'react-native';
 import RadioList from '@/components/RadioList'
 import {DataService} from "@/services/dataService";
 import {router} from "expo-router";
 import SubmitButton from "@/components/SubmitButton";
+import {globalStyles} from "@/styles/appStyles";
 
 type questionType = 'text' | 'number' | 'choice';
 
@@ -224,58 +225,63 @@ export default function SurveyScreen() {
     }
 
     return (
-        <ScrollView contentContainerStyle={styles.page}>
-            {surveySpecification.map((section) => {
-                const questions = section.questions.map((q) => {
-                    // Check if question should be shown based on condition
-                    let isConditional = false
-                    if (q.condition && responses[q.condition.parentQuestionId] !== q.condition.choice) return null; // Don't render this question
-                    else if(q.condition) isConditional = true
+        <KeyboardAvoidingView
+            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+            style={{flex: 1}}
+        >
+            <ScrollView contentContainerStyle={globalStyles.scrollViewContainer}>
+                {surveySpecification.map((section) => {
+                    const questions = section.questions.map((q) => {
+                        // Check if question should be shown based on condition
+                        let isConditional = false
+                        if (q.condition && responses[q.condition.parentQuestionId] !== q.condition.choice) return null; // Don't render this question
+                        else if(q.condition) isConditional = true
 
-                    let input;
-                    if (q.type === 'text') {
-                        input = (
-                            <TextInput
-                                value={responses[q.id]}
-                                onChangeText={(text) => setResponses(prev => ({...prev, [q.id]: text}))}
-                                style={[styles.input, styles.textInput]}
-                            />
+                        let input;
+                        if (q.type === 'text') {
+                            input = (
+                                <TextInput
+                                    value={responses[q.id]}
+                                    onChangeText={(text) => setResponses(prev => ({...prev, [q.id]: text}))}
+                                    style={globalStyles.input}
+                                />
+                            );
+                        }
+                        if (q.type === 'number') {
+                            input = (
+                                <TextInput
+                                    keyboardType='numeric'
+                                    value={responses[q.id]}
+                                    onChangeText={(text) => setResponses(prev => ({...prev, [q.id]: text}))}
+                                    style={globalStyles.input}
+                                />
+                            );
+                        }
+                        if (q.type === 'choice' && q.options) {
+                            input = (
+                                <RadioList options={q.options} onSelect={(option)=>setResponses(prev => ({...prev, [q.id]: option}))} />
+                            )
+                        }
+
+                        return (
+                            <View key={q.id} style={[styles.questionContainer, isConditional && styles.conditionalQuestion]}>
+                                <Text style={globalStyles.question}>{q.question}</Text>
+                                {input}
+                            </View>
                         );
-                    }
-                    if (q.type === 'number') {
-                        input = (
-                            <TextInput
-                                keyboardType='numeric'
-                                value={responses[q.id]}
-                                onChangeText={(text) => setResponses(prev => ({...prev, [q.id]: text}))}
-                                style={[styles.input, styles.numericInput]}
-                            />
-                        );
-                    }
-                    if (q.type === 'choice' && q.options) {
-                        input = (
-                            <RadioList options={q.options} onSelect={(option)=>setResponses(prev => ({...prev, [q.id]: option}))} />
-                        )
-                    }
+                    });
 
                     return (
-                        <View key={q.id} style={[styles.questionContainer, isConditional && styles.conditionalQuestion]}>
-                            <Text style={styles.questionText}>{q.question}</Text>
-                            {input}
+                        <View key={section.name} style={styles.sectionContainer}>
+                            <Text key={section.name + '-title'} style={globalStyles.sectionTitle}>{section.title}</Text>
+                            {questions}
                         </View>
                     );
-                });
-
-                return (
-                    <View key={section.name} style={styles.sectionContainer}>
-                        <Text key={section.name + '-title'} style={styles.sectionTitle}>{section.title}</Text>
-                        {questions}
-                    </View>
-                );
-            })}
-            { warning && <Text style={styles.warning}>{warning}</Text>}
-            <SubmitButton text='Submit' disabledText='Submitting...' disabled={isSubmitting} onPress={handleSubmit}/>
-        </ScrollView>
+                })}
+                { warning && <Text style={styles.warning}>{warning}</Text>}
+                <SubmitButton text='Submit' disabledText='Submitting...' disabled={isSubmitting} onPress={handleSubmit}/>
+            </ScrollView>
+        </KeyboardAvoidingView>
     );
 }
 
@@ -288,7 +294,7 @@ const styles = StyleSheet.create({
 
     },
     sectionContainer: {
-        gap: 10,
+        gap: 12,
         marginVertical: 10
     },
     sectionTitle: {
@@ -297,7 +303,7 @@ const styles = StyleSheet.create({
         color: 'lightgrey',
     },
     questionContainer: {
-
+        gap: 5
     },
     conditionalQuestion: {
         marginLeft: 20,

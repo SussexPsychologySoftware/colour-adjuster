@@ -7,6 +7,7 @@ import {Trial} from "@/hooks/useTrials";
 import {DataService} from "@/services/dataService";
 import {router} from "expo-router";
 import SubmitButton from "@/components/SubmitButton";
+import {globalStyles} from "@/styles/appStyles";
 // Return selected colour,
 // overthinking, maybe just pass in the update and toggle functions? horizontal?
 
@@ -77,7 +78,7 @@ export default function TestingScreen() {
     }
 
     return (
-        <ScrollView style={styles.container} contentContainerStyle={[styles.scrollview,{backgroundColor: `rgb(${backgroundColour.r}, ${backgroundColour.g}, ${backgroundColour.b})`}]}>
+        <ScrollView style={globalStyles.scrollViewContainer} contentContainerStyle={[styles.scrollview,{backgroundColor: `rgb(${backgroundColour.r}, ${backgroundColour.g}, ${backgroundColour.b})`}]}>
             <View style={styles.trialList}>
                 {
                     trialData.map((item, index) =>{
@@ -90,7 +91,7 @@ export default function TestingScreen() {
                     })
                 }
             </View>
-            <SubmitButton text='Delete participant data' disabledText='Deleting data...' disabled={submitting} onPress={handleDelete} style={{backgroundColor: submitting ? 'grey' : 'black'}} />
+            <SubmitButton text='Delete participant data' disabledText='Deleting data...' disabled={submitting} onPress={handleDelete} />
         </ScrollView>
     );
 }
@@ -109,6 +110,7 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "flex-start",
         gap: 10,
+        marginBottom: 50,
     },
     trialSelector: {
         borderRadius: 10,

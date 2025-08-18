@@ -1,5 +1,6 @@
 import React from 'react'
 import {Text, StyleSheet, Pressable} from 'react-native'
+import {globalStyles, sizes, colours} from "@/styles/appStyles";
 
 export default function SubmitButton({ text, disabledText, disabled, onPress, style, textStyle } : { text: string, disabledText?: string, disabled: boolean, onPress: () => void, style?: object, textStyle?: object }) {
     return(
@@ -24,8 +25,8 @@ const styles = StyleSheet.create({
         opacity: 0.5
     },
     text: {
-        fontSize: 15,
-        color: 'lightgrey',
+        fontSize: sizes.medium,
+        color: colours.text,
         justifyContent: 'center',
         fontWeight: "bold",
     }
