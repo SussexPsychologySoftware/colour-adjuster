@@ -23,7 +23,7 @@ export interface Range { min: number, max: number }
 export interface Constraint {
     l: number,
     c: number,
-    hueRanges: Range[]
+    excludedHueRange?: Range
 }
 
 export type TargetColour = 'white'|'red'|'green'|'blue'|'yellow'

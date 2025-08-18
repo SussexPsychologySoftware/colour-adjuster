@@ -48,17 +48,24 @@ export const useTrials = () => {
 
     // RANDOM STARTING COLOUR ****************************
 
-    const getRandomHue: (hueRanges: Range[]) => number = (hueRanges: Range[]): number => {
-        // Select a random range from hue ranges
-        const randomRange = hueRanges[Math.floor(Math.random() * hueRanges.length)];
-        // Generate a random hue within the selected range
-        return Math.floor(Math.random() * (randomRange.max - randomRange.min+1) + randomRange.min);
-    }
+    const getRandomHue = (excludedHueRange?: Range): number => {
+        if(!excludedHueRange) return Math.floor(Math.random() * 359);
+
+        // NOTE: below only works when excluding a range in the middle of the circle, which is the case for all current hues exclusion values
+            // Currently exclusion zone is inclusive, i.e. final hue should be <min and >max
+
+        // Calculate sizes of allowed sections
+        const degreesAfterExclusion = excludedHueRange.min + (359 - excludedHueRange.max) // note 0 and 360 are the same so max is 359 so all values are equal
+        const randomPosition = Math.floor(Math.random() * degreesAfterExclusion)
+        return randomPosition < excludedHueRange.min // if below min value
+            ? randomPosition // return as-is
+            : (randomPosition - excludedHueRange.min) + (excludedHueRange.max+1)  // else adjust up out of our excluded range
+    };
 
     const getRandomStartingColour: (targetColour: TargetColour) => RGB  = (targetColour: TargetColour): RGB => {
-        const constraints: Constraint = colourConstraints[targetColour]
-        const randomHue: number = getRandomHue(constraints.hueRanges) // random hue within the allowed ranges
-        if(targetColour === 'white') constraints.c = Math.random() * colourConstraints.white.c
+        const constraints: Constraint = {...colourConstraints[targetColour]}
+        const randomHue: number = getRandomHue(constraints.excludedHueRange) // random hue within the allowed ranges
+        if(targetColour === 'white') constraints.c *= Math.random()
         const randomLCH = { l: constraints.l, c:constraints.c, h: randomHue }
         return ColourConverter.lch2rgb(randomLCH)
     }

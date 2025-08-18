@@ -3,7 +3,7 @@ import { useState } from "react";
 import AdjustColourButton from '@/components/AdjustColourButton'
 import { ColourConverter } from '@/utils/colourConversion';
 import { colourConstraints } from '@/constants/colourConstraints';
-import { RGB, LCH, TargetColour } from "@/types/colours";
+import { RGB, LCH, TargetColour, Constraint } from "@/types/colours";
 
 // Return selected colour,
 export default function HueTrial({ startColour, targetColour, onSubmit }: {startColour: RGB, targetColour: TargetColour, onSubmit: (colour: RGB)=>void}) {
@@ -28,9 +28,10 @@ export default function HueTrial({ startColour, targetColour, onSubmit }: {start
     }
 
     function toggleHueButtons(hue: number){
-        if(colourConstraints[targetColour].hueRanges.length > 1){
-            setAnticlockwiseBoundReached(hue === colourConstraints[targetColour].hueRanges[1].min)
-            setClockwiseBoundReached(hue === colourConstraints[targetColour].hueRanges[0].max)
+        const constraint: Constraint = colourConstraints[targetColour]
+        if(constraint.excludedHueRange){
+            setAnticlockwiseBoundReached(hue === constraint.excludedHueRange.min)
+            setClockwiseBoundReached(hue === constraint.excludedHueRange.max)
         }
     }
 
