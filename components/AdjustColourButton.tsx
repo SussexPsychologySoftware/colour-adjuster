@@ -45,7 +45,7 @@ export default function AdjustColourButton({ style, disabled, onPress }: {style:
                     style,
                     {
                         borderColor: disabled ? disabledColour : 'black',
-                        opacity: pressed ? 0.7 : 1
+                        backgroundColor: pressed ? 'black' : ''
                     }
                 ]}>
                 <Text style={[styles.text, {color: disabled ? disabledColour : 'black'}]}>+</Text>
