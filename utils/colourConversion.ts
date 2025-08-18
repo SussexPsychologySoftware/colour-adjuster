@@ -57,7 +57,7 @@ function lab2xyz({l, a, b}: LAB): XYZ {
         if(t>sigma){
             return t**3
         } else {
-            return 3*sigma**2 * t-4/29
+            return 3*sigma**2 * (t - 4/29)
         }
     }
 
@@ -107,8 +107,8 @@ function lab2lch({l, a, b}: LAB): LCH {
     const c = Math.sqrt(a ** 2 + b ** 2);
     // h from radians to degrees for interpretability
     let h = Math.atan2(b, a) * 180 / Math.PI;
-    // h 0-359
-    if (h < 0) h += 359; // Note 0 and 360 and identical so exclude 360
+    // h 0-360
+    if (h < 0) h += 360; // Note hue 0 and 360 and identical so exclude 360?
 
     return { l, c, h };
 }
