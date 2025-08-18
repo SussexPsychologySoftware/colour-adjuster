@@ -1,6 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { DataService } from '@/services/dataService';
 import * as Network from "expo-network";
+import {Platform} from "react-native";
 
 
 const STORAGE_KEY = 'dataQueue';
@@ -89,13 +90,28 @@ class DataQueue {
         }
     }
 
-    initNetworkListener() {
-        Network.addNetworkStateListener(({ isConnected, isInternetReachable }) => {
-            if (isConnected && isInternetReachable && !this.isProcessing) {
-                // Network back online - process queue
-                setTimeout(() => this.processQueue(), 1000);
-            }
-        })
+    async initNetworkListener() {
+        if (Platform.OS === 'web') {
+            this.initWebNetworkListener();
+        } else {
+            // Use the correct NetInfo package
+            Network.addNetworkStateListener(({ isConnected, isInternetReachable }) => {
+                if (isConnected && isInternetReachable && !this.isProcessing) {
+                    // Network back online - process queue
+                    setTimeout(() => this.processQueue(), 1000);
+                }
+            })
+        }
+    }
+
+    initWebNetworkListener() {
+        if (typeof window !== 'undefined') {
+            window.addEventListener('online', () => {
+                if (!this.isProcessing) {
+                    setTimeout(() => this.processQueue(), 1000);
+                }
+            });
+        }
     }
 }
 
