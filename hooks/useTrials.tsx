@@ -108,7 +108,8 @@ export const useTrials = () => {
     }
 
     const submitData = async () => {
-        await DataService.saveData(data,'trialData','CdE5fn8ckU5w')
+        const dataConsent = await DataService.getSendDataConsent()
+        await DataService.saveData(data,'trialData',dataConsent?'CdE5fn8ckU5w':undefined)
     }
 
     return {

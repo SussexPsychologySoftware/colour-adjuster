@@ -214,7 +214,8 @@ export default function SurveyScreen() {
                 return
             }
             setWarning('')
-            await DataService.saveData(responses, 'survey', 'CdE5fn8ckU5w')
+            const dataConsent = await DataService.getSendDataConsent()
+            await DataService.saveData(responses, 'survey', dataConsent?'CdE5fn8ckU5w':undefined)
             router.replace('/debrief')
         } catch (e) {
             console.log(e)

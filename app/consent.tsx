@@ -68,7 +68,6 @@ export default function ConsentScreen() {
             }
             setWarning('')
 
-            // TODO: Submit responses
             const participantId = constructParticipantId()
             const randomId = generateRandomID(16)
             const consentData = {
@@ -80,7 +79,8 @@ export default function ConsentScreen() {
             }
 
             await DataService.setParticipantID(randomId)
-            await DataService.saveData(consentData,'consent','eXM0k3gPdL9y')
+            const sendDataConsent = consent === "I consent to take part in this study and agree to my data being recorded."
+            await DataService.saveData(consentData,'consent',sendDataConsent ? 'eXM0k3gPdL9y' : undefined)
             router.replace('/confirmSettings')
         } catch (e) {
             console.log(e)
