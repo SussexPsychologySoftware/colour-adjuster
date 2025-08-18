@@ -11,7 +11,7 @@ export interface Trial {
     rt: number;
 }
 
-const NUMBER_OF_TRIAL_BLOCKS = 4
+const NUMBER_OF_TRIAL_BLOCKS = 3
 
 export const useTrials = () => {
 
