@@ -1,6 +1,7 @@
 import React, {useState} from 'react'
 import { TouchableOpacity, Text, StyleSheet } from 'react-native'
 import { MaterialIcons } from '@expo/vector-icons';
+import {globalStyles, colours} from "@/styles/appStyles";
 
 
 export default function RadioList({ options, onSelect} : { options: string[], onSelect: (option: string)=>void }) {
@@ -16,9 +17,9 @@ export default function RadioList({ options, onSelect} : { options: string[], on
                     <MaterialIcons
                         name={selectedOption===option ? 'radio-button-on' : 'radio-button-off'}
                         size={20}
-                        color="lightgrey"
+                        color={colours.text}
                     />
-                    <Text style={styles.text}>{option}</Text>
+                    <Text style={globalStyles.text}>{option}</Text>
                 </TouchableOpacity>
             ))}
         </>
