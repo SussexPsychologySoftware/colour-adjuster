@@ -12,8 +12,8 @@ export default function HueTrial({ startColour, targetColour, onSubmit }: {start
     const [anticlockwiseBoundReached, setAnticlockwiseBoundReached] = useState(false);
     const [submitting, setSubmitting] = useState(false);
 
-    function changeHue(direction: string): LCH{
-        const backgroundLCH = ColourConverter.rgb2lch(backgroundColour)
+    function changeHue(direction: string, currentColour: RGB): LCH{
+        const backgroundLCH = ColourConverter.rgb2lch(currentColour)
         // Extract hue and change
         if(direction === 'increase') backgroundLCH.h++
         else if(direction === 'decrease') backgroundLCH.h--
@@ -35,10 +35,11 @@ export default function HueTrial({ startColour, targetColour, onSubmit }: {start
     }
 
     const handlePress = (direction: string) => {
-        const newBackgroundLCH: LCH = changeHue(direction)
-        const newBackground = ColourConverter.lch2rgb(newBackgroundLCH)
-        setBackgroundColour(newBackground)
-        toggleHueButtons(newBackgroundLCH.h)
+        setBackgroundColour(currentRGB => {
+            const newBackgroundLCH: LCH = changeHue(direction, currentRGB)
+            toggleHueButtons(newBackgroundLCH.h)
+            return ColourConverter.lch2rgb(newBackgroundLCH)
+        })
     }
 
     const handleSubmit = () => {
