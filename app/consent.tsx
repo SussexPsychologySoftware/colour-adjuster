@@ -236,7 +236,6 @@ export default function ConsentScreen() {
                     <RadioList
                         options={['I consent to take part in this study and agree to my data being recorded.', 'I would like to continue without my data being recorded.']}
                         onSelect={setConsent}/>
-
                 </View>
 
                 <Text style={globalStyles.sectionTitle}>Participant code:</Text>
@@ -333,14 +332,14 @@ const styles = StyleSheet.create({
         marginVertical: 5,
         padding: 10,
         gap: 10,
-        flex: 1,
-        flexWrap: 'nowrap',
+        // flex: 1,
+        // flexWrap: 'nowrap',
     },
     checkboxContainer: {
         flexDirection: 'row',
         alignItems: 'center',
-        flex: 1,
-        flexWrap: 'nowrap',
+        // flex: 1,
+        // flexWrap: 'nowrap',
     },
     checkbox: {
         marginRight: 10,
