@@ -12,11 +12,10 @@ export default function HueTrial({ startColour, targetColour, onSubmit }: {start
     const [anticlockwiseBoundReached, setAnticlockwiseBoundReached] = useState(false);
     const [submitting, setSubmitting] = useState(false);
 
-    function changeHue(direction: string, currentColour: RGB): LCH{
+    function changeHue(change: number, currentColour: RGB): LCH{
         const backgroundLCH = ColourConverter.rgb2lch(currentColour)
         // Extract hue and change
-        if(direction === 'increase') backgroundLCH.h++
-        else if(direction === 'decrease') backgroundLCH.h--
+        backgroundLCH.h += change
         // constrain 0-360
         backgroundLCH.h = mod(backgroundLCH.h, 359) // custom mod handles negatives and >360
         return backgroundLCH
@@ -32,12 +31,13 @@ export default function HueTrial({ startColour, targetColour, onSubmit }: {start
         if(constraint.excludedHueRange){
             setAnticlockwiseBoundReached(hue === constraint.excludedHueRange.min)
             setClockwiseBoundReached(hue === constraint.excludedHueRange.max)
+            console.log('bounds reached: ',hue, hue === constraint.excludedHueRange.min,hue === constraint.excludedHueRange.max, performance.now())
         }
     }
 
-    const handlePress = (direction: string) => {
+    const handlePress = (change: number) => {
         setBackgroundColour(currentRGB => {
-            const newBackgroundLCH: LCH = changeHue(direction, currentRGB)
+            const newBackgroundLCH: LCH = changeHue(change, currentRGB)
             toggleHueButtons(newBackgroundLCH.h)
             return ColourConverter.lch2rgb(newBackgroundLCH)
         })
@@ -59,14 +59,14 @@ export default function HueTrial({ startColour, targetColour, onSubmit }: {start
     return (
         <View style={[styles.container, {backgroundColor: `rgb(${backgroundColour.r}, ${backgroundColour.g}, ${backgroundColour.b})` }]}>
             <View style={styles.middle}>
-                <AdjustColourButton disabled={anticlockwiseBoundReached} onPress={()=>handlePress('increase')} style={styles.left}/>
+                <AdjustColourButton disabled={anticlockwiseBoundReached} onPress={()=>handlePress(1)} style={styles.left}/>
                 <View style={styles.infoAndSubmit}>
                     <Text style={[styles.text, styles.targetColour]}>{targetColour}</Text>
                     <Pressable disabled={submitting} onPress={handleSubmit} style={[styles.submitButton, {borderColor: submitting ? 'grey' : 'black'}]}>
                         <Text style={[styles.text, styles.submitText, {color: submitting ? 'grey' : 'black'}]}>Submit</Text>
                     </Pressable>
                 </View>
-                <AdjustColourButton disabled={clockwiseBoundReached} onPress={()=>handlePress('decrease')} style={styles.right}/>
+                <AdjustColourButton disabled={clockwiseBoundReached} onPress={()=>handlePress(-1)} style={styles.right}/>
             </View>
         </View>
     );
