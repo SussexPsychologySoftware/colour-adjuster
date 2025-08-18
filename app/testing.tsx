@@ -1,9 +1,11 @@
-import {Text, View, StyleSheet, Pressable, ScrollView} from "react-native";
+import {Text, View, StyleSheet, Pressable, ScrollView, Alert} from "react-native";
 import {useEffect, useState} from "react";
 import {RGB, LCH, TargetColour} from "@/types/colours";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {ColourConverter} from "@/utils/colourConversion";
 import {Trial} from "@/hooks/useTrials";
+import {DataService} from "@/services/dataService";
+import {router} from "expo-router";
 // Return selected colour,
 // overthinking, maybe just pass in the update and toggle functions? horizontal?
 
@@ -11,6 +13,7 @@ export default function TestingScreen() {
     const [backgroundColour, setBackgroundColour] = useState<RGB>({r: 50, g: 50, b: 50});
     const [trialData, setTrialData] = useState<Trial[]>([]);
     const [selectedIndex, setSelectedIndex] = useState(0);
+    const [submitting, setSubmitting] = useState(false);
 
     useEffect(() => {
         const loadTrialData = async () => {
@@ -38,6 +41,40 @@ export default function TestingScreen() {
         }
     }
 
+    const handleDelete = async () => {
+        if(submitting) return
+        setSubmitting(true)
+        try{
+            Alert.alert(
+                'WARNING',
+                "Experiment progress will be reset",
+                [
+                    {
+                        text: 'Reset experiment',
+                        onPress: async () => {
+                            await DataService.deleteData('consent')
+                            await DataService.deleteData('trialData')
+                            await DataService.deleteData('survey')
+                            router.replace('/')
+                        },
+                        style: "default"
+                    },
+                    {
+                        text: 'Cancel',
+                        style: 'cancel',
+                    },
+                ],
+                {
+                    cancelable: true,
+                },
+            );
+        } catch (error) {
+            console.error(error)
+        } finally {
+            setSubmitting(false);
+        }
+    }
+
     return (
         <ScrollView style={styles.container} contentContainerStyle={[styles.scrollview,{backgroundColor: `rgb(${backgroundColour.r}, ${backgroundColour.g}, ${backgroundColour.b})`}]}>
             <View style={styles.trialList}>
@@ -49,11 +86,12 @@ export default function TestingScreen() {
                                           onPress={()=>handlePress(item.renderedRGB, index)}>
                             <Text style={styles.text}>{index}) {item.renderedRGB.r}, {item.renderedRGB.g}, {item.renderedRGB.b}</Text>
                         </Pressable>)
-                    }
-
-                    )
+                    })
                 }
             </View>
+            <Pressable disabled={submitting} onPress={handleDelete} style={[styles.submitButton, {backgroundColor: submitting ? 'grey' : 'black'}]}>
+                <Text style={[styles.submitText, {color: submitting ? 'grey' : 'white'}]}>Delete Participant Data</Text>
+            </Pressable>
         </ScrollView>
     );
 }
@@ -86,5 +124,17 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
         color: "black",
     },
+    submitButton: {
+        paddingVertical: 12,
+        paddingHorizontal: 20,
+        marginVertical: 40,
+        borderWidth: 1,
+        borderRadius: 10,
+        backgroundColor: "black",
+    },
+    submitText: {
+        color: "white",
+    }
+
 });
 
