@@ -49,9 +49,6 @@ export const useTrials = () => {
 
     const getRandomHue = (excludedHueRange?: Range): number => {
         if(!excludedHueRange) return Math.floor(Math.random() * 360);
-
-        console.log({excludedHueRange})
-
         // NOTE: below only works when excluding a range in the middle of the circle, which is the case for all current hues exclusion values
             // Currently exclusion zone is inclusive, i.e. final hue should be <min and >max
 

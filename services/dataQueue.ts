@@ -68,7 +68,7 @@ class DataQueue {
                 const item = queue[i];
                 try {
                     const response = await DataService.sendToServer(item.data, item.name, item.datapipeId);
-                    if (!response.ok) {
+                    if (response && !response.ok) {
                         successMessage = `Send to server failed for ${item.name}`;
                         break;
                     } // On failure assume rest will fail and let app do other stuff
