@@ -1,8 +1,10 @@
+import { LAB, LCH, RGB, XYZ } from "@/types/colours";
+
 // Illuminants for D65, 2° observer
 const il = { Xn: 95.0489, Yn: 100, Zn: 108.884 };
 
 // Convert sRGB to XYZ
-function rgb2xyz({r, g, b} : {r: number, g: number, b: number}) {
+function rgb2xyz({r, g, b} : RGB): XYZ {
     // linear RGB
     function adj(C: number) {
         C = C/255 //Convert to 0-1
@@ -24,7 +26,7 @@ function rgb2xyz({r, g, b} : {r: number, g: number, b: number}) {
 }
 
 // Convert XYZ to LAB
-function xyz2lab({x, y, z}: {x: number, y: number, z: number}) {
+function xyz2lab({x, y, z}: XYZ): LAB {
     // scale 0-100
     x*=100
     y*=100
@@ -48,7 +50,7 @@ function xyz2lab({x, y, z}: {x: number, y: number, z: number}) {
 }
 
 // Convert LAB to XYZ
-function lab2xyz({l, a, b}: {l: number, a: number, b: number}) {
+function lab2xyz({l, a, b}: LAB): XYZ {
     //https://en.wikipedia.org/wiki/CIELAB_color_space#From_CIELAB_to_CIEXYZ
     function finv(t: number) {
         const sigma = 6/29
@@ -69,7 +71,7 @@ function lab2xyz({l, a, b}: {l: number, a: number, b: number}) {
 }
 
 // Convert XYZ to sRGB
-function xyz2rgb({x, y, z}: {x: number, y: number, z: number}) {
+function xyz2rgb({x, y, z}: XYZ): RGB {
     // from: https://stackoverflow.com/a/45238704/7705626
     // c.f. https://en.wikipedia.org/wiki/SRGB#From_CIE_XYZ_to_sRGB, https://gist.github.com/mnito/da28c930d270f280f0989b9a707d71b5
     // for improved constants see: https://www.color.org/chardata/rgb/srgb.pdf
@@ -101,7 +103,7 @@ function xyz2rgb({x, y, z}: {x: number, y: number, z: number}) {
 }
 
 // Convert LAB to LCH
-function lab2lch({l, a, b}: {l: number, a: number, b: number}) {
+function lab2lch({l, a, b}: LAB): LCH {
     const c = Math.sqrt(a ** 2 + b ** 2);
     // h from radians to degrees for interpretability
     let h = Math.atan2(b, a) * 180 / Math.PI;
@@ -112,7 +114,7 @@ function lab2lch({l, a, b}: {l: number, a: number, b: number}) {
 }
 
 // Convert LCH to LAB
-function lch2lab({l, c, h}: {l: number, c: number, h: number}) {
+function lch2lab({l, c, h}: LCH): LAB {
     // convert to rads
     const rad = h * Math.PI / 180;
     return { l, a: c * Math.cos(rad), b: c * Math.sin(rad) };
@@ -120,26 +122,25 @@ function lch2lab({l, c, h}: {l: number, c: number, h: number}) {
 
 // Wrappers
 // Convert RGB to LAB
-function rgb2lab(rgb: {r: number, g: number, b: number}) {
+function rgb2lab(rgb: RGB): LAB {
     const xyz = rgb2xyz(rgb)
     return xyz2lab(xyz)
 }
 
-
 // Convert LAB to RGB
-function lab2rgb(lab: {l: number, a: number, b: number}){
+function lab2rgb(lab: LAB): RGB{
     const xyz = lab2xyz(lab)
     return xyz2rgb(xyz)
 }
 
 // Convert lch to rgb
-function lch2rgb(lch: {l: number, c: number, h: number}) {
+function lch2rgb(lch: LCH): RGB {
     const lab = lch2lab(lch)
     return lab2rgb(lab)
 }
 
 // Convert rgb to lch
-function rgb2lch(rgb: {r: number, g: number, b: number}) {
+function rgb2lch(rgb: RGB): LCH {
     const lab = rgb2lab(rgb)
     return lab2lch(lab)
 }
