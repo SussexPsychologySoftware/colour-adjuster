@@ -131,7 +131,7 @@ export default function SurveyScreen() {
                     id: 'home_or_campus',
                     question: "Where are you currently?",
                     type: 'choice',
-                    options: ['At home', 'on campus'],
+                    options: ['At home', 'On campus'],
                 },
                 {
                     id: 'room',
@@ -139,7 +139,7 @@ export default function SurveyScreen() {
                     type: 'text',
                     condition: {
                         parentQuestionId: "home_or_campus",
-                        choice: 'At home',
+                        choice: 'On campus',
                     }
                 },
                 {
