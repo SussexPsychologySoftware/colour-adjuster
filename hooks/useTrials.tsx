@@ -59,7 +59,8 @@ export const useTrials = () => {
         const constraints: Constraint = colourConstraints[targetColour]
         const randomHue: number = getRandomHue(constraints.hueRanges) // random hue within the allowed ranges
         if(targetColour === 'white') constraints.c = Math.random() * colourConstraints.white.c
-        return ColourConverter.lch2rgb({ ...constraints, h: randomHue })
+        const randomLCH = { l: constraints.l, c:constraints.c, h: randomHue }
+        return ColourConverter.lch2rgb(randomLCH)
     }
 
     const [currentTrialIndex, setCurrentTrialIndex] = useState<number>(0);
