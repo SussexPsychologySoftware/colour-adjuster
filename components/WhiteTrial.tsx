@@ -1,22 +1,28 @@
 import { Text, View, StyleSheet, Pressable } from "react-native";
-import { useState } from "react";
+import {useMemo, useState} from "react";
 import AdjustColourButton from '@/components/AdjustColourButton'
 import { ColourConverter } from '@/utils/colourConversion';
 import { colourConstraints } from '@/constants/colourConstraints';
-import { ABAxis, LAB, RGB } from "@/types/colours";
+import { LAB, RGB, LCH } from "@/types/colours";
 
 // Return selected colour,
-export default function WhiteTrial({ startColour, targetColour, onSubmit }: {startColour: RGB, targetColour: string, onSubmit: (colour: RGB)=>void}) {
-    const [backgroundColour, setBackgroundColour] = useState<RGB>(startColour);
+export default function WhiteTrial({ startColour, targetColour, onSubmit }: {startColour: LCH, targetColour: string, onSubmit: (colour: LCH)=>void}) {
+    const [responseColour, setResponseColour] = useState<LCH>(startColour);
     const [aUpperBoundReached, setAUpperBoundReached] = useState(false);
     const [aLowerBoundReached, setALowerBoundReached] = useState(false);
     const [bUpperBoundReached, setBUpperBoundReached] = useState(false);
     const [bLowerBoundReached, setBLowerBoundReached] = useState(false);
     const [submitting, setSubmitting] = useState(false);
 
-    function increaseLAB(axisKey: 'a'|'b', change: 1|-1, currentBackground: RGB){
+    // Derive RGB when needed for display
+    const backgroundColour = useMemo(() =>
+            ColourConverter.lch2rgb(responseColour),
+        [responseColour]
+    );
+
+    function increaseLAB(axisKey: 'a'|'b', change: 1|-1, currentResponse: LCH){
         // convert to lab
-        const lab = ColourConverter.rgb2lab(currentBackground)
+        const lab = ColourConverter.lch2lab(currentResponse)
         lab[axisKey] += change;
         return lab
     }
@@ -26,12 +32,12 @@ export default function WhiteTrial({ startColour, targetColour, onSubmit }: {sta
         // Get predicted value after change in LAB and LCH
         predictedLAB[axisKey] += change // Change relevant value
         const predictedLCH = ColourConverter.lab2lch(predictedLAB) // Convert to lch //TODO: consider rerenders this might cause?
-        // Compare to constraints
+        // Check chroma is within bounds
         // to check abBounds = predictedLAB[axisKey] < -128 || predictedLAB[axisKey] > 127
-        return predictedLCH.c < 0 || predictedLCH.c > colourConstraints.white.c
+        return predictedLCH.c < 0 || predictedLCH.c > colourConstraints.white.c //c max is 20
     }
 
-    function checkToggleButtons(lab: LAB){
+    function checkToggleButtons(lab: LAB) {
         // Disable if a +/- 1 change in relevant a or b would push chroma out of bounds
         const up = testABChange(lab,'a',1) // maybe include in the button's disabled statement?
         setAUpperBoundReached(up)
@@ -41,13 +47,15 @@ export default function WhiteTrial({ startColour, targetColour, onSubmit }: {sta
         setBLowerBoundReached(left)
         const right = testABChange(lab,'b',1)
         setBUpperBoundReached(right)
+        // return { up, down, left, right }
     }
 
     const handlePress = (axisKey:'a'|'b', change:1|-1) => {
-        setBackgroundColour(currentRGB => {
-            const lab: LAB = increaseLAB(axisKey, change, currentRGB)
+        setResponseColour(prev => {
+            // console.log('background change', currentRGB, performance.now())
+            const lab: LAB = increaseLAB(axisKey, change, prev)
             checkToggleButtons(lab)
-            return ColourConverter.lab2rgb(lab)
+            return ColourConverter.lab2lch(lab)
         })
     }
 
@@ -56,7 +64,7 @@ export default function WhiteTrial({ startColour, targetColour, onSubmit }: {sta
         if(submitting) return
         setSubmitting(true)
         try{
-            onSubmit(backgroundColour)
+            onSubmit(responseColour)
         } catch (e) {
             console.log(e)
         } finally {

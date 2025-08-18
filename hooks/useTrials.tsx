@@ -1,18 +1,16 @@
 import {useState} from "react";
-import {TargetColour, RGB, Range, Constraint} from "@/types/colours";
+import {Constraint, Range, RGB, LCH, TargetColour} from "@/types/colours";
 import {colourConstraints} from "@/constants/colourConstraints";
-import {ColourConverter} from "@/utils/colourConversion";
-import {router} from "expo-router";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 interface Trial {
     targetColour: TargetColour;
-    startingColour: RGB|null; // Store LCH or? also allow null or no?
-    response: RGB|null;
+    startingColour: LCH|null; // Store LCH or? also allow null or no?
+    response: LCH|null;
     rt: number;
 }
 
-const NUMBER_OF_TRIAL_BLOCKS = 1
+const NUMBER_OF_TRIAL_BLOCKS = 4
 
 export const useTrials = () => {
 
@@ -51,6 +49,8 @@ export const useTrials = () => {
     const getRandomHue = (excludedHueRange?: Range): number => {
         if(!excludedHueRange) return Math.floor(Math.random() * 360);
 
+        console.log({excludedHueRange})
+
         // NOTE: below only works when excluding a range in the middle of the circle, which is the case for all current hues exclusion values
             // Currently exclusion zone is inclusive, i.e. final hue should be <min and >max
 
@@ -62,19 +62,19 @@ export const useTrials = () => {
             : (randomPosition - excludedHueRange.min) + (excludedHueRange.max+1)  // else adjust up out of our excluded range
     };
 
-    const getRandomStartingColour: (targetColour: TargetColour) => RGB  = (targetColour: TargetColour): RGB => {
+    const getRandomStartingColour: (targetColour: TargetColour) => LCH  = (targetColour: TargetColour): LCH => {
         const constraints: Constraint = {...colourConstraints[targetColour]}
         const randomHue: number = getRandomHue(constraints.excludedHueRange) // random hue within the allowed ranges
         if(targetColour === 'white') constraints.c *= Math.random()
-        const randomLCH = { l: constraints.l, c:constraints.c, h: randomHue }
-        return ColourConverter.lch2rgb(randomLCH)
+        // console.log({targetColour, randomHue, constraints})
+        return {l: constraints.l, c: constraints.c, h: randomHue}
     }
 
     const [currentTrialIndex, setCurrentTrialIndex] = useState<number>(0);
     //Index derived state: https://lasalshettiarachchi458.medium.com/understanding-derived-state-in-react-when-and-why-to-use-it-0184bf8b9ea8
     const targetColour = trials[currentTrialIndex] || null;
 
-    const [startingColour, setStartingColour] = useState<RGB>(() => getRandomStartingColour(targetColour)); // Could this also be an index derived state?
+    const [startingColour, setStartingColour] = useState<LCH>(() => getRandomStartingColour(targetColour)); // Could this also be an index derived state?
     const [data, setData] = useState<Trial[]>([]);
     const [timer, setTimer] = useState<number>(performance.now()); // instead of null?
 
@@ -87,12 +87,13 @@ export const useTrials = () => {
         setCurrentTrialIndex(nextTrialIndex);
         const nextTrial = trials[nextTrialIndex]
         const randomStartingColour = getRandomStartingColour(nextTrial);
+        console.log('randomStartingColour: ',randomStartingColour);
         setStartingColour(randomStartingColour); // TODO: could maybe just return starting colour from here directly? need it to save the trial here but also use in adjust screen
         setTimer(performance.now());
         //currentTrial // this will be out of date at this point?
     };
 
-    const saveTrial = async (responseColour: RGB|null) => {
+    const saveTrial = async (responseColour: LCH|null) => {
         const trialData: Trial = {
             targetColour,
             startingColour,
