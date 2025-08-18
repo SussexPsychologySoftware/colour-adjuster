@@ -228,7 +228,9 @@ export default function SurveyScreen() {
             {surveySpecification.map((section) => {
                 const questions = section.questions.map((q) => {
                     // Check if question should be shown based on condition
+                    let isConditional = false
                     if (q.condition && responses[q.condition.parentQuestionId] !== q.condition.choice) return null; // Don't render this question
+                    else if(q.condition) isConditional = true
 
                     let input;
                     if (q.type === 'text') {
@@ -257,7 +259,7 @@ export default function SurveyScreen() {
                     }
 
                     return (
-                        <View key={q.id} style={styles.questionContainer}>
+                        <View key={q.id} style={[styles.questionContainer, isConditional && styles.conditionalQuestion]}>
                             <Text style={styles.questionText}>{q.question}</Text>
                             {input}
                         </View>
@@ -296,6 +298,13 @@ const styles = StyleSheet.create({
     },
     questionContainer: {
 
+    },
+    conditionalQuestion: {
+        marginLeft: 20,
+        paddingLeft: 10,
+        borderLeftWidth: 1,
+        borderColor: 'grey',
+        borderStyle: 'solid',
     },
     questionText: {
         fontSize: 15,
