@@ -1,15 +1,9 @@
-import {Text, View, StyleSheet, Pressable} from "react-native";
-import {useEffect, useState} from "react";
-import AdjustColourButton from '@/components/AdjustColourButton'
-import { ColourConverter } from '@/utils/colourConversion';
-import { colourConstraints } from '@/constants/colourConstraints';
+import { useState } from "react";
 import WhiteTrial from '@/components/WhiteTrial'
-import { ABAxis, LAB, RGB, LCH, Constraint, TargetColour, Range } from "@/types/colours";
-import {useTrials} from "@/hooks/useTrials";
+import { RGB } from "@/types/colours";
+import { useTrials } from "@/hooks/useTrials";
 import HueTrial from "@/components/HueTrial";
-import {router} from "expo-router";
-
-type trialType = 'white'|'hue'
+import { router } from "expo-router";
 
 export default function AdjustColourScreen() {
 
