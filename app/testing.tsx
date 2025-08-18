@@ -17,6 +17,7 @@ export default function TestingScreen() {
     const [selectedIndex, setSelectedIndex] = useState(0);
     const [submitting, setSubmitting] = useState(false);
     const [participantId, setParticipantId] = useState('');
+    const [participantCode, setParticipantCode] = useState('');
 
     useEffect(() => {
         const loadTrialData = async () => {
@@ -38,6 +39,12 @@ export default function TestingScreen() {
                 const id = await DataService.getParticipantID()
                 if (id !== null) {
                     setParticipantId(id);
+                }
+                const consent = await DataService.getData('consent')
+                console.log(consent);
+                if(consent !== null){
+                    const code = consent.participantId;
+                    setParticipantCode(code)
                 }
             } catch (error) {
                 console.error('Error loading trial data:', error);
@@ -92,7 +99,7 @@ export default function TestingScreen() {
 
     return (
         <ScrollView style={globalStyles.scrollViewContainer} contentContainerStyle={[styles.scrollview,{backgroundColor: `rgb(${backgroundColour.r}, ${backgroundColour.g}, ${backgroundColour.b})`}]}>
-            <Text style={{color: 'black', fontSize: 20, marginBottom: 20, fontWeight: 'bold'}}>Participant ID: {participantId}</Text>
+            <Text style={{color: 'black', fontSize: 20, marginBottom: 20, fontWeight: 'bold'}}>ID: {participantId}, {participantCode}</Text>
             <View style={styles.trialList}>
                 {
                     trialData.map((item, index) =>{
