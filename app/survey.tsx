@@ -1,5 +1,5 @@
 import { useState } from "react";
-import {Text, View, StyleSheet, TextInput, ScrollView, Pressable, GestureResponderEvent, Platform, KeyboardAvoidingView} from 'react-native';
+import {Text, View, StyleSheet, TextInput, ScrollView, Platform, KeyboardAvoidingView} from 'react-native';
 import RadioList from '@/components/RadioList'
 import {DataService} from "@/services/dataService";
 import {router} from "expo-router";

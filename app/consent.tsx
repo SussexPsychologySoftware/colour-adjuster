@@ -6,7 +6,7 @@ import {router} from "expo-router";
 import { DataService } from '@/services/dataService';
 import SubmitButton from "@/components/SubmitButton";
 
-import { globalStyles, sizes } from '@/styles/appStyles';
+import { globalStyles } from '@/styles/appStyles';
 
 interface Consent {
     futureStudies: boolean

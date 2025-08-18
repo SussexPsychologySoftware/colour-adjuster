@@ -1,7 +1,6 @@
 import {useState} from "react";
 import {Constraint, Range, RGB, LCH, LAB, TargetColour} from "@/types/colours";
 import {colourConstraints} from "@/constants/colourConstraints";
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import {DataService} from "@/services/dataService";
 
 export interface Trial {

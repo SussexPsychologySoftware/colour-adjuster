@@ -1,5 +1,5 @@
 import React from 'react';
-import {ScrollView, View, Text, Image, StyleSheet, Pressable} from 'react-native';
+import {ScrollView, View, Text, Image, StyleSheet} from 'react-native';
 import {router} from "expo-router";
 import SubmitButton from "@/components/SubmitButton";
 import {globalStyles} from "@/styles/appStyles";

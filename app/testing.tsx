@@ -1,8 +1,7 @@
 import {Text, View, StyleSheet, Pressable, ScrollView, Alert} from "react-native";
 import React, {useEffect, useState} from "react";
-import {RGB, LCH, TargetColour} from "@/types/colours";
+import {RGB} from "@/types/colours";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import {ColourConverter} from "@/utils/colourConversion";
 import {Trial} from "@/hooks/useTrials";
 import {DataService} from "@/services/dataService";
 import {router} from "expo-router";
