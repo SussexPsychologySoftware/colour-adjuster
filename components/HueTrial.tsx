@@ -18,7 +18,7 @@ export default function HueTrial({ startColour, targetColour, onSubmit }: {start
         if(direction === 'increase') backgroundLCH.h++
         else if(direction === 'decrease') backgroundLCH.h--
         // constrain 0-360
-        backgroundLCH.h = mod(backgroundLCH.h, 360) // custom mod handles negatives and >360
+        backgroundLCH.h = mod(backgroundLCH.h, 359) // custom mod handles negatives and >360
         return backgroundLCH
     }
 
