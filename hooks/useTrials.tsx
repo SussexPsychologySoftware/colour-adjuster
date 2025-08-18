@@ -2,6 +2,7 @@ import {useState} from "react";
 import {Constraint, Range, RGB, LCH, LAB, TargetColour} from "@/types/colours";
 import {colourConstraints} from "@/constants/colourConstraints";
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {DataService} from "@/services/dataService";
 
 export interface Trial {
     targetColour: TargetColour;
@@ -108,10 +109,7 @@ export const useTrials = () => {
     }
 
     const submitData = async () => {
-        // Save to local storage
-        await AsyncStorage.setItem('trialData', JSON.stringify(data))
-        // Send to OSF
-        console.log(data)
+        await DataService.saveData(data,'trialData','CdE5fn8ckU5w')
     }
 
     return {
