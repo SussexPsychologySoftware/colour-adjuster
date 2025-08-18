@@ -45,6 +45,14 @@ export default function ConsentScreen() {
     }
 
     const handleSubmit = () => {
+    function generateRandomID(length: number)  {
+        let characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVXZ';
+        let id = '';
+        for (let i = 0; i < length; i++) {
+            id += (characters[Math.floor(Math.random() * characters.length)]);
+        }
+        return id
+    }
         if(isSubmitting) return
         setIsSubmitting(true)
         try {
@@ -57,6 +65,7 @@ export default function ConsentScreen() {
 
             // TODO: Submit responses
             const participantId = constructParticipantId()
+            const randomId = generateRandomID(16)
             const consentData = {
                 futureStudies,
                 consent,
