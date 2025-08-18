@@ -99,7 +99,7 @@ export default function TestingScreen() {
 
     return (
         <ScrollView style={globalStyles.scrollViewContainer} contentContainerStyle={[styles.scrollview,{backgroundColor: `rgb(${backgroundColour.r}, ${backgroundColour.g}, ${backgroundColour.b})`}]}>
-            <Text style={{color: 'black', fontSize: 20, marginBottom: 20, fontWeight: 'bold'}}>ID: {participantId}, {participantCode}</Text>
+            <Text style={{color: 'black', fontSize: 20, marginBottom: 20, fontWeight: 'bold'}}>ID: {participantId}, Code: {participantCode}</Text>
             <View style={styles.trialList}>
                 {
                     trialData.map((item, index) =>{
