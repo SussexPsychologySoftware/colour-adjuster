@@ -14,14 +14,10 @@ export default function WhiteTrial({ startColour, targetColour, onSubmit }: {sta
     const [bLowerBoundReached, setBLowerBoundReached] = useState(false);
     const [submitting, setSubmitting] = useState(false);
 
-    function getNewLAB(button: ABAxis){
+    function increaseLAB(axisKey: 'a'|'b', change: 1|-1, currentBackground: RGB){
         // convert to lab
-        const lab = ColourConverter.rgb2lab(backgroundColour)
-        //change A or B according to button pressed
-        if(button ==='red') lab.a++
-        else if(button ==='blue') lab.b--
-        else if(button ==='yellow') lab.b++
-        else if(button ==='green') lab.a--
+        const lab = ColourConverter.rgb2lab(currentBackground)
+        lab[axisKey] += change;
         return lab
     }
 
@@ -47,11 +43,12 @@ export default function WhiteTrial({ startColour, targetColour, onSubmit }: {sta
         setBUpperBoundReached(right)
     }
 
-    const handlePress = (button: ABAxis) => {
-        const lab: LAB = getNewLAB(button)
-        const rgb: RGB = ColourConverter.lab2rgb(lab)
-        setBackgroundColour(rgb)
-        checkToggleButtons(lab)
+    const handlePress = (axisKey:'a'|'b', change:1|-1) => {
+        setBackgroundColour(currentRGB => {
+            const lab: LAB = increaseLAB(axisKey, change, currentRGB)
+            checkToggleButtons(lab, axisKey, change)
+            return ColourConverter.lab2rgb(lab)
+        })
     }
 
     const handleSubmit = () => {
@@ -69,18 +66,18 @@ export default function WhiteTrial({ startColour, targetColour, onSubmit }: {sta
 
     return (
         <View style={[styles.container, {backgroundColor: `rgb(${backgroundColour.r}, ${backgroundColour.g}, ${backgroundColour.b})` }]}>
-            <AdjustColourButton disabled={aUpperBoundReached} onPress={()=>handlePress('red')} style={styles.top}/>
+            <AdjustColourButton disabled={aUpperBoundReached} onPress={()=>handlePress('a',1)} style={styles.top}/>
             <View style={styles.middle}>
-                <AdjustColourButton disabled={bLowerBoundReached} onPress={()=>handlePress('blue')} style={styles.left}/>
+                <AdjustColourButton disabled={bLowerBoundReached} onPress={()=>handlePress('b',-1)} style={styles.left}/>
                 <View style={styles.infoAndSubmit}>
                     <Text style={[styles.text, styles.targetColour]}>{targetColour}</Text>
                     <Pressable disabled={submitting} onPress={handleSubmit} style={[styles.submitButton, {borderColor: submitting ? 'grey' : 'black'}]}>
                         <Text style={[styles.text, styles.submitText, {color: submitting ? 'grey' : 'black'}]}>Submit</Text>
                     </Pressable>
                 </View>
-                <AdjustColourButton disabled={bUpperBoundReached} onPress={()=>handlePress('yellow')} style={styles.right}/>
+                <AdjustColourButton disabled={bUpperBoundReached} onPress={()=>handlePress('b',1)} style={styles.right}/>
             </View>
-            <AdjustColourButton disabled={aLowerBoundReached} onPress={()=>handlePress('green')} style={styles.bottom}/>
+            <AdjustColourButton disabled={aLowerBoundReached} onPress={()=>handlePress('a',-1)} style={styles.bottom}/>
         </View>
     );
 }
