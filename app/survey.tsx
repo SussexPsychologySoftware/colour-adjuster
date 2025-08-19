@@ -38,6 +38,12 @@ export default function SurveyScreen() {
             title: 'About your device: ',
             questions: [
                 {
+                    id: "phone_or_computer",
+                    question: "Did you do this study on a mobile device or computer device?",
+                    type: 'choice',
+                    options: ['Mobile', 'Computer']
+                },
+                {
                     id: "phone_make",
                     question: "What make is your phone?",
                     type: 'text'
@@ -51,7 +57,7 @@ export default function SurveyScreen() {
                     id: "phone_os",
                     question: "Does your phone run on Android or iOS (Apple iPhone)?",
                     type: 'choice',
-                    options: ['Android', 'iOS'] //iPhone users only - Does your phone have TrueTone switched on?
+                    options: ['Android', 'iOS']
                 },
                 {
                     id: "true_tone",
