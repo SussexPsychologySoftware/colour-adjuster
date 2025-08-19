@@ -9,7 +9,7 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "lint": "expo lint",
-    "deploy": "npx expo export --platform web && gh-pages -d dist"
+    "deploy": "npx expo export --platform web --public-url https://sussexpsychologysoftware.github.io/colour-adjuster/ && gh-pages -d dist"
   },
   "dependencies": {
     "@expo/vector-icons": "^14.1.0",
