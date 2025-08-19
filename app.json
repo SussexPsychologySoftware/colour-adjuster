@@ -26,7 +26,8 @@
     "web": {
       "bundler": "metro",
       "output": "static",
-      "favicon": "./assets/images/favicon.ico"
+      "favicon": "./assets/images/favicon.ico",
+      "baseUrl": "/colour-adjuster"
     },
     "plugins": [
       "expo-router",
