@@ -27,7 +27,6 @@
       "bundler": "metro",
       "output": "static",
       "favicon": "./assets/images/favicon.png",
-      "baseUrl": "/colour-adjuster/"
     },
     "plugins": [
       "expo-router",
@@ -43,7 +42,8 @@
       ]
     ],
     "experiments": {
-      "typedRoutes": true
+      "typedRoutes": true,
+      "baseUrl": "/colour-adjuster"
     },
     "extra": {
       "router": {},
