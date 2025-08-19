@@ -1,5 +1,5 @@
 import { useState } from "react";
-import {Text, View, StyleSheet, TextInput, ScrollView, KeyboardAvoidingView, Platform} from 'react-native';
+import {Text, View, StyleSheet, TextInput, ScrollView, KeyboardAvoidingView, Platform, Linking} from 'react-native';
 import RadioList from "@/components/RadioList";
 import Checkbox from 'expo-checkbox';
 import {router} from "expo-router";
@@ -118,9 +118,13 @@ export default function ConsentScreen() {
                 </Text>
                 {/* TODO: CHANGE THIS SECTION/LINK */}
                 <Text style={[globalStyles.paragraph, globalStyles.text]}>
-                    For the study, you will be required to download an app on your mobile device by following this link
-                    – https://sussex-psychology-software-team.github.io/Colour-Adjust. Although it is preferred to
-                    complete the study on the phone, you can still follow the link on a computer device and complete the
+                    For the study, you will be required to download an app on your mobile device. Although it is preferred to
+                    complete the study on the phone, you can access the study on a computer device here:
+                    <Text style={[globalStyles.text, {color: 'blue'}]}
+                          onPress={() => Linking.openURL('https://sussexpsychologysoftware.github.io/colour-adjuster/')}>
+                        https://sussexpsychologysoftware.github.io/colour-adjuster/
+                    </Text>
+                     and complete the
                     study, if so, please state in the questionnaire that you are not doing the study on your phone.
                 </Text>
                 <Text style={[globalStyles.paragraph, globalStyles.text]}>
@@ -173,7 +177,7 @@ export default function ConsentScreen() {
                     University of Sussex Data Protection Officer: dpo@sussex.ac.uk.
                 </Text>
                 <Text style={globalStyles.sectionTitle}>Who has approved this study?</Text>
-                {/* TODO: REPLACE CODE */}
+                {/* TODO: REPLACE CODE? */}
                 <Text style={[globalStyles.paragraph, globalStyles.text]}>
                     The research has been approved by the Science & Technology Cross-Schools Research Ethics Committee
                     (C-REC) ethical review process (ER/YK357/4)
