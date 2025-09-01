@@ -7,6 +7,7 @@ import { DataService } from '@/services/dataService';
 import SubmitButton from "@/components/SubmitButton";
 
 import { globalStyles } from '@/styles/appStyles';
+import DeviceInfo from "react-native-device-info";
 
 interface Consent {
     futureStudies: boolean
@@ -56,7 +57,29 @@ export default function ConsentScreen() {
         return id
     }
 
-    const handleSubmit = async () => {
+    const getDeviceInfo = async () => {
+        //https://github.com/react-native-device-info/react-native-device-info?tab=readme-ov-file
+        return {
+            // Device id
+            deviceId: await DeviceInfo.getUniqueId(),
+            brand: DeviceInfo.getBrand(),
+            model: DeviceInfo.getModel(),
+            hardware: DeviceInfo.getHardware(),
+            product: DeviceInfo.getProduct(),
+            isTablet: DeviceInfo.isTablet(),
+            deviceType: DeviceInfo.getDeviceType(), // 'Handset', 'Tablet', etc.
+            userAgent: await DeviceInfo.getUserAgent(),
+            // os
+            systemName: DeviceInfo.getSystemName(),
+            systemVersion: DeviceInfo.getSystemVersion(),
+            systemBuildId: DeviceInfo.getBuildId(),
+            // app
+            appVersion: DeviceInfo.getVersion(),
+            appBuildNumber: DeviceInfo.getBuildNumber(),
+        }
+    }
+
+        const handleSubmit = async () => {
         if (isSubmitting) return
         setIsSubmitting(true)
         try {
@@ -69,12 +92,14 @@ export default function ConsentScreen() {
 
             const participantId = constructParticipantCode()
             const randomId = generateRandomID(16)
+            const deviceInfo = await getDeviceInfo()
             const consentData = {
                 futureStudies,
                 consent,
                 email,
                 participantId,
-                randomId
+                randomId,
+                deviceInfo
             }
             console.log(consentData)
             await DataService.setParticipantID(randomId)
