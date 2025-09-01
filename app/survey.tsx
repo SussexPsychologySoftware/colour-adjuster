@@ -71,7 +71,7 @@ export default function SurveyScreen() {
                 },
                 {
                     id: "blue_light_filter",
-                    question: "Do you use a 'blue light filter' app or setting?",
+                    question: "Do you use a 'blue light filter' app (e.g. f.lux, Twilight, Iris) or setting (e.g. Night Shift on iOS or Eye Comfort Shield on Android)?",
                     type: 'choice',
                     options: ['Yes', 'No', "Don't know"],
                 },
@@ -209,7 +209,7 @@ export default function SurveyScreen() {
         return !isValidArray.includes(false);
 
     }
-    
+
     const handleSubmit = async () => {
         if(isSubmitting) return
         setIsSubmitting(true)
