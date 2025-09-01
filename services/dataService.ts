@@ -11,7 +11,7 @@ export class DataService {
         data.timestamp = new Date().toISOString();
         const participantId = await this.getParticipantID();
         if (!participantId) throw new Error("Participant ID not found");
-        data.participantId = participantId;
+        data.randomId = participantId; // Name of this is annoying but in line with previous web-based version
 
         const dataString = JSON.stringify(data);
         await AsyncStorage.setItem(name, dataString);
