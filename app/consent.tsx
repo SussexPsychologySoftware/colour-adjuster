@@ -159,7 +159,6 @@ export default function ConsentScreen() {
                     minutes. It involves making remote colour adjustments on your mobile device, followed by a short
                     questionnaire.
                 </Text>
-                {/* TODO: CHANGE THIS SECTION/LINK */}
                 <Text style={[globalStyles.paragraph, globalStyles.text]}>
                     For the study, you will be required to download an app on your mobile device. Although it is preferred to
                     complete the study on the phone, you can access the study on a computer device here:
@@ -220,7 +219,6 @@ export default function ConsentScreen() {
                     University of Sussex Data Protection Officer: dpo@sussex.ac.uk.
                 </Text>
                 <Text style={globalStyles.sectionTitle}>Who has approved this study?</Text>
-                {/* TODO: REPLACE CODE? */}
                 <Text style={[globalStyles.paragraph, globalStyles.text]}>
                     The research has been approved by the Science & Technology Cross-Schools Research Ethics Committee
                     (C-REC) ethical review process (ER/YK357/4)
