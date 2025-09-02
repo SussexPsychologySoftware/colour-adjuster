@@ -162,11 +162,11 @@ export default function ConsentScreen() {
                 <Text style={[globalStyles.paragraph, globalStyles.text]}>
                     For the study, you will be required to download an app on your mobile device. Although it is preferred to
                     complete the study on the phone, you can access the study on a computer device here:
-                    <Text style={[globalStyles.text, {color: 'blue'}]}
+                    <Text style={[globalStyles.text, globalStyles.link]}
                           onPress={() => Linking.openURL('https://sussexpsychologysoftware.github.io/colour-adjuster/')}>
-                        https://sussexpsychologysoftware.github.io/colour-adjuster/
+                        {' '}https://sussexpsychologysoftware.github.io/colour-adjuster/{' '}
                     </Text>
-                     and complete the
+                      and complete the
                     study, if so, please state in the questionnaire that you are not doing the study on your phone.
                 </Text>
                 <Text style={[globalStyles.paragraph, globalStyles.text]}>
