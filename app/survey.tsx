@@ -6,6 +6,7 @@ import {router} from "expo-router";
 import SubmitButton from "@/components/SubmitButton";
 import {globalStyles} from "@/styles/appStyles";
 import { SafeAreaView } from "react-native-safe-area-context";
+import NumericInput from '@/components/NumericInput'
 
 type questionType = 'text' | 'number' | 'choice';
 
@@ -36,70 +37,80 @@ export default function SurveyScreen() {
     const surveySpecification: SurveySection[] = [
         {
             name: 'device',
-            title: 'About your device: ',
+            title: 'About your device:',
             questions: [
                 {
-                    id: "phone_or_computer",
-                    question: "Did you do this study on a mobile device or computer device?",
+                    id: "onPhone",
+                    question: "Are you completing this study on your phone?",
                     type: 'choice',
-                    options: ['Mobile', 'Computer']
+                    options: ['Yes', 'No']
                 },
                 {
-                    id: "phone_make",
+                    id: "make",
                     question: "What make is your phone?",
                     type: 'text'
                 },
                 {
-                    id: "phone_model",
+                    id: "model",
                     question: "What model is your phone?",
                     type: 'text'
                 },
                 {
-                    id: "phone_os",
+                    id: "os",
                     question: "Does your phone run on Android or iOS (Apple iPhone)?",
                     type: 'choice',
                     options: ['Android', 'iOS']
                 },
                 {
-                    id: "true_tone",
-                    question: 'Does your phone have TrueTone switched on?',
+                    id: "trueTone",
+                    question: 'Does your phone have True Tone?',
                     type: 'choice',
                     options: ['Yes', 'No', "Don't know"],
                     condition: {
-                        parentQuestionId: "phone_os",
+                        parentQuestionId: "os",
                         choice: 'iOS',
                     }
                 },
                 {
-                    id: "blue_light_filter",
+                    id: "trueToneOn",
+                    question: 'Did your phone have True Tone on during the task?',
+                    type: 'choice',
+                    options: ['Yes', 'No', "Don't know"],
+                    condition: {
+                        parentQuestionId: "trueTone",
+                        choice: 'Yes',
+                    }
+                },
+                {
+                    id: "filter",
                     question: "Do you use a 'blue light filter' app (e.g. f.lux, Twilight, Iris) or setting (e.g. Night Shift on iOS or Eye Comfort Shield on Android)?",
                     type: 'choice',
                     options: ['Yes', 'No', "Don't know"],
                 },
                 {
-                    id: "blue_light_filter_on",
+                    id: "filterOn",
                     question: 'Was the “blue light filter” switched on when you completed the task?',
                     type: 'choice',
                     options: ['Yes', 'No', "Don't know"],
                     condition: {
-                        parentQuestionId: "blue_light_filter",
+                        parentQuestionId: "filter",
                         choice: 'Yes',
                     }
                 },
                 {
-                    id: 'dark_light_mode',
+                    id: 'mode',
                     question: "What mode do you generally use your phone in?",
                     type: 'choice',
                     options: ['Dark mode', 'Light mode', 'Don’t know', 'Other']
                 },
                 {
-                    id: 'auto_adjust_brightness',
+                    id: 'brightness',
                     question: "Does your phone adjust brightness automatically?",
                     type: 'choice',
                     options: ['Yes', 'No', 'Don’t know']
                 },
                 {
-                    id: 'auto_adjust_colour',
+                    id: 'colour',
                     question: "Does your phone adjust colour automatically?",
                     type: 'choice',
                     options: ['Yes', 'No', 'Don’t know']
@@ -111,17 +122,17 @@ export default function SurveyScreen() {
                     options: ['Yes', 'No', 'Don’t know']
                 },
                 {
-                    id: 'months_had_phone',
+                    id: 'months',
                     question: "How long have you had this phone for? (months)",
                     type: 'number',
                 },
                 {
-                    id: 'hours_per_day',
+                    id: 'hours',
                     question: "Approximately how many hours per day do you spend using this phone?",
                     type: 'number',
                 },
                 {
-                    id: 'other_display_adjustments',
+                    id: 'filters',
                     question: "Please describe any other filter apps, adjustments or display settings that you use on your device (if there are none, or you just used default settings please state 'none')",
                     type: 'text',
                 },
@@ -132,7 +143,7 @@ export default function SurveyScreen() {
             title: 'About your surroundings: ',
             questions: [
                 {
-                    id: 'home_or_campus',
+                    id: 'location',
                     question: "Where are you currently?",
                     type: 'choice',
                     options: ['At home', 'On campus'],
@@ -142,12 +153,12 @@ export default function SurveyScreen() {
                     question: 'What room are you in?',
                     type: 'text',
                     condition: {
-                        parentQuestionId: "home_or_campus",
+                        parentQuestionId: "location",
                         choice: 'On campus',
                     }
                 },
                 {
-                    id: "current_lighting",
+                    id: "lighting",
                     question: "What is the lighting like where you are sitting?",
                     type: 'choice',
                     options: ['Completely natural', 'Majority natural', 'Majority artificial', 'Completely artificial'] //[on campus] What room are you in?
@@ -167,10 +178,10 @@ export default function SurveyScreen() {
                     id: 'gender',
                     question: "What is your gender?",
                     type: 'choice',
-                    options: ['Male', 'Female', 'Non-binary', 'Prefer to self describe', 'Prefer not to say']
+                    options: ['Male', 'Female', 'Non-binary', 'Prefer not to say', 'Prefer to self describe']
                 },
                 {
-                    id: 'gender_self_describe',
+                    id: 'genderSelfDescriptionText',
                     question: 'Self describe your gender:',
                     type: 'text',
                     condition: {
@@ -179,7 +190,7 @@ export default function SurveyScreen() {
                     }
                 },
                 {
-                    id: 'colour_vision_deficiency',
+                    id: 'colourDeficiency',
                     question: "Have you ever been diagnosed with a colour vision deficiency (\"colour blindness\")?",
                     type: 'choice',
                     options: ['Yes', 'No', 'Not sure']
