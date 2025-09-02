@@ -1,7 +1,7 @@
 import { useState } from "react";
 import {Text, View, StyleSheet, TextInput, ScrollView, KeyboardAvoidingView, Platform, Linking} from 'react-native';
 import RadioList from "@/components/RadioList";
-import Checkbox from 'expo-checkbox';
+import {Checkbox} from 'expo-checkbox';
 import {router} from "expo-router";
 import { DataService } from '@/services/dataService';
 import SubmitButton from "@/components/SubmitButton";
