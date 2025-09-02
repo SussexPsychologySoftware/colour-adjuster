@@ -9,6 +9,7 @@ import * as Device from 'expo-device';
 
 import { globalStyles } from '@/styles/appStyles';
 import {SafeAreaView} from "react-native-safe-area-context";
+import NumericInput from "@/components/NumericInput";
 // import DeviceInfo from "react-native-device-info";
 
 interface Consent {
@@ -330,14 +331,11 @@ export default function ConsentScreen() {
                     <View style={styles.codeItem}>
                         <Text style={globalStyles.text}>4. Please enter the final digit of your mobile phone
                             number:</Text>
-                        <TextInput
-                            style={globalStyles.input}
+                        <NumericInput
                             value={codePhone}
-                            onChangeText={(text) => setCodePhone(text.replace(/[^0-9]/g, '').slice(0, 1))}
-                            maxLength={1}
-                            keyboardType="numeric"
+                            onChange={(text) => setCodePhone(text.replace(/[^0-9]/g, '').slice(0, 1))}
                             placeholder="Digit"
-                            placeholderTextColor='#aaaaaa'
+                            maxLength={1}
                         />
                     </View>
                 </View>
