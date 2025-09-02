@@ -116,5 +116,12 @@ export const globalStyles = StyleSheet.create({
         borderColor: colours.border,
         borderRadius: 8,
         padding: 10,
+    },
+
+    link: {
+        color: 'skyblue',
+        paddingHorizontal: 10,
+        flexDirection : "row",
+        justifyContent : "flex-end",
     }
 });
