@@ -8,6 +8,7 @@ import SubmitButton from "@/components/SubmitButton";
 import * as Device from 'expo-device';
 
 import { globalStyles } from '@/styles/appStyles';
+import {SafeAreaView} from "react-native-safe-area-context";
 // import DeviceInfo from "react-native-device-info";
 
 interface Consent {
@@ -138,6 +139,7 @@ export default function ConsentScreen() {
         >
             <ScrollView style={globalStyles.scrollViewContainer}
                         contentContainerStyle={{backgroundColor: 'black'}}>
+                <SafeAreaView>
                 <Text style={globalStyles.pageTitle}>Information & Consent Form</Text>
                 <Text style={[globalStyles.paragraph, globalStyles.text]}>
                     Thank you for carefully reading this information sheet, a copy of which you can keep for your
@@ -356,6 +358,7 @@ export default function ConsentScreen() {
                 {warning && <Text style={styles.warning}>{warning}</Text>}
                 <SubmitButton text='Submit' disabledText='Submitting...' disabled={isSubmitting}
                               onPress={handleSubmit}/>
+                </SafeAreaView>
             </ScrollView>
         </KeyboardAvoidingView>
     );

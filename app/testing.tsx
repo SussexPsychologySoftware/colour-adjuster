@@ -8,6 +8,7 @@ import {router} from "expo-router";
 import SubmitButton from "@/components/SubmitButton";
 import {globalStyles} from "@/styles/appStyles";
 import {dataQueue} from "@/services/dataQueue";
+import {SafeAreaView} from "react-native-safe-area-context";
 // Return selected colour,
 // overthinking, maybe just pass in the update and toggle functions? horizontal?
 
@@ -98,37 +99,38 @@ export default function TestingScreen() {
     }
 
     return (
-        <ScrollView style={globalStyles.scrollViewContainer} contentContainerStyle={[styles.scrollview,{backgroundColor: `rgb(${backgroundColour.r}, ${backgroundColour.g}, ${backgroundColour.b})`}]}>
-            <Text style={{color: 'black', fontSize: 20, marginBottom: 20, fontWeight: 'bold'}}>ID: {participantId}, Code: {participantCode}</Text>
-            <View style={styles.trialList}>
-                {
-                    trialData.map((item, index) =>{
-                        console.log(item.response)
-                        return(<Pressable key={`trial-${index}`}
-                                          style={[styles.trialSelector, selectedIndex===index && styles.selectedTrial]}
-                                          onPress={()=>handlePress(item.renderedRGB, index)}>
-                            <Text style={styles.text}>{index}) {item.renderedRGB.r}, {item.renderedRGB.g}, {item.renderedRGB.b}</Text>
-                        </Pressable>)
-                    })
-                }
-            </View>
-            <View style={styles.buttons}>
-                <SubmitButton text='Sync data' disabledText='Syncing data...' disabled={submitting} onPress={async()=>{
-                        setSubmitting(true)
-                        try {
-                            const successMessage = await dataQueue.processQueue()
-                            Alert.alert(successMessage)
-                        } catch(error) {
-                            console.log(error)
-                        }
-                        setSubmitting(false)
+        <ScrollView style={[globalStyles.scrollViewContainer,{backgroundColor: `rgb(${backgroundColour.r}, ${backgroundColour.g}, ${backgroundColour.b})`}]}>
+            <SafeAreaView style={styles.container}>
+                <Text style={{color: 'black', fontSize: 20, marginBottom: 20, fontWeight: 'bold'}}>ID: {participantId}, Code: {participantCode}</Text>
+                <View style={styles.trialList}>
+                    {
+                        trialData.map((item, index) =>{
+                            console.log(item.response)
+                            return(<Pressable key={`trial-${index}`}
+                                              style={[styles.trialSelector, selectedIndex===index && styles.selectedTrial]}
+                                              onPress={()=>handlePress(item.renderedRGB, index)}>
+                                <Text style={styles.text}>{index}) {item.renderedRGB.r}, {item.renderedRGB.g}, {item.renderedRGB.b}</Text>
+                            </Pressable>)
+                        })
                     }
-                }
-                style={styles.button}
-                />
-                <SubmitButton text='Delete participant data' disabledText='Deleting data...' disabled={submitting} onPress={handleDelete} style={styles.button}/>
-
-            </View>
+                </View>
+                <View style={styles.buttons}>
+                    <SubmitButton text='Sync data' disabledText='Syncing data...' disabled={submitting} onPress={async()=>{
+                            setSubmitting(true)
+                            try {
+                                const successMessage = await dataQueue.processQueue()
+                                Alert.alert(successMessage)
+                            } catch(error) {
+                                console.log(error)
+                            }
+                            setSubmitting(false)
+                        }
+                    }
+                    style={styles.button}
+                    />
+                    <SubmitButton text='Delete participant data' disabledText='Deleting data...' disabled={submitting} onPress={handleDelete} style={styles.button}/>
+                </View>
+            </SafeAreaView>
         </ScrollView>
     );
 }
@@ -145,10 +147,6 @@ const styles = StyleSheet.create({
     },
 
     container: {
-        margin: 10,
-
-    },
-    scrollview: {
         padding: 30,
         alignItems: "flex-start",
         minHeight: '100%'

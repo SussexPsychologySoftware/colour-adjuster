@@ -3,10 +3,12 @@ import {ScrollView, View, Text, Image, StyleSheet} from 'react-native';
 import {router} from "expo-router";
 import SubmitButton from "@/components/SubmitButton";
 import {globalStyles} from "@/styles/appStyles";
+import {SafeAreaView} from "react-native-safe-area-context";
 
 export default function DebriefScreen() {
     return (
         <ScrollView style={globalStyles.scrollViewContainer}>
+            <SafeAreaView>
                 <Text style={globalStyles.pageTitle}>Do we remember the colours of familiar devices?</Text>
                 <Text style={[globalStyles.text, styles.authors]}>Yesesvi Konakanchi & Dr. John Maule</Text>
                 <Text style={[globalStyles.text, styles.institution]}>Statistical Perception Lab, University of Sussex</Text>
@@ -127,6 +129,7 @@ export default function DebriefScreen() {
                     Kemp, S. (2023, January 26). Digital 2023: Global Overview Report. DataReportal. https://datareportal.com/reports/digital-2023-global-overview-report
                 </Text>
                 <SubmitButton text='Continue to testing' disabled={false} onPress={()=>router.replace('/testing')}/>
+            </SafeAreaView>
         </ScrollView>
     );
 };

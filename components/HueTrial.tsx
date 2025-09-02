@@ -5,6 +5,7 @@ import { ColourConverter } from '@/utils/colourConversion';
 import { colourConstraints } from '@/constants/colourConstraints';
 import { LCH, RGB, TargetColour, Constraint } from "@/types/colours";
 import SubmitButton from "@/components/SubmitButton";
+import {SafeAreaView} from "react-native-safe-area-context";
 
 // Return selected colour,
 export default function HueTrial({ startColour, targetColour, onSubmit, submitting }: {startColour: LCH, targetColour: TargetColour, onSubmit: (colour: LCH, renderedRGB: RGB)=>void, submitting: boolean}) {
@@ -60,7 +61,7 @@ export default function HueTrial({ startColour, targetColour, onSubmit, submitti
     }
 
     return (
-        <View style={[styles.container, {backgroundColor: `rgb(${backgroundColour.r}, ${backgroundColour.g}, ${backgroundColour.b})` }]}>
+        <SafeAreaView style={[styles.container, {backgroundColor: `rgb(${backgroundColour.r}, ${backgroundColour.g}, ${backgroundColour.b})` }]}>
             <View style={styles.middle}>
                 <AdjustColourButton disabled={lowerBoundReached} onPress={()=>handlePress(-1)} style={styles.left}/>
                 <View style={styles.infoAndSubmit}>
@@ -69,7 +70,7 @@ export default function HueTrial({ startColour, targetColour, onSubmit, submitti
                 </View>
                 <AdjustColourButton disabled={upperBoundReached} onPress={()=>handlePress(1)} style={styles.right}/>
             </View>
-        </View>
+        </SafeAreaView>
     );
 }
 

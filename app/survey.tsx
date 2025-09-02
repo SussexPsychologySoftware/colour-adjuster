@@ -5,6 +5,7 @@ import {DataService} from "@/services/dataService";
 import {router} from "expo-router";
 import SubmitButton from "@/components/SubmitButton";
 import {globalStyles} from "@/styles/appStyles";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 type questionType = 'text' | 'number' | 'choice';
 
@@ -237,6 +238,7 @@ export default function SurveyScreen() {
             style={{flex: 1}}
         >
             <ScrollView contentContainerStyle={globalStyles.scrollViewContainer}>
+            <SafeAreaView>
                 {surveySpecification.map((section) => {
                     const questions = section.questions.map((q) => {
                         // Check if question should be shown based on condition
@@ -287,6 +289,7 @@ export default function SurveyScreen() {
                 })}
                 { warning && <Text style={styles.warning}>{warning}</Text>}
                 <SubmitButton text='Submit' disabledText='Submitting...' disabled={isSubmitting} onPress={handleSubmit}/>
+            </SafeAreaView>
             </ScrollView>
         </KeyboardAvoidingView>
     );

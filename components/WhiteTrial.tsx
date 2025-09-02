@@ -5,6 +5,7 @@ import { ColourConverter } from '@/utils/colourConversion';
 import { colourConstraints } from '@/constants/colourConstraints';
 import { LAB, RGB, LCH } from "@/types/colours";
 import SubmitButton from "@/components/SubmitButton";
+import {SafeAreaView} from "react-native-safe-area-context";
 
 // Return selected colour,
 export default function WhiteTrial({ startColour, targetColour, onSubmit, submitting }: {startColour: LCH, targetColour: string, onSubmit: (colour: LAB, renderedRGB: RGB)=>void, submitting: boolean}) {
@@ -71,7 +72,7 @@ export default function WhiteTrial({ startColour, targetColour, onSubmit, submit
     }
 
     return (
-        <View style={[styles.container, {backgroundColor: `rgb(${backgroundColour.r}, ${backgroundColour.g}, ${backgroundColour.b})` }]}>
+        <SafeAreaView style={[styles.container, {backgroundColor: `rgb(${backgroundColour.r}, ${backgroundColour.g}, ${backgroundColour.b})` }]}>
             <AdjustColourButton disabled={aUpperBoundReached} onPress={()=>handlePress('a',1)} style={styles.top}/>
             <View style={styles.middle}>
                 <AdjustColourButton disabled={bLowerBoundReached} onPress={()=>handlePress('b',-1)} style={styles.left}/>
@@ -82,7 +83,7 @@ export default function WhiteTrial({ startColour, targetColour, onSubmit, submit
                 <AdjustColourButton disabled={bUpperBoundReached} onPress={()=>handlePress('b',1)} style={styles.right}/>
             </View>
             <AdjustColourButton disabled={aLowerBoundReached} onPress={()=>handlePress('a',-1)} style={styles.bottom}/>
-        </View>
+        </SafeAreaView>
     );
 }
 
