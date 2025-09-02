@@ -258,11 +258,9 @@ export default function SurveyScreen() {
                         }
                         if (q.type === 'number') {
                             input = (
-                                <TextInput
-                                    keyboardType='numeric'
+                                <NumericInput
                                     value={responses[q.id]}
-                                    onChangeText={(text) => setResponses(prev => ({...prev, [q.id]: text}))}
-                                    style={globalStyles.input}
+                                    onChange={(text) => setResponses(prev => ({...prev, [q.id]: text}))}
                                 />
                             );
                         }
