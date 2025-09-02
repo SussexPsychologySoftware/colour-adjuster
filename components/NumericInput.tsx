@@ -1,7 +1,7 @@
 import {TextInput} from 'react-native';
 import {globalStyles} from "@/styles/appStyles";
 
-export default function NumericInput({value, onChange, placeholder}: {value: string, onChange: (text: string) => void, placeholder?: string}) {
+export default function NumericInput({value, onChange, placeholder, maxLength}: {value: string, onChange: (text: string) => void, placeholder?: string, maxLength?: number}) {
 
     const handleChangeText = (text: string) => {
         const numericAnswer = text.replace(/[^0-9]/g, '');
@@ -12,11 +12,12 @@ export default function NumericInput({value, onChange, placeholder}: {value: str
         <TextInput
             keyboardType="numeric"
             placeholder={placeholder??''}
-            placeholderTextColor={'grey'}
+            placeholderTextColor={'#aaaaaa'}
             value={value}
             onChangeText={handleChangeText}
-            style={[globalStyles.input,{width: 100}]}
+            style={[globalStyles.input]}
             autoComplete="off"
+            maxLength={maxLength}
         />
     )
 }
