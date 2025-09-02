@@ -8,7 +8,6 @@ import SubmitButton from "@/components/SubmitButton";
 import * as Device from 'expo-device';
 
 import { globalStyles } from '@/styles/appStyles';
-import DeviceInfo from "react-native-device-info";
 // import DeviceInfo from "react-native-device-info";
 
 interface Consent {
