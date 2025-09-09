@@ -12,6 +12,13 @@
       "distribution": "internal"
     },
     "production": {
+      "android": {
+        "buildType": "apk",
+        "env": {
+          "EXPO_USE_HERMES": "true"
+        },
+        "gradleCommand": ":app:assembleRelease"
+      },
       "autoIncrement": true
     }
   },
