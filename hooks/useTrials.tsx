@@ -64,7 +64,6 @@ export const useTrials = () => {
         const constraints: Constraint = {...colourConstraints[targetColour]}
         const randomHue: number = getRandomHue(constraints.excludedHueRange) // random hue within the allowed ranges
         if(targetColour === 'white') constraints.c *= Math.random()
-        // console.log({targetColour, randomHue, constraints})
         return {l: constraints.l, c: constraints.c, h: randomHue}
     }
 
@@ -85,7 +84,6 @@ export const useTrials = () => {
         setCurrentTrialIndex(nextTrialIndex);
         const nextTrial = trials[nextTrialIndex]
         const randomStartingColour = getRandomStartingColour(nextTrial);
-        console.log('randomStartingColour: ',randomStartingColour);
         setStartingColour(randomStartingColour); // TODO: could maybe just return starting colour from here directly? need it to save the trial here but also use in adjust screen
         setTimer(performance.now());
         //currentTrial // this will be out of date at this point?

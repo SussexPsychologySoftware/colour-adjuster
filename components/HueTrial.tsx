@@ -33,7 +33,6 @@ export default function HueTrial({ startColour, targetColour, onSubmit, submitti
         const constraint: Constraint = colourConstraints[targetColour]
         if(constraint.excludedHueRange){
             const roundedHue = Math.round(hue);
-            console.log('hue and range: ',roundedHue, constraint.excludedHueRange)
             // TODO: maybe this is why I should be working with the LCH directly.... CHECK WORKS
             setLowerBoundReached(roundedHue === constraint.excludedHueRange.max+1) // >max
             setUpperBoundReached(roundedHue === constraint.excludedHueRange.min-1) // <min

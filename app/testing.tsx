@@ -42,7 +42,6 @@ export default function TestingScreen() {
                     setParticipantId(id);
                 }
                 const consent = await DataService.getData('consent')
-                console.log(consent);
                 if(consent !== null){
                     const code = consent.participantCode;
                     setParticipantCode(code)
@@ -105,7 +104,6 @@ export default function TestingScreen() {
                 <View style={styles.trialList}>
                     {
                         trialData.map((item, index) =>{
-                            console.log(item.response)
                             return(<Pressable key={`trial-${index}`}
                                               style={[styles.trialSelector, selectedIndex===index && styles.selectedTrial]}
                                               onPress={()=>handlePress(item.renderedRGB, index)}>

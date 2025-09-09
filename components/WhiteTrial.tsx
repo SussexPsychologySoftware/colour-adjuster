@@ -53,7 +53,6 @@ export default function WhiteTrial({ startColour, targetColour, onSubmit, submit
 
     const handlePress = (axisKey:'a'|'b', change:1|-1) => {
         setResponseColour(prev => {
-            // console.log('background change', currentRGB, performance.now())
             const lab: LAB = increaseLAB(axisKey, change, prev)
             checkToggleButtons(lab)
             return {...lab}

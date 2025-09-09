@@ -120,7 +120,6 @@ export default function ConsentScreen() {
                 randomId,
                 deviceInfo
             }
-            console.log(consentData)
             await DataService.setParticipantID(randomId)
             const sendDataConsent = consent === "I consent to take part in this study and agree to my data being recorded."
             await DataService.setSendDataConsent(sendDataConsent)

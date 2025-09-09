@@ -216,8 +216,6 @@ export default function SurveyScreen() {
                 }
             )
         )
-        console.log(isValidArray)
-        console.log(!isValidArray.includes(false))
         return !isValidArray.includes(false);
 
     }

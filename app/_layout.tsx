@@ -4,7 +4,6 @@ import {View} from "react-native";
 import {useRestore} from "@/hooks/useRestore";
 
 export default function RootLayout() {
-    console.log('V1')
     useRestore() // go to testing page if finished
 
     return (
