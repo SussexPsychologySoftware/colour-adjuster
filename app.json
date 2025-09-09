@@ -4,7 +4,7 @@
     "slug": "colour-adjuster",
     "version": "1.0.0",
     "orientation": "default",
-    "icon": "./assets/images/LAB_1918_original.png",
+    "icon": "./assets/images/LAB_512.png",
     "scheme": "colouradjuster",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
@@ -17,7 +17,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/LAB_128.png",
+        "foregroundImage": "./assets/images/LAB_192.png",
         "backgroundColor": "#000000"
       },
       "edgeToEdgeEnabled": true,
@@ -33,7 +33,7 @@
       [
         "expo-splash-screen",
         {
-          "image": "./assets/images/LAB_1918_original.png",
+          "image": "./assets/images/LAB_512.png",
           "imageWidth": 200,
           "resizeMode": "contain",
           "backgroundColor": "#000000",
