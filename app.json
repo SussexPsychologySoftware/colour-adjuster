@@ -17,7 +17,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/LAB_1918_original.png",
+        "foregroundImage": "./assets/images/LAB_128.png",
         "backgroundColor": "#000000"
       },
       "edgeToEdgeEnabled": true,
@@ -26,7 +26,7 @@
     "web": {
       "bundler": "metro",
       "output": "static",
-      "favicon": "./assets/images/favicon.png",
+      "favicon": "./assets/images/favicon.png"
     },
     "plugins": [
       "expo-router",
