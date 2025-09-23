@@ -1,9 +1,10 @@
-import { useState } from "react";
+import {useEffect, useState} from "react";
 import WhiteTrial from '@/components/WhiteTrial'
 import { RGB, LCH, LAB } from "@/types/colours";
 import { useTrials } from "@/hooks/useTrials";
 import HueTrial from "@/components/HueTrial";
 import { router } from "expo-router";
+import * as ScreenOrientation from 'expo-screen-orientation';
 
 export default function AdjustColourScreen() {
 
@@ -21,6 +22,16 @@ export default function AdjustColourScreen() {
         saveTrial,
         submitData,
     } = useTrials();
+
+    useEffect(() => {
+        const lockOrientation = async () => {
+            await ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.LANDSCAPE);
+        };
+        lockOrientation();
+        return () => {
+            ScreenOrientation.unlockAsync();
+        };
+    }, []);
 
     const handleSubmit = async (colour: LCH|LAB, renderedRGB: RGB) => {
         if(submitting) return
