@@ -5,6 +5,8 @@ import { useTrials } from "@/hooks/useTrials";
 import HueTrial from "@/components/HueTrial";
 import { router } from "expo-router";
 import * as ScreenOrientation from 'expo-screen-orientation';
+import * as NavigationBar from 'expo-navigation-bar';
+import {Platform} from "react-native";
 
 export default function AdjustColourScreen() {
 
@@ -28,8 +30,29 @@ export default function AdjustColourScreen() {
             await ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.LANDSCAPE);
         };
         lockOrientation();
+
+        const hideNavBar = async () => {
+            try {
+                if (Platform.OS === 'android') {
+                    // Set the navigation bar style
+                    const invisibleBlack = '#00000000'
+                    await NavigationBar.setBackgroundColorAsync(invisibleBlack);
+                    await NavigationBar.setBorderColorAsync(invisibleBlack);
+                    // await NavigationBar.setBehaviorAsync('overlay-swipe')
+                    // await NavigationBar.setPositionAsync('absolute')
+                    NavigationBar.setStyle('dark');
+                    // Hide, everything above are just fallbacks
+                    await NavigationBar.setVisibilityAsync("hidden");
+                }
+            } catch (error) {
+                console.error(error);
+            }
+        };
+        hideNavBar()
+
         return () => {
-            ScreenOrientation.unlockAsync();
+            ScreenOrientation.unlockAsync().catch(console.error);
+            NavigationBar.setVisibilityAsync("visible").catch(console.error);
         };
     }, []);
 
