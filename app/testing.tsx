@@ -18,13 +18,8 @@ interface TestColour {
 }
 
 export default function TestingScreen() {
-    const [backgroundColour, setBackgroundColour] = useState<RGB>({r: 50, g: 50, b: 50});
     const [trialData, setTrialData] = useState<Trial[]>([]);
     const [selectedIndex, setSelectedIndex] = useState(0);
-    const [submitting, setSubmitting] = useState(false);
-    const [participantId, setParticipantId] = useState('');
-    const [participantCode, setParticipantCode] = useState('');
-
     const testData: TestColour[] = [
         {RGB: {r:255, g:0, b:0}, description: 'Red test'},
         {RGB: {r:0, g:255, b:0}, description: 'Green test'},
@@ -32,16 +27,22 @@ export default function TestingScreen() {
         {RGB: {r:255, g:255, b:0}, description: 'Yellow test'},
         {RGB: {r:255, g:255, b:255}, description: 'White test'}
     ]
+    const [backgroundColour, setBackgroundColour] = useState<RGB>(testData[selectedIndex].RGB);
+    const [submitting, setSubmitting] = useState(false);
+    const [participantId, setParticipantId] = useState('');
+    const [participantCode, setParticipantCode] = useState('');
+
 
     useEffect(() => {
+
         const loadTrialData = async () => {
             try {
                 const data = await AsyncStorage.getItem('trialData');
                 if (data !== null) {
                     const parsedData: Trial[] = JSON.parse(data)
                     setTrialData(parsedData);
-                    const response = parsedData[selectedIndex].renderedRGB
-                    if(response) setBackgroundColour(response)
+                    // const response = parsedData[selectedIndex].renderedRGB
+                    // if(response) setBackgroundColour(response)
                 }
             } catch (error) {
                 console.error('Error loading trial data:', error);
