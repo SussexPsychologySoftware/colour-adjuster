@@ -58,11 +58,15 @@ export default function AdjustColourButton({ style, disabled, onPress, text }: {
 
 const styles = StyleSheet.create({
     adjustColourButton: {
-        paddingVertical: 12,
-        paddingHorizontal: 20,
-        margin: 10,
+        // paddingVertical: 10,
+        // paddingHorizontal: 10,
+        // margin: 10,
         borderWidth: 1,
         borderRadius: 20,
+        height: 80,
+        width: 80,
+        alignItems: 'center',
+        justifyContent: 'center',
     },
     text: {
         fontSize: 30,

@@ -90,18 +90,18 @@ const styles = StyleSheet.create({
     container: {
         height: "100%",
         width: "100%",
-        maxHeight: "100%",
-        maxWidth: "100%",
+        // maxHeight: "100%",
+        // maxWidth: "100%",
         backgroundColor: "black",
         justifyContent: "space-between",
-        alignItems: "stretch"
+        alignItems: "stretch",
+        padding: 10
     },
     top: {
         alignSelf: "center",
     },
     bottom: {
         alignSelf: "center",
-        justifyContent: "flex-end",
     },
     middle: {
         flexDirection: "row",
@@ -111,7 +111,6 @@ const styles = StyleSheet.create({
     left: {
     },
     right: {
-        // alignSelf: "flex-end",
     },
 
     infoAndSubmit: {

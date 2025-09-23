@@ -81,14 +81,14 @@ const styles = StyleSheet.create({
         maxWidth: "100%",
         backgroundColor: "black",
         justifyContent: "center", // TODO: Must be "space-between" on White trial
-        alignItems: "stretch"
+        alignItems: "stretch",
+        padding: 10
     },
     top: {
         alignSelf: "center",
     },
     bottom: {
         alignSelf: "center",
-        justifyContent: "flex-end",
     },
     middle: {
         flexDirection: "row",
