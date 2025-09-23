@@ -1,7 +1,7 @@
 import { Text, StyleSheet, Pressable, View } from 'react-native';
 import { useState, useRef, useEffect } from "react";
 
-export default function AdjustColourButton({ style, disabled, onPress }: {style: object, disabled: boolean, onPress: ()=>void}) {
+export default function AdjustColourButton({ style, disabled, onPress, text }: {style: object, disabled: boolean, onPress: ()=>void, text?: string}) {
 
     const [pressed, setPressed] = useState(false);
     const intervalRef = useRef<number | null>(null);
@@ -50,7 +50,7 @@ export default function AdjustColourButton({ style, disabled, onPress }: {style:
                         backgroundColor: pressed ? 'black' : 'transparent',
                     }
                 ]}>
-                <Text style={[styles.text, {color: disabled ? disabledColour : 'black'}]}>+</Text>
+                <Text style={[styles.text, {color: disabled ? disabledColour : 'black'}]}>{text ?? '+'}</Text>
             </View>
         </Pressable>
     );
