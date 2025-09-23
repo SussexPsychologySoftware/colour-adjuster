@@ -1,5 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { dataQueue } from './dataQueue';
+import {Platform} from "react-native";
 
 export class DataService {
     static async getData(key: string) {
@@ -16,7 +17,7 @@ export class DataService {
         const dataString = JSON.stringify(data);
         await AsyncStorage.setItem(name, dataString);
         // data: CdE5fn8ckU5w, participants: eXM0k3gPdL9y
-        if (datapipeId) {
+        if (datapipeId && Platform.OS !== 'web') {
             const filename = `${participantId}_${name}`
             try {
                 const response = await this.sendToServer(dataString, filename, datapipeId);
