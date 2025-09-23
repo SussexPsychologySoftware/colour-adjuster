@@ -125,9 +125,9 @@ export default function TestingScreen() {
     return (
         <ScrollView style={[globalStyles.scrollViewContainer,{backgroundColor: `rgb(${backgroundColour.r}, ${backgroundColour.g}, ${backgroundColour.b})`}]}>
             <SafeAreaView style={styles.container}>
-                <Text style={{color: 'black', fontSize: 20, marginBottom: 20, fontWeight: 'bold'}}>ID: {participantId}</Text>
-                <Text style={{color: 'black', fontSize: 20, marginBottom: 20, fontWeight: 'bold'}}>Code: {participantCode}</Text>
-                <Text style={{color: 'black', fontSize: 20, marginBottom: 20, fontWeight: 'bold'}}>Consent: {consent}</Text>
+                <Text style={{color: 'black', fontSize: 20, marginBottom: 5, fontWeight: 'bold'}}>ID: {participantId}</Text>
+                <Text style={{color: 'black', fontSize: 20, marginBottom: 5, fontWeight: 'bold'}}>Code: {participantCode}</Text>
+                <Text style={{color: 'black', fontSize: 20, marginBottom: 5, fontWeight: 'bold'}}>Consent: {consent}</Text>
                 <View style={styles.trialList}>
                     <Text>TEST COLOURS</Text>
                     {
