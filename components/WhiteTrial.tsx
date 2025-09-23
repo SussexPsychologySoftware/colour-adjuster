@@ -72,16 +72,16 @@ export default function WhiteTrial({ startColour, targetColour, onSubmit, submit
 
     return (
         <SafeAreaView style={[styles.container, {backgroundColor: `rgb(${backgroundColour.r}, ${backgroundColour.g}, ${backgroundColour.b})` }]}>
-            <AdjustColourButton disabled={aUpperBoundReached} onPress={()=>handlePress('a',1)} style={styles.top}/>
+            <AdjustColourButton disabled={aUpperBoundReached} onPress={()=>handlePress('a',1)} style={styles.top} text='R+'/>
             <View style={styles.middle}>
-                <AdjustColourButton disabled={bLowerBoundReached} onPress={()=>handlePress('b',-1)} style={styles.left}/>
+                <AdjustColourButton disabled={bLowerBoundReached} onPress={()=>handlePress('b',-1)} style={styles.left} text='B+'/>
                 <View style={styles.infoAndSubmit}>
                     <Text style={[styles.text, styles.targetColour]}>{targetColour}</Text>
                     <SubmitButton text='Submit' disabledText='Submitting...' disabled={submitting} onPress={handleSubmit} style={{borderColor: 'black'}} textStyle={{color: 'black'}}/>
                 </View>
-                <AdjustColourButton disabled={bUpperBoundReached} onPress={()=>handlePress('b',1)} style={styles.right}/>
+                <AdjustColourButton disabled={bUpperBoundReached} onPress={()=>handlePress('b',1)} style={styles.right} text='Y+'/>
             </View>
-            <AdjustColourButton disabled={aLowerBoundReached} onPress={()=>handlePress('a',-1)} style={styles.bottom}/>
+            <AdjustColourButton disabled={aLowerBoundReached} onPress={()=>handlePress('a',-1)} style={styles.bottom} text='G+'/>
         </SafeAreaView>
     );
 }

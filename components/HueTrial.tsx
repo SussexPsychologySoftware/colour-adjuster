@@ -62,12 +62,12 @@ export default function HueTrial({ startColour, targetColour, onSubmit, submitti
     return (
         <SafeAreaView style={[styles.container, {backgroundColor: `rgb(${backgroundColour.r}, ${backgroundColour.g}, ${backgroundColour.b})` }]}>
             <View style={styles.middle}>
-                <AdjustColourButton disabled={lowerBoundReached} onPress={()=>handlePress(-1)} style={styles.left}/>
+                <AdjustColourButton disabled={lowerBoundReached} onPress={()=>handlePress(-1)} style={styles.left} text='-'/>
                 <View style={styles.infoAndSubmit}>
                     <Text style={[styles.text, styles.targetColour]}>{targetColour}</Text>
                     <SubmitButton text='Submit' disabledText='Submitting...' disabled={submitting} onPress={handleSubmit} style={{borderColor: 'black'}} textStyle={{color: 'black'}}/>
                 </View>
-                <AdjustColourButton disabled={upperBoundReached} onPress={()=>handlePress(1)} style={styles.right}/>
+                <AdjustColourButton disabled={upperBoundReached} onPress={()=>handlePress(1)} style={styles.right} text='+'/>
             </View>
         </SafeAreaView>
     );
