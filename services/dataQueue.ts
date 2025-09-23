@@ -36,7 +36,7 @@ class DataQueue {
             return queue.length
         } catch (e) {
             console.error(e);
-            return [];
+            return 0;
         }
     }
 
