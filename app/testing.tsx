@@ -32,7 +32,7 @@ export default function TestingScreen() {
     const [participantId, setParticipantId] = useState('');
     const [participantCode, setParticipantCode] = useState('');
     const [consent, setConsent] = useState('');
-
+    const [synced, setSynced] = useState(true);
 
     useEffect(() => {
 
@@ -66,8 +66,18 @@ export default function TestingScreen() {
             }
         };
 
+        const loadSyncStatus = async () => {
+            try {
+                const queueLength = await dataQueue.getQueueLength()
+                setSynced(queueLength===0)
+            } catch (error) {
+                console.error('Error loading trial data:', error);
+            }
+        };
+
         loadTrialData();
         loadParticipantID();
+        loadSyncStatus();
     }, []); // Empty dependency array means this runs once on mount
 
 
@@ -143,11 +153,14 @@ export default function TestingScreen() {
                     }
                 </View>
                 <View style={styles.buttons}>
+                    <Text>Sync Status: { synced ? 'Synced' : 'Not synced'}</Text>
                     <SubmitButton text='Sync data' disabledText='Syncing data...' disabled={submitting} onPress={async()=>{
                             setSubmitting(true)
                             try {
                                 const successMessage = await dataQueue.processQueue()
                                 Alert.alert(successMessage)
+                                const queueLength = await dataQueue.getQueueLength()
+                                setSynced(queueLength===0)
                             } catch(error) {
                                 console.log(error)
                             }
