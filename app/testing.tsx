@@ -12,6 +12,11 @@ import {SafeAreaView} from "react-native-safe-area-context";
 // Return selected colour,
 // overthinking, maybe just pass in the update and toggle functions? horizontal?
 
+interface TestColour {
+    RGB: RGB,
+    description: string
+}
+
 export default function TestingScreen() {
     const [backgroundColour, setBackgroundColour] = useState<RGB>({r: 50, g: 50, b: 50});
     const [trialData, setTrialData] = useState<Trial[]>([]);
@@ -19,6 +24,14 @@ export default function TestingScreen() {
     const [submitting, setSubmitting] = useState(false);
     const [participantId, setParticipantId] = useState('');
     const [participantCode, setParticipantCode] = useState('');
+
+    const testData: TestColour[] = [
+        {RGB: {r:255, g:0, b:0}, description: 'Red test'},
+        {RGB: {r:0, g:255, b:0}, description: 'Green test'},
+        {RGB: {r:0, g:0, b:255}, description: 'Blue test'},
+        {RGB: {r:255, g:255, b:0}, description: 'Yellow test'},
+        {RGB: {r:255, g:255, b:255}, description: 'White test'}
+    ]
 
     useEffect(() => {
         const loadTrialData = async () => {
@@ -97,18 +110,31 @@ export default function TestingScreen() {
         }
     }
 
+    function DisplayColourButton({index, backgroundRGB, targetColour}: {index: number, backgroundRGB: RGB, targetColour: string }) {
+        return (
+            <Pressable
+                       style={[styles.trialSelector, selectedIndex===index && styles.selectedTrial]}
+                       onPress={()=>handlePress(backgroundRGB, index)}>
+                <Text style={styles.text}>{index}) {backgroundRGB.r}, {backgroundRGB.g}, {backgroundRGB.b} | {targetColour}</Text>
+            </Pressable>
+        )
+    }
+
     return (
         <ScrollView style={[globalStyles.scrollViewContainer,{backgroundColor: `rgb(${backgroundColour.r}, ${backgroundColour.g}, ${backgroundColour.b})`}]}>
             <SafeAreaView style={styles.container}>
                 <Text style={{color: 'black', fontSize: 20, marginBottom: 20, fontWeight: 'bold'}}>ID: {participantId}, Code: {participantCode}</Text>
                 <View style={styles.trialList}>
+                    <Text>TEST COLOURS</Text>
+                    {
+                        testData.map((item, index) =>{
+                            return(<DisplayColourButton key={`test-${index}`} index={index} backgroundRGB={item.RGB} targetColour={item.description}/>)
+                        })
+                    }
+                    <Text>TRIAL DATA</Text>
                     {
                         trialData.map((item, index) =>{
-                            return(<Pressable key={`trial-${index}`}
-                                              style={[styles.trialSelector, selectedIndex===index && styles.selectedTrial]}
-                                              onPress={()=>handlePress(item.renderedRGB, index)}>
-                                <Text style={styles.text}>{index}) {item.renderedRGB.r}, {item.renderedRGB.g}, {item.renderedRGB.b}</Text>
-                            </Pressable>)
+                            return(<DisplayColourButton key={`trial-${index}`} index={index+testData.length} backgroundRGB={item.renderedRGB} targetColour={item.targetColour}/>)
                         })
                     }
                 </View>
