@@ -30,6 +30,16 @@ class DataQueue {
         }
     }
 
+    async getQueueLength(): Promise<number> {
+        try {
+            const queue = await this.getQueue()
+            return queue.length
+        } catch (e) {
+            console.error(e);
+            return [];
+        }
+    }
+
     async hasQueue(): Promise<boolean> {
         try {
             const queue = await this.getQueue();
