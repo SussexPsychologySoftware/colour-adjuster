@@ -27,7 +27,7 @@ export default function TestingScreen() {
         {RGB: {r:255, g:255, b:0}, description: 'Yellow test'},
         {RGB: {r:255, g:255, b:255}, description: 'White test'}
     ]
-    const [backgroundColour, setBackgroundColour] = useState<RGB>(testData[selectedIndex].RGB);
+    const [backgroundColour, setBackgroundColour] = useState<RGB>(testData[0].RGB);
     const [submitting, setSubmitting] = useState(false);
     const [participantId, setParticipantId] = useState('');
     const [participantCode, setParticipantCode] = useState('');
