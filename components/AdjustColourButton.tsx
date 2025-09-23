@@ -29,7 +29,7 @@ export default function AdjustColourButton({ style, disabled, onPress, text }: {
         };
     }, []);
 
-    const disabledColour = 'grey';
+    const disabledColour = 'transparent';
 
     return (
         <Pressable
