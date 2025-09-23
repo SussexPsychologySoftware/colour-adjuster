@@ -31,6 +31,7 @@ export default function TestingScreen() {
     const [submitting, setSubmitting] = useState(false);
     const [participantId, setParticipantId] = useState('');
     const [participantCode, setParticipantCode] = useState('');
+    const [consent, setConsent] = useState('');
 
 
     useEffect(() => {
@@ -57,9 +58,8 @@ export default function TestingScreen() {
                 }
                 const consent = await DataService.getData('consent')
                 if(consent !== null){
-                    const code = consent.participantId;
-                    console.log({code});
-                    setParticipantCode(code)
+                    setParticipantCode(consent.participantId)
+                    setConsent(consent.consent)
                 }
             } catch (error) {
                 console.error('Error loading trial data:', error);
@@ -125,7 +125,9 @@ export default function TestingScreen() {
     return (
         <ScrollView style={[globalStyles.scrollViewContainer,{backgroundColor: `rgb(${backgroundColour.r}, ${backgroundColour.g}, ${backgroundColour.b})`}]}>
             <SafeAreaView style={styles.container}>
-                <Text style={{color: 'black', fontSize: 20, marginBottom: 20, fontWeight: 'bold'}}>ID: {participantId}, Code: {participantCode}</Text>
+                <Text style={{color: 'black', fontSize: 20, marginBottom: 20, fontWeight: 'bold'}}>ID: {participantId}</Text>
+                <Text style={{color: 'black', fontSize: 20, marginBottom: 20, fontWeight: 'bold'}}>Code: {participantCode}</Text>
+                <Text style={{color: 'black', fontSize: 20, marginBottom: 20, fontWeight: 'bold'}}>Consent: {consent}</Text>
                 <View style={styles.trialList}>
                     <Text>TEST COLOURS</Text>
                     {
