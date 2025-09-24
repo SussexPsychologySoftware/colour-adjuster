@@ -35,9 +35,9 @@ export default function AdjustColourScreen() {
             try {
                 if (Platform.OS === 'android') {
                     // Set the navigation bar style
-                    // const invisibleBlack = '#00000000'
-                    // await NavigationBar.setBackgroundColorAsync(invisibleBlack);
-                    // await NavigationBar.setBorderColorAsync(invisibleBlack);
+                    const invisibleBlack = '#00000000'
+                    await NavigationBar.setBackgroundColorAsync(invisibleBlack);
+                    await NavigationBar.setBorderColorAsync(invisibleBlack);
                     // await NavigationBar.setBehaviorAsync('overlay-swipe')
                     // await NavigationBar.setPositionAsync('absolute')
                     NavigationBar.setStyle('dark');
