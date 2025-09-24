@@ -2,6 +2,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { DataService } from '@/services/dataService';
 import * as Network from "expo-network";
 import {Platform} from "react-native";
+import {HttpService} from "@/services/HttpService";
 
 
 const STORAGE_KEY = 'dataQueue';
@@ -78,7 +79,7 @@ class DataQueue {
             for (let i = queue.length - 1; i >= 0; i--) {
                 const item = queue[i];
                 try {
-                    const response = await DataService.sendToServer(item.data, item.name, item.datapipeId);
+                    const response = await HttpService.sendToServer(item.data, item.name, item.datapipeId); // Changed to HttpService
                     if (response && !response.ok) {
                         successMessage = `Send to server failed for ${item.name}`;
                         break;

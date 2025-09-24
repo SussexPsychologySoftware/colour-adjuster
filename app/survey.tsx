@@ -7,6 +7,7 @@ import SubmitButton from "@/components/SubmitButton";
 import {globalStyles} from "@/styles/appStyles";
 import { SafeAreaView } from "react-native-safe-area-context";
 import NumericInput from '@/components/NumericInput'
+import {HttpService} from "@/services/HttpService";
 
 type questionType = 'text' | 'number' | 'choice';
 
@@ -230,7 +231,7 @@ export default function SurveyScreen() {
                 return
             }
             setWarning('')
-            const dataConsent = await DataService.getSendDataConsent()
+            const dataConsent = await HttpService.getSendDataConsent()
             await DataService.saveData(responses, 'survey', dataConsent?'BpmHD6x0s5m9':undefined)
             router.replace('/debrief')
         } catch (e) {

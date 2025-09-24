@@ -1,6 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { dataQueue } from './dataQueue';
 import {Platform} from "react-native";
+import {HttpService} from "@/services/HttpService";
 
 export class DataService {
     static async getData(key: string) {
@@ -20,8 +21,7 @@ export class DataService {
         if (datapipeId && Platform.OS !== 'web') {
             const filename = `${participantId}_${name}`
             try {
-                const response = await this.sendToServer(dataString, filename, datapipeId);
-                // Only should have 1 for each day so could totally just tag by day?
+                const response = await HttpService.sendToServer(dataString, filename, datapipeId); // Use HttpService
                 if(response && !response.ok) await dataQueue.addToQueue(dataString, filename, datapipeId);
             } catch (error) {
                 // Network error, server unreachable, etc.
@@ -31,31 +31,8 @@ export class DataService {
         }
     }
 
-    static async sendToServer(data: string, filename: string, experimentID: string) {
-        const sendDataConsent = await this.getSendDataConsent()
-        if(!sendDataConsent) return null
-        return await fetch("https://pipe.jspsych.org/api/data/", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                Accept: "*/*",
-            },
-            body: JSON.stringify({
-                experimentID: experimentID,
-                filename: `${filename}.json`,
-                data: data,
-            }),
-        });
-    }
-
     static async deleteData(id: string) {
         await AsyncStorage.removeItem(id);
-    }
-
-    static async getSendDataConsent() {
-        const sendDataConsent = await AsyncStorage.getItem('sendDataConsent')
-        if(!sendDataConsent) return null;
-        return JSON.parse(sendDataConsent)
     }
 
     static async setSendDataConsent(sendDataConsent: boolean) {

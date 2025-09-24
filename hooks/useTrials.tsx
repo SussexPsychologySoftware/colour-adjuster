@@ -2,6 +2,7 @@ import {useState} from "react";
 import {Constraint, Range, RGB, LCH, LAB, TargetColour} from "@/types/colours";
 import {colourConstraints} from "@/constants/colourConstraints";
 import {DataService} from "@/services/dataService";
+import {HttpService} from "@/services/HttpService";
 
 export interface Trial {
     targetColour: TargetColour;
@@ -103,7 +104,7 @@ export const useTrials = () => {
     }
 
     const submitData = async () => {
-        const dataConsent = await DataService.getSendDataConsent()
+        const dataConsent = await HttpService.getSendDataConsent()
         await DataService.saveData(data,'trialData',dataConsent?'BpmHD6x0s5m9':undefined)
     }
 
