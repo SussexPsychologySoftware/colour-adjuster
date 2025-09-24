@@ -45,7 +45,7 @@
           "backgroundColor": "#000000",
           "userInterfaceStyle": "dark"
         }
-      ]
+      ],
     ],
     "experiments": {
       "typedRoutes": true,
