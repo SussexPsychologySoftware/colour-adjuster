@@ -1,11 +1,12 @@
 import { useState } from "react";
-import {Text, View, StyleSheet, TextInput, ScrollView, KeyboardAvoidingView, Platform, Linking} from 'react-native';
+import {Text, View, StyleSheet, TextInput, ScrollView, Platform, Linking} from 'react-native';
 import RadioList from "@/components/RadioList";
 import {Checkbox} from 'expo-checkbox';
 import {router} from "expo-router";
 import { DataService } from '@/services/dataService';
 import SubmitButton from "@/components/SubmitButton";
 import * as Device from 'expo-device';
+import { KeyboardAvoidingView } from "react-native-keyboard-controller";
 
 import { globalStyles } from '@/styles/appStyles';
 import {SafeAreaView} from "react-native-safe-area-context";
@@ -134,7 +135,7 @@ export default function ConsentScreen() {
 
     return (
         <KeyboardAvoidingView
-            behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
             style={{flex: 1}}
         >
             <ScrollView style={globalStyles.scrollViewContainer}

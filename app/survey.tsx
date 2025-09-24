@@ -1,5 +1,5 @@
 import { useState } from "react";
-import {Text, View, StyleSheet, TextInput, ScrollView, Platform, KeyboardAvoidingView} from 'react-native';
+import {Text, View, StyleSheet, TextInput, ScrollView, Platform} from 'react-native';
 import RadioList from '@/components/RadioList'
 import {DataService} from "@/services/dataService";
 import {router} from "expo-router";
@@ -8,6 +8,7 @@ import {globalStyles} from "@/styles/appStyles";
 import { SafeAreaView } from "react-native-safe-area-context";
 import NumericInput from '@/components/NumericInput'
 import {HttpService} from "@/services/HttpService";
+import { KeyboardAvoidingView } from "react-native-keyboard-controller";
 
 type questionType = 'text' | 'number' | 'choice';
 
@@ -243,7 +244,7 @@ export default function SurveyScreen() {
 
     return (
         <KeyboardAvoidingView
-            behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
             style={{flex: 1}}
         >
             <ScrollView contentContainerStyle={globalStyles.scrollViewContainer}>
