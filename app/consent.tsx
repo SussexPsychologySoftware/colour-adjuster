@@ -134,14 +134,15 @@ export default function ConsentScreen() {
     }
 
     return (
-        <KeyboardAvoidingView
-            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-            style={{flex: 1}}
-        >
-            <ScrollView style={globalStyles.scrollViewContainer}
-                        contentContainerStyle={{backgroundColor: 'black'}}>
-                <SafeAreaView>
-                <Text style={globalStyles.pageTitle}>Information & Consent Form</Text>
+        <SafeAreaView style={{ flex: 1, backgroundColor: 'black' }}>
+            <KeyboardAvoidingView
+                style={{ flex: 1, flexDirection: 'column',justifyContent: 'center'}}
+                behavior="position"
+                enabled
+                keyboardVerticalOffset={10}
+            >
+            <ScrollView style={globalStyles.scrollViewContainer}>
+            <Text style={globalStyles.pageTitle}>Information & Consent Form</Text>
                 <Text style={[globalStyles.paragraph, globalStyles.text]}>
                     Thank you for carefully reading this information sheet, a copy of which you can keep for your
                     records.
@@ -360,9 +361,9 @@ export default function ConsentScreen() {
                 {warning && <Text style={styles.warning}>{warning}</Text>}
                 <SubmitButton text='Submit' disabledText='Submitting...' disabled={isSubmitting}
                               onPress={handleSubmit}/>
-                </SafeAreaView>
             </ScrollView>
         </KeyboardAvoidingView>
+        </SafeAreaView>
     );
 }
 

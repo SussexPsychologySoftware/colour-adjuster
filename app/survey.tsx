@@ -243,12 +243,13 @@ export default function SurveyScreen() {
     }
 
     return (
+        <SafeAreaView>
         <KeyboardAvoidingView
-            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-            style={{flex: 1}}
+            // style={{ flex: 1, flexDirection: 'column', justifyContent: 'center'}}
+            behavior="position"
+            keyboardVerticalOffset={10}
         >
             <ScrollView contentContainerStyle={globalStyles.scrollViewContainer}>
-            <SafeAreaView>
                 {surveySpecification.map((section) => {
                     const questions = section.questions.map((q) => {
                         // Check if question should be shown based on condition
@@ -298,9 +299,9 @@ export default function SurveyScreen() {
                 })}
                 { warning && <Text style={styles.warning}>{warning}</Text>}
                 <SubmitButton text='Submit' disabledText='Submitting...' disabled={isSubmitting} onPress={handleSubmit}/>
-            </SafeAreaView>
             </ScrollView>
         </KeyboardAvoidingView>
+        </SafeAreaView>
     );
 }
 
