@@ -134,7 +134,7 @@ export default function ConsentScreen() {
 
     return (
         <KeyboardAvoidingView
-            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+            behavior={Platform.OS === 'ios' ? 'padding' : undefined}
             style={{flex: 1}}
         >
             <ScrollView style={globalStyles.scrollViewContainer}
@@ -386,9 +386,10 @@ const styles = StyleSheet.create({
     },
     checkboxContainer: {
         flexDirection: 'row',
-        alignItems: 'center',
-        // flex: 1,
-        // flexWrap: 'nowrap',
+        // Fixes for layout breaking when orientation changes
+        alignItems: 'flex-start',   // let the checkbox stay top-aligned
+        flexWrap: 'wrap',           // allow text to flow under checkbox if needed
+
     },
     checkbox: {
         marginRight: 10,
@@ -403,7 +404,8 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         color: 'lightgrey',
-        justifyContent: 'space-between',
+        // justifyContent: 'space-between',
+        gap: 10
     },
     codeInput: {
         height: '100%',
