@@ -246,7 +246,7 @@ export default function SurveyScreen() {
         <SafeAreaView>
         <KeyboardAvoidingView
             // style={{ flex: 1, flexDirection: 'column', justifyContent: 'center'}}
-            behavior="position"
+            behavior="padding"
             keyboardVerticalOffset={10}
         >
             <ScrollView contentContainerStyle={globalStyles.scrollViewContainer}>
