@@ -42,7 +42,7 @@ export default function AdjustColourScreen() {
                     // await NavigationBar.setPositionAsync('absolute')
                     NavigationBar.setStyle('dark');
                     // Hide, everything above are just fallbacks
-                    await NavigationBar.setVisibilityAsync("hidden");
+                    if(Platform.OS === 'android') await NavigationBar.setVisibilityAsync("hidden");
                 }
             } catch (error) {
                 console.error(error);
@@ -52,7 +52,7 @@ export default function AdjustColourScreen() {
 
         return () => {
             ScreenOrientation.unlockAsync().catch(console.error);
-            NavigationBar.setVisibilityAsync("visible").catch(console.error);
+            if(Platform.OS === 'android') NavigationBar.setVisibilityAsync("visible").catch(console.error);
         };
     }, []);
 
