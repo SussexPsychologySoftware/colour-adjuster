@@ -383,15 +383,11 @@ const styles = StyleSheet.create({
         marginVertical: 5,
         padding: 10,
         gap: 10,
-        // flex: 1,
-        // flexWrap: 'nowrap',
     },
     checkboxContainer: {
         flexDirection: 'row',
-        // Fixes for layout breaking when orientation changes
-        alignItems: 'flex-start',   // let the checkbox stay top-aligned
-        flexWrap: 'wrap',           // allow text to flow under checkbox if needed
-
+        alignItems: 'flex-start',
+        flexWrap: 'wrap',
     },
     checkbox: {
         marginRight: 10,
@@ -406,73 +402,12 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         color: 'lightgrey',
-        // justifyContent: 'space-between',
         gap: 10
     },
-    codeInput: {
-        height: '100%',
-        color: 'lightgrey',
-    },
-    codeLabel: {
-        color: 'lightgrey',
-    },
-    emailInput: {
-    },
-    textInput: {
-        borderColor: 'gray',
-        borderWidth: 1,
-        borderStyle: 'solid',
-        padding: 5,
-        color: 'lightgrey',
-        // margin: 5,
-    },
-
-
     warning: {
         fontSize: 15,
         fontWeight: 'bold',
         color: 'red',
         marginVertical: 5,
     },
-    submitButton: {
-        backgroundColor: 'black',
-        alignSelf: 'center',
-        paddingVertical: 5,
-        paddingHorizontal: 10,
-        borderWidth: 1,
-        borderColor: 'grey',
-        borderRadius: 5,
-        marginVertical: 10
-    },
-    disabled: {
-        backgroundColor: 'gray',
-        color: 'lightgrey',
-    },
-
-
-
-    page: {
-        minHeight: '100%',
-        padding: 20,
-        backgroundColor: 'black',
-    },
-    pageTitle: {
-        fontSize: 45,
-        fontWeight: 'bold',
-        marginBottom: 20,
-        color: 'lightgray',
-    },
-    sectionContainer: {
-        gap: 10,
-        marginVertical: 10
-    },
-    questionText: {
-        fontSize: 15,
-        fontWeight: 'bold',
-    },
-    numericInput: {
-        borderColor: 'gray',
-        borderWidth: 1,
-        borderStyle: 'solid',
-    },
-})
+});
