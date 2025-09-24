@@ -297,6 +297,7 @@ export default function ConsentScreen() {
                             autoCapitalize="characters"
                             placeholder="Letter"
                             placeholderTextColor='#aaaaaa'
+                            disableFullscreenUI={true}
                         />
                     </View>
 
@@ -310,6 +311,7 @@ export default function ConsentScreen() {
                             autoCapitalize="characters"
                             placeholder="Letter"
                             placeholderTextColor='#aaaaaa'
+                            disableFullscreenUI={true}
                         />
                     </View>
 
@@ -324,6 +326,7 @@ export default function ConsentScreen() {
                             autoCapitalize="characters"
                             placeholder="Letter"
                             placeholderTextColor='#aaaaaa'
+                            disableFullscreenUI={true}
                         />
                     </View>
 
@@ -351,6 +354,7 @@ export default function ConsentScreen() {
                     placeholderTextColor='#aaaaaa'
                     keyboardType="email-address"
                     autoCapitalize="none"
+                    disableFullscreenUI={true}
                 />
                 {warning && <Text style={styles.warning}>{warning}</Text>}
                 <SubmitButton text='Submit' disabledText='Submitting...' disabled={isSubmitting}

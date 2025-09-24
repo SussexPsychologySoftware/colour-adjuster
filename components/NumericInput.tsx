@@ -18,6 +18,7 @@ export default function NumericInput({value, onChange, placeholder, maxLength}: 
             style={[globalStyles.input]}
             autoComplete="off"
             maxLength={maxLength}
+            disableFullscreenUI={true}
         />
     )
 }

@@ -238,7 +238,6 @@ export default function SurveyScreen() {
         } finally {
             setIsSubmitting(false)
         }
-
     }
 
     return (
@@ -262,6 +261,7 @@ export default function SurveyScreen() {
                                     value={responses[q.id]}
                                     onChangeText={(text) => setResponses(prev => ({...prev, [q.id]: text}))}
                                     style={globalStyles.input}
+                                    disableFullscreenUI={true}
                                 />
                             );
                         }
