@@ -2,7 +2,7 @@
   "expo": {
     "name": "Colour Adjuster",
     "slug": "colour-adjuster",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "orientation": "default",
     "icon": "./assets/images/LAB_512.png",
     "scheme": "colouradjuster",
