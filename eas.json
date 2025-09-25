@@ -11,18 +11,10 @@
     "preview": {
       "distribution": "internal"
     },
-    "production_small_apk": {
-      "android": {
-        "buildType": "apk",
-        "env": {
-          "EXPO_USE_HERMES": "true",
-          "EXPO_ANDROID_SPLIT_APK": "1"
-        },
-        "gradleCommand": ":app:assembleRelease"
-      },
+    "production": {
       "autoIncrement": true
     },
-    "production": {
+    "production_apk": {
       "android": {
         "buildType": "apk"
       },
